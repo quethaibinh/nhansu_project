@@ -47,6 +47,9 @@ public class SecurityConfig {
                         .requestMatchers(POST, "/contract/add").hasAnyAuthority("Admin", "HR")
                         .requestMatchers(PUT, "/contract/update").hasAnyAuthority("Admin", "HR")
                         .requestMatchers(GET, "/work_history/select").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(GET, "/attendance/display/{id}").hasAnyAuthority("Admin", "Manager")
+                        .requestMatchers(GET, "/attendance/display").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(POST, "/attendance/add").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

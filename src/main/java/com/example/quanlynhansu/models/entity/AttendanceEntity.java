@@ -13,11 +13,11 @@ public class AttendanceEntity extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "check_in")
-    private Date checkIn;
+    @Column(name = "timestamp")
+    private Date timeStamp;
 
-    @Column(name = "check_out")
-    private Date checkOut;
+    @Column(name = "status")
+    private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "employee_id")
@@ -32,20 +32,20 @@ public class AttendanceEntity extends BaseEntity{
         this.id = id;
     }
 
-    public Date getCheckIn() {
-        return checkIn;
+    public Date getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setCheckIn(Date checkIn) {
-        this.checkIn = checkIn;
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
-    public Date getCheckOut() {
-        return checkOut;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCheckOut(Date checkOut) {
-        this.checkOut = checkOut;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public EmployeeEntity getEmployee() {

@@ -2,17 +2,17 @@ package com.example.quanlynhansu.models.request.attendance;
 
 import java.util.Date;
 
-public class AttendanceCheckInRequest {
+public class AttendanceRequest {
 
-    private Date checkIn;
+    private String time; // 'hh:mm yyyy/MM/dd'
     private Long employeeId;
 
-    public Date getCheckIn() {
-        return checkIn;
+    public String getTime() {
+        return time;
     }
 
-    public void setCheckIn(Date checkIn) {
-        this.checkIn = checkIn;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Long getEmployeeId() {
