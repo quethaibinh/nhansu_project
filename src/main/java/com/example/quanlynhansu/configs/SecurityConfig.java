@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -33,6 +36,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         System.out.println("log_test");
         http
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://127.0.0.1:5500"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
+                    config.setAllowCredentials(true);
+                    return config;
+                }))
                 .csrf(customizer -> customizer.disable())
                 .addFilterBefore(jwtConfig, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
@@ -42,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/employee/current_user_info").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(PUT, "/employee/update_current_user_info").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(PUT, "/employee/update_password").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
+                        .requestMatchers(PUT, "/employee/update_avatar").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(GET, "/contract/select").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(GET, "/contract/select_by/**").hasAnyAuthority("Admin", "HR")
                         .requestMatchers(POST, "/contract/add").hasAnyAuthority("Admin", "HR")

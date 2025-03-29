@@ -6,6 +6,7 @@ import com.example.quanlynhansu.models.request.user.RegisterRequest;
 import com.example.quanlynhansu.models.request.user.UpgradeRoleRequest;
 import com.example.quanlynhansu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -25,7 +26,7 @@ public class UserApi {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
         return userService.login(loginRequest);
     }
 

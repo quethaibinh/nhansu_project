@@ -11,7 +11,11 @@ import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
 import com.example.quanlynhansu.services.securityService.JwtService;
 import com.example.quanlynhansu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -59,20 +64,30 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public String login(LoginRequest loginRequest) {
+    public ResponseEntity<?> login(LoginRequest loginRequest) {
+        try {
+            // Xác thực tài khoản và mật khẩu
+            Authentication auth = authentication.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
 
-        Authentication auth;
-        try{
-            // dùng authenticationManager để spring security tự động xác thực tài khoản, mật khẩu và tự động lưu thông tin vào security context
-            auth = authentication.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        } catch (AuthenticationException e) {
-            return "fail !!" + e;
-        }
-        if(auth.isAuthenticated()){
-            return jwtService.generateToken(loginRequest.getUsername());
-        }
-        return "fail !!";
+            // Nếu xác thực thành công, tạo JWT
+            if (auth.isAuthenticated()) {
+                String token = jwtService.generateToken(loginRequest.getUsername());
+                return ResponseEntity.ok(Map.of("token", token)); // Trả về token dưới dạng JSON
+            }
 
+            // Trường hợp này gần như không bao giờ xảy ra
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Authentication failed"));
+
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid username or password"));
+        } catch (DisabledException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "Account is disabled"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Internal server error"));
+        }
     }
+
 
 }

@@ -5,10 +5,9 @@ import com.example.quanlynhansu.models.DTO.UpdatePasswordDTO;
 import com.example.quanlynhansu.models.response.EmployeeResponse;
 import com.example.quanlynhansu.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 
@@ -27,6 +26,11 @@ public class EmployeeApi {
     @PutMapping("/update_password") // truyền mật khẩu cũ và mật khẩu mới
     public String updatePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO){
         return employeeService.updatePassword(updatePasswordDTO);
+    }
+
+    @PutMapping("/update_avatar")
+    public ResponseEntity<?> updataAvatar(@RequestParam("file") MultipartFile file){
+        return ResponseEntity.ok(employeeService.updateAvatar(file));
     }
 
 }

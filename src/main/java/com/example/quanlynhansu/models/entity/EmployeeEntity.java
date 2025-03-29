@@ -40,6 +40,16 @@ public class EmployeeEntity extends BaseEntity{
     @Column(name = "status")
     private String status;
 
+    @Column(name = "avatar_url", columnDefinition = "VARCHAR(255) DEFAULT 'http://localhost:9000/btlweb/avatar_defaultPng.pnghttp://localhost:9000/btlweb/avatar_defaultPng.png'")
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // Chỉ serialize danh sách này

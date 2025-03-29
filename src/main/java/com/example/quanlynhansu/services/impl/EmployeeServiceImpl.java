@@ -10,11 +10,15 @@ import com.example.quanlynhansu.models.response.EmployeeResponse;
 import com.example.quanlynhansu.repos.EmployeeRepo;
 import com.example.quanlynhansu.repos.UserDetailsRepo;
 import com.example.quanlynhansu.services.EmployeeService;
+import com.example.quanlynhansu.services.MinioService;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -37,6 +41,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private InfoCurrentUserService infoCurrentUserService;
+
+    @Autowired
+    private MinioService minioService;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -92,5 +99,41 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return "";
     }
+
+    // lấy tên file trong đường dẫn minio
+    private String extractFileName(String url) {
+        return url.substring(url.lastIndexOf("/") + 1); // Lấy tên file từ URL
+    }
+
+    @Override
+    public ResponseEntity<?> updateAvatar(MultipartFile file) {
+
+        try {
+            // Upload file lên MinIO và lấy URL
+            String fileUrl = minioService.uploadFile(file);
+
+            // lấy empployee đang đăng nhập
+            String username = infoCurrentUserService.getCurrentUsername();
+            EmployeeEntity employeeEntity = employeeRepo.findOneByEmail(username);
+
+            String oldImageUrl = employeeEntity.getAvatarUrl();
+
+            // đổi avatar
+            employeeEntity.setAvatarUrl(fileUrl);
+            employeeRepo.save(employeeEntity);
+
+            // Xóa ảnh cũ trên MinIO (nếu có)
+            if (oldImageUrl != null && !oldImageUrl.equals("http://localhost:9000/btlweb/avatar_defaultPng.png")) {
+                minioService.deleteFile("btlweb", extractFileName(oldImageUrl));
+            }
+
+            return ResponseEntity.ok(fileUrl);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
 
 }

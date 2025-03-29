@@ -12,7 +12,16 @@ public class EmployeeResponse {
     private String address;
     private String hireDate;
     private String status;
+    private String avatarUrl;
     private List<String> role;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public Long getId() {
         return id;
