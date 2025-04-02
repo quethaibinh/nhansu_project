@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<title>HR Management</title>
+
+<link rel="shortcut icon" href="assets/img/favicon.png">
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+
+<link rel="stylesheet" href="assets/css/style.css">
+<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+
+<div class="main-wrapper">
+
+<div class="header">
+
+<div class="header-left">
+<a href="index.html" class="logo">
+<img src="assets/img/logo.png" alt="Logo">
+</a>
+<a href="index.html" class="logo logo-small">
+<img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+</a>
+<a href="javascript:void(0);" id="toggle_btn">
+<span class="bar-icon">
+<span></span>
+<span></span>
+<span></span>
+</span>
+</a>
+</div>
+
+
+
+
+<div class="top-nav-search">
+<form>
+<input type="text" class="form-control" placeholder="">
+<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+</form>
+</div>
+
+
+<a class="mobile_btn" id="mobile_btn">
+<i class="fas fa-bars"></i>
+</a>
+
+
+<ul class="nav user-menu">
+
+<li class="nav-item dropdown">
+<a href="#" class="dropdown-toggle nav-link pr-0" data-toggle="dropdown">
+<i data-feather="bell"></i> <span class="badge badge-pill"></span>
+</a>
+<div class="dropdown-menu notifications">
+<div class="topnav-dropdown-header">
+<span class="notification-title">Notifications</span>
+<a href="javascript:void(0)" class="clear-noti"> Clear All</a>
+</div>
+<div class="noti-content">
+<ul class="notification-list">
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-02.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Brian Johnson</span> paid the invoice <span class="noti-title">#DF65485</span></p>
+<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-03.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Marie Canales</span> has accepted your estimate <span class="noti-title">#GTR458789</span></p>
+<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<div class="avatar avatar-sm">
+ <span class="avatar-title rounded-circle bg-primary-light"><i class="far fa-user"></i></span>
+</div>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">New user registered</span></p>
+<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-04.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Barbara Moore</span> declined the invoice <span class="noti-title">#RDW026896</span></p>
+<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<div class="avatar avatar-sm">
+<span class="avatar-title rounded-circle bg-info-light"><i class="far fa-comment"></i></span>
+</div>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">You have received a new message</span></p>
+<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<div class="topnav-dropdown-footer">
+<a href="activities.html">View all Notifications</a>
+</div>
+</div>
+</li>
+
+
+<li class="nav-item dropdown has-arrow main-drop">
+<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+<span class="user-img">
+<img src="" alt="profile" class="img-table" id="avatar3" style="width: 40px; height: 40px;object-fit: cover;" />
+<span class="status online"></span>
+</span>
+<span id="name"></span>
+</a>
+<div class="dropdown-menu">
+	<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+	<a class="dropdown-item" href="super-admin.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+	<a class="dropdown-item" href="login.html"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+	</div>
+	</li>
+	
+	</ul>
+	<div class="dropdown mobile-user-menu show">
+	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+	<div class="dropdown-menu dropdown-menu-right ">
+	<a class="dropdown-item" href="profile.html">My Profile</a>
+	<a class="dropdown-item" href="super-admin.html">Settings</a>
+	<a class="dropdown-item" href="login.html">Logout</a>
+	</div>
+	</div>
+
+</div>
+
+
+<div class="sidebar" id="sidebar">
+<div class="sidebar-inner slimscroll">
+<div class="sidebar-contents">
+<div id="sidebar-menu" class="sidebar-menu">
+<div class="mobile-show">
+<div class="offcanvas-menu">
+<div class="user-info align-center bg-theme text-center">
+<span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
+<a href="javascript:void(0)" class="d-block menu-style text-white">
+<div class="user-avatar d-inline-block mr-3">
+<img src="assets/img/profiles/avatar-18.jpg" alt="user avatar" class="rounded-circle" width="50">
+</div>
+</a>
+</div>
+</div>
+<div class="sidebar-input">
+<div class="top-nav-search">
+<form>
+<input type="text" class="form-control" placeholder="Search here">
+<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+</form>
+</div>
+</div>
+</div>
+<ul>
+<li>
+<a href="index.html"><img src="assets/img/home.svg" alt="sidebar_img"> <span>Dashboard</span></a>
+</li>
+<li>
+<a href="employee.html"><img src="assets/img/employee.svg" alt="sidebar_img"><span> Employees</span></a>
+</li>
+<li>
+<a href="calendar.html"><img src="assets/img/calendar.svg" alt="sidebar_img"> <span>Calendar</span></a>
+</li>
+<li>
+<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
+</li>
+<li class="active">
+<a href="profile.html"><img src="assets/img/profile.svg" alt="sidebar_img"> <span>Profile</span></a>
+</li>
+</ul>
+<ul class="logout">
+<li>
+<a href="login.html"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="page-wrapper">
+<div class="content container-fluid">
+<div class="row">
+<div class="col-xl-12 col-sm-12 col-12 ">
+<div class="breadcrumb-path mb-4">
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="index.html"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb">Home</a>
+</li>
+<li class="breadcrumb-item active"> Profile</li>
+</ul>
+<h3>Profile	</h3>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
+<div class="head-link-set">
+<ul>
+<li><a class="active" href="#">Employee</a></li>
+<li><a href="profile-detail.html">Work History</a></li>
+<li><a href="profile-document.html">Contract</a></li>
+<li><a href="profile-payroll.html">Payroll</a></li>
+<li><a href="profile-timeoff.html">Attendance</a></li>
+<li><a href="profile-setting.html">Password</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 ">
+<div class="row">
+
+<div class="col-xl-12 col-sm-12 col-12 d-flex">
+<div class="card card-lists flex-fill">
+<div class="card-header">
+<h2 class="card-titles">Profile</h2>
+<ul>
+<li><a class="edit-link" data-toggle="modal" data-target="#editProfile" id="editProfileBtn"><i data-feather="edit"></i></a></li>
+</ul>
+</div>
+<div class="card-body align-items-center">
+	<div style="display: flex; align-items: center;">
+		<div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;">
+			<a data-toggle="modal" data-target="#uploadAvatar" id="avatar1">
+				<img id="avatar" src="" alt="profile" style="width: 100%; height: 100%; object-fit: cover;">
+			</a>
+		</div>
+		<label id="fullName" style="margin-left: 12px; font-weight: bold;"></label>
+	</div>	
+<div class="card-body">
+<div class="row">
+<div class="col-xl-12 col-sm-12 col-12 d-flex w-100">
+<div class="member-registor flex-fill w-100">
+<ul>
+<li>
+<label>Email</label>
+<span id="email"></span>
+</li>
+<li>
+<label>Phone</label>
+<span id="phone"></span>
+</li>
+<li>
+	<label>BirthDate</label>
+	<span id="birthDate"></span>
+</li>
+<li>
+	<label>Address</label>
+	<span id="address"></span>
+</li>
+<li>
+	<label>HireDate</label>
+	<span id="hireDate"></span>
+</li>
+<li>
+	<label>Status</label>
+	<span id="status"></span>
+</li>
+<li>
+	<label>Role</label>
+	<span id="role"></span>
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="customize_popup">
+    <div class="modal fade" id="uploadAvatar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 600px;">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header" style="background-color: #f8f9fa;">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update Avatar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 25px;">
+                    <!-- Ảnh đại diện -->
+                    <div class="form-popup" style="width: 250px; height: 250px; border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: center; border: 3px solid #ddd;">
+                        <img id="avatar2" src="" alt="profile" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <!-- Upload -->
+                    <div class="form-popup" style="margin-top: 20px;">
+                        <div class="file-uploads">
+                            <label for="upload_img" style="cursor: pointer; background-color: #007bff; color: white; padding: 12px 25px; border-radius: 8px; font-weight: bold; transition: 0.3s; display: inline-block;">
+                                <input type="file" id="upload_img" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+                                Choose Image
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer" style="justify-content: center; padding: 20px;">
+                    <button type="button" class="btn btn-primary" onclick="uploadImage()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="customize_popup">
+<div class="modal fade" id="editProfile" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="staticBackdropLabel">Edit Employee Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class=" col-md-12 p-0">
+<div class=" form-popup">
+<label>Full Name</label>
+<input type="text" id="fullName1">
+</div>
+<div class=" form-popup">
+<label>Email</label>
+<input type="text" id="email1">
+</div>
+<div class=" form-popup">
+<label>Phone</label>
+<input type="text" id="phone1">
+</div>
+<div class=" form-popup">
+<label>BirthDate</label>
+<input type="text" id="birthDate1">
+</div>
+<div class=" form-popup">
+<label>Address</label>
+<input type="text" id="address1">
+</div>
+
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-primary" id="updateProfileBtn">Update</button>
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+
+	let userData = {};
+
+	async function fetchData() {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		try {
+			const response = await fetch("http://localhost:8080/employee/current_user_info", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+
+			const data = await response.json();
+			userData = data;
+
+			// avatar header
+			document.getElementById("name").innerText = `${userData.fullName}`;
+			document.getElementById("avatar3").src = userData.avatarUrl;
+
+			document.getElementById("fullName").innerText = `${data.fullName}`;
+			document.getElementById("avatar").src = data.avatarUrl;
+			document.getElementById("email").innerText = `${data.email}`;
+			document.getElementById("phone").innerText = `${data.phone}`;
+			document.getElementById("birthDate").innerText = `${data.birthDate}`;
+			document.getElementById("address").innerText = `${data.address}`;
+			document.getElementById("hireDate").innerText = `${data.hireDate}`;
+			document.getElementById("status").innerText = `${data.status}`;
+			document.getElementById("role").innerText = `${data.role}`;
+
+		} catch (error) {
+		}
+	}
+
+	// Gọi fetchData khi trang tải xong
+	window.onload = fetchData;
+
+	// Khi bấm vào nút chỉnh sửa, hiển thị thông tin trong modal
+	document.getElementById("editProfileBtn").addEventListener("click", function () {
+		document.getElementById("fullName1").value = userData.fullName || "";
+		document.getElementById("email1").value = userData.email || "";
+		document.getElementById("phone1").value = userData.phone || "";
+		document.getElementById("birthDate1").value = userData.birthDate || "";
+		document.getElementById("address1").value = userData.address || "";
+		console.log(userData);
+
+		// $("#editProfile").modal("show"); // Hiển thị modal (cần Bootstrap)
+	});
+
+	// hiển thị modal avatar khi bấm vào avatar
+	document.getElementById("avatar1").addEventListener("click", function () {
+		document.getElementById("avatar2").src = userData.avatarUrl;
+	})
+	
+	let selectedFile = null; // Biến lưu ảnh
+
+	// hiển thị ảnh khi chọn ảnh từ máy để upload ảnh
+    function previewImage(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            selectedFile = input.files[0]; // Lưu file ảnh vào biến
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar2').src = e.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    }
+
+	// upload ảnh
+    async function uploadImage() {
+        if (!selectedFile) {
+            alert("Vui lòng chọn ảnh trước!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+        try {
+            const response = await fetch("http://localhost:8080/employee/update_avatar", {
+				headers: {
+					"Authorization": "Bearer " + token
+				},
+                method: "PUT",
+                body: formData
+            });
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+
+            if (!response.ok) throw new Error("Upload thất bại!");
+
+            const result = await response.json();
+			console.log(result);
+            document.getElementById('avatar2').src = result.body; // Cập nhật ảnh từ MinIO
+            alert("Upload thành công!");
+        } catch (error) {
+            console.error(error);
+            alert("Có lỗi xảy ra khi upload!");
+        }
+    }
+
+	document.getElementById("updateProfileBtn").addEventListener("click", async function () {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		const employeeData = {
+			fullName: document.getElementById("fullName1").value,
+			email: document.getElementById("email1").value,
+			phone: document.getElementById("phone1").value,
+			birthDate: document.getElementById("birthDate1").value,
+			address: document.getElementById("address1").value,
+			hireDate: userData.hireDate,
+			status: userData.status
+		};
+
+		try {
+			const response = await fetch("http://localhost:8080/employee/update_current_user_info", {
+				method: "PUT",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(employeeData)
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+			const result = await response.json();
+			alert("Update profile thành công");
+			window.location.href = "/profile.html";
+			console.log("Kết quả từ server:", result);
+
+		} catch (error) {
+		}
+	})
+
+	function logout() {
+		localStorage.removeItem("token");
+		window.location.href = "/login.html";
+	}
+
+</script>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

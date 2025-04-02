@@ -12,6 +12,7 @@ import com.example.quanlynhansu.repos.ContractRepo;
 import com.example.quanlynhansu.repos.EmployeeRepo;
 import com.example.quanlynhansu.repos.WorkHistoryRepo;
 import com.example.quanlynhansu.services.ContractService;
+import com.example.quanlynhansu.services.MinioService;
 import com.example.quanlynhansu.services.WorkHistoryService;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
 import com.example.quanlynhansu.utils.CheckTime;
@@ -19,9 +20,11 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
@@ -54,18 +57,32 @@ public class ContractServiceImpl implements ContractService {
     private InfoCurrentUserService infoCurrentUserService;
 
     @Autowired
+    private MinioService minioService;
+
+    @Autowired
     private CheckTime checkTime;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     @Transactional
     @Override
-    public ContractResponse addContract(ContractRequest contractRequest) throws ParseException {
+    public ResponseEntity<?> addContract(ContractRequest contractRequest, MultipartFile file) throws ParseException {
         ContractEntity contractEntity = contractConverterRequestEntity.requestToEntity(contractRequest);
 
+        try{
+
+            // Upload file lên MinIO và lấy URL
+            String fileUrl = minioService.uploadFile(file);
+            contractEntity.setDocumentUrl(fileUrl);
+
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+
         if(contractRequest.getId() == null){ // tạo hợp đồng mới, gia hạn hợp đồng, ..., TH update hợp đồng (do sai thông tin, ...) thì chạy xuống dưới
-            EmployeeEntity employeeEntity = employeeRepo.findOneById(contractRequest.getEmployeeId());
-            if(employeeEntity != null){
+            try{
+                EmployeeEntity employeeEntity = employeeRepo.findOneById(contractRequest.getEmployeeId());
                 List<WorkHistoryEntity> listWork = employeeEntity.getWorkHistory();
                 if(listWork != null){ // đã từng là nhân viên và bây giờ gia hạn hợp đồng
                     for(WorkHistoryEntity workHistory : listWork){ // kiểm tra xem có còn đang trong thời gian làm việc của hợp đồng cũ không
@@ -91,14 +108,14 @@ public class ContractServiceImpl implements ContractService {
                 contractEntity.setWorkHistory(workHistoryEntity);
                 workHistoryEntity.setEmployee(employeeEntity);
                 workHistoryEntity.setContract(contractEntity);
-            }
-            else{
-                return null; // thay bằng exception thì hay hơn
+            }catch(Exception e){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(e.getMessage());
             }
         } // chấm dứt hợp đồng trước thời hạn được cập nhật ở workhistory trong api của workhistory
 
         contractRepo.save(contractEntity);
-        return contractConverterRequestEntity.entityToResponse(contractEntity);
+        return ResponseEntity.ok(contractConverterRequestEntity.entityToResponse(contractEntity));
 
     }
 
@@ -144,7 +161,6 @@ public class ContractServiceImpl implements ContractService {
                 // không dùng converter vì sẽ dễ xảy ra xung đột multi entity, nếu khai báo 2 biến cùng 1 dạng entity thì khi save, hibernate sẽ không biết lưu entity nào.
                 contractEntity.setContractType(contractRequest.getContractType());
                 contractEntity.setDepartment(contractRequest.getDepartment());
-                contractEntity.setDocumentUrl(contractRequest.getDocumentUrl());
                 contractEntity.setSalary(contractRequest.getSalary());
                 contractEntity.setStartDate(sdf.parse(contractRequest.getStartDate()));
                 contractEntity.setEndDate(sdf.parse(contractRequest.getEndDate()));

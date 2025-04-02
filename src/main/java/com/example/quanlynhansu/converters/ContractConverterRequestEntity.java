@@ -33,7 +33,6 @@ public class ContractConverterRequestEntity {
         contractEntity.setId(contractRequest.getId());
         contractEntity.setContractType(contractRequest.getContractType());
         contractEntity.setDepartment(contractRequest.getDepartment());
-        contractEntity.setDocumentUrl(contractRequest.getDocumentUrl());
         contractEntity.setSalary(contractRequest.getSalary());
         contractEntity.setStartDate(sdf.parse(contractRequest.getStartDate()));
         contractEntity.setEndDate(sdf.parse(contractRequest.getEndDate()));

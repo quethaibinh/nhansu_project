@@ -9,7 +9,6 @@ public class ContractRequest {
     private String startDate;
     private String endDate;
     private Double salary;
-    private String documentUrl;
 
     public String getDepartment() {
         return department;
@@ -67,11 +66,4 @@ public class ContractRequest {
         this.salary = salary;
     }
 
-    public String getDocumentUrl() {
-        return documentUrl;
-    }
-
-    public void setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
-    }
 }

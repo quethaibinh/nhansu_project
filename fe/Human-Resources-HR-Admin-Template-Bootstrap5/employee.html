@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<title>HR Management</title>
+
+<link rel="shortcut icon" href="assets/img/favicon.png">
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="assets/css/style.css">
+<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+
+<div class="main-wrapper">
+
+<div class="header">
+
+<div class="header-left">
+<a href="index.html" class="logo">
+<img src="assets/img/logo.png" alt="Logo">
+</a>
+<a href="index.html" class="logo logo-small">
+<img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+</a>
+<a href="javascript:void(0);" id="toggle_btn">
+<span class="bar-icon">
+<span></span>
+<span></span>
+<span></span>
+</span>
+</a>
+</div>
+
+
+
+
+<div class="top-nav-search">
+<form>
+<input type="text" class="form-control" placeholder="">
+<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+</form>
+</div>
+
+
+<a class="mobile_btn" id="mobile_btn">
+<i class="fas fa-bars"></i>
+</a>
+
+
+<ul class="nav user-menu">
+
+<li class="nav-item dropdown">
+<a href="#" class="dropdown-toggle nav-link pr-0" data-toggle="dropdown">
+<i data-feather="bell"></i> <span class="badge badge-pill"></span>
+</a>
+<div class="dropdown-menu notifications">
+<div class="topnav-dropdown-header">
+<span class="notification-title">Notifications</span>
+<a href="javascript:void(0)" class="clear-noti"> Clear All</a>
+</div>
+<div class="noti-content">
+<ul class="notification-list">
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-02.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Brian Johnson</span> paid the invoice <span class="noti-title">#DF65485</span></p>
+<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-03.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Marie Canales</span> has accepted your estimate <span class="noti-title">#GTR458789</span></p>
+<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<div class="avatar avatar-sm">
+ <span class="avatar-title rounded-circle bg-primary-light"><i class="far fa-user"></i></span>
+</div>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">New user registered</span></p>
+<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-04.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Barbara Moore</span> declined the invoice <span class="noti-title">#RDW026896</span></p>
+<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<div class="avatar avatar-sm">
+<span class="avatar-title rounded-circle bg-info-light"><i class="far fa-comment"></i></span>
+</div>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">You have received a new message</span></p>
+<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<div class="topnav-dropdown-footer">
+<a href="activities.html">View all Notifications</a>
+</div>
+</div>
+</li>
+
+
+<li class="nav-item dropdown has-arrow main-drop">
+	<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+		<span class="user-img">
+		<img src="" alt="profile" class="img-table" id="avatar3" style="width: 40px; height: 40px;object-fit: cover;" />
+		<span class="status online"></span>
+		</span>
+		<span id="name"></span>
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+			<a class="dropdown-item" href="super-admin.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+			<a class="dropdown-item" href="login.html"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+			</div>
+			</li>
+			
+			</ul>
+			<div class="dropdown mobile-user-menu show">
+			<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+			<div class="dropdown-menu dropdown-menu-right ">
+			<a class="dropdown-item" href="profile.html">My Profile</a>
+			<a class="dropdown-item" href="super-admin.html">Settings</a>
+			<a class="dropdown-item" href="login.html">Logout</a>
+			</div>
+			</div>
+
+</div>
+
+
+<div class="sidebar" id="sidebar">
+<div class="sidebar-inner slimscroll">
+<div class="sidebar-contents">
+<div id="sidebar-menu" class="sidebar-menu">
+<div class="mobile-show">
+<div class="offcanvas-menu">
+<div class="user-info align-center bg-theme text-center">
+<span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
+<a href="javascript:void(0)" class="d-block menu-style text-white">
+<div class="user-avatar d-inline-block mr-3">
+<img src="assets/img/profiles/avatar-18.jpg" alt="user avatar" class="rounded-circle" width="50">
+</div>
+</a>
+</div>
+</div>
+<div class="sidebar-input">
+<div class="top-nav-search">
+<form>
+<input type="text" class="form-control" placeholder="Search here">
+<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+</form>
+</div>
+</div>
+</div>
+<ul>
+<li>
+<a href="index.html"><img src="assets/img/home.svg" alt="sidebar_img"> <span>Dashboard</span></a>
+</li>
+<li class="active">
+<a href="#"><img src="assets/img/employee.svg" alt="sidebar_img"><span> Employees</span></a>
+</li>
+<li>
+<a href="calendar.html"><img src="assets/img/calendar.svg" alt="sidebar_img"> <span>Calendar</span></a>
+</li>
+<li>
+<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
+</li>
+<li>
+<a href="profile.html"><img src="assets/img/profile.svg" alt="sidebar_img"> <span>Profile</span></a>
+</li>
+</ul>
+<ul class="logout">
+<li>
+<a href="login.html"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="page-wrapper">
+<div class="content container-fluid">
+<div class="row">
+<div class="col-xl-12 col-sm-12 col-12">
+<div class="breadcrumb-path mb-4">
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="index.html"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Home</a>
+</li>
+<li class="breadcrumb-item active"> Employees</li>
+</ul>
+<h3>Employees</h3>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
+<div class="head-link-set">
+<ul>
+<li><a class="active" href="#">All</a></li>
+</ul>
+<a class="btn-add" href="add-employee.html"><i data-feather="plus"></i> Add Person</a>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
+<div class="row">
+<div class="col-xl-10 col-sm-8 col-12 ">
+<label class="employee_count" id="record-count">Tổng số nhân viên: 0</label>
+</div>
+<div class="col-xl-1 col-sm-2 col-12 ">
+<a href="#" class="btn-view active"><i data-feather="list"></i> </a>
+</div>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
+    <div class="card">
+        <div class="table-heading">
+            <h2>Project Summery</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table custom-table no-footer">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>BirthDate</th>
+                        <th>Address</th>
+                        <th>HireDate</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Information</th>
+                        <th>Activities</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table">
+                    <!-- dữ liệu ở đây -->
+                </tbody>
+            </table>
+        </div>
+		<div class="modal-footer d-flex justify-content-between align-items-center flex-wrap">
+		  <!-- Tùy chọn số lượng dữ liệu trên mỗi trang -->
+		  <div>
+			<label for="itemsPerPageSelect1">Hiển thị:</label>
+			<select id="itemsPerEmployeePageSelect" class="custom-select w-auto">
+			  <option value="5" selected>5</option>
+			  <option value="10">10</option>
+			  <option value="20">20</option>
+			  <option value="50">50</option>
+			  <option value="100">100</option>
+			</select>
+		  </div>
+  
+		  <!-- Nút điều hướng -->
+		  <nav>
+			<ul class="pagination mb-0" id="pagination1">
+			  <!-- Nút phân trang sẽ được thêm ở đây -->
+			</ul>
+		  </nav>
+		</div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Modal contract -->
+<div class="modal fade" id="infoContract" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+	  <div class="modal-content">
+	  
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h5 class="modal-title" id="infoModalLabel">Basic Information</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+  
+		<!-- Modal Body -->
+		<div class="modal-body">
+		  <div class="col-xl-12 col-sm-12 col-12 mb-4">
+			<div class="row">
+			  <div class="col-xl-12 col-sm-12 col-12">
+				<div class="card card-lists">
+				  <div class="card-header">
+					<h2 class="card-titles">Contract Information</h2>
+					<a class="btn btn-apply" data-toggle="modal" data-target="#adddocument">Add Document</a>
+				  </div>
+				  <div class="card-body">
+					<div class="row" id="contract">
+					  <!-- Nội dung hợp đồng sẽ được thêm vào đây -->
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+  
+		<!-- Modal Footer -->
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+		</div>
+  
+	  </div>
+	</div>
+</div>
+
+
+<div class="customize_popup">
+<div class="modal fade" id="adddocument" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="staticBackdropLabel">Add Document</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class=" col-md-12 p-0">
+<div class=" form-popup">
+<label>Document Description</label>
+<input type="text">
+</div>
+<div class=" form-popup">
+<div class="file-uploads">
+<label for="upload_img">
+<input type="file" id="upload_img" />
+<span>Upload</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-primary">Add</button>
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Modal attendance -->
+<div class="modal fade" id="attendanceModal" tabindex="-1" role="dialog" aria-labelledby="attendanceModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+	  <div class="modal-content">
+	  
+		<!-- Modal Header -->
+		<div class="modal-header">
+		  <h5 class="modal-title" id="attendanceModalLabel">Thông Tin Chấm Công</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+  
+		<!-- Modal Body -->
+		<div class="modal-body">
+		  <div id="attendanceList" class="list-group">
+			<!-- Dữ liệu chấm công sẽ được hiển thị ở đây -->
+		  </div>
+		</div>
+  
+		<!-- Modal Footer - Phân trang -->
+		<div class="modal-footer d-flex justify-content-between align-items-center flex-wrap">
+		  <!-- Tùy chọn số lượng dữ liệu trên mỗi trang -->
+		  <div>
+			<label for="itemsPerPageSelect">Hiển thị:</label>
+			<select id="itemsPerPageSelect" class="custom-select w-auto">
+			  <option value="5" selected>5</option>
+			  <option value="10">10</option>
+			  <option value="20">20</option>
+			  <option value="50">50</option>
+			  <option value="100">100</option>
+			</select>
+		  </div>
+  
+		  <!-- Nút điều hướng -->
+		  <nav>
+			<ul class="pagination mb-0" id="pagination">
+			  <!-- Nút phân trang sẽ được thêm ở đây -->
+			</ul>
+		  </nav>
+		</div>
+  
+	  </div>
+	</div>
+</div>
+
+
+<script>
+
+	let userData = {};
+
+	async function fetchData() {
+
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		try {
+
+			const response1 = await fetch("http://localhost:8080/employee/current_user_info", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			const data1 = await response1.json();
+			userData = data1;
+
+			// avatar header
+			document.getElementById("name").innerText = `${userData.fullName}`;
+			document.getElementById("avatar3").src = userData.avatarUrl;
+
+			// avatar header
+			document.getElementById("name").innerText = `${userData.fullName}`;
+			document.getElementById("avatar3").src = userData.avatarUrl;
+
+			const response = await fetch("http://localhost:8080/employee/all", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+
+			const data = await response.json();
+			// console.log(data);
+
+			// 🟢 Hiển thị số lượng nhân viên
+			document.getElementById("record-count").innerText = `Tổng số nhân viên: ${data.length}`;
+
+			displayData(data); // Hiển thị dữ liệu lên giao diện
+
+		} catch (error) {
+			document.getElementById("data-table").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
+			console.error("Lỗi khi lấy dữ liệu:", error);
+		}
+
+
+		try {
+			const response1 = await fetch("http://localhost:8080/contract/select", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response1.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response1.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response1.ok) {
+				throw new Error(`Lỗi API: ${response1.statusText}`);
+			}
+
+			const data1 = await response1.json();
+
+			displayContracts(data1); // Hiển thị dữ liệu lên giao diện
+
+		} catch (error) {
+			document.getElementById("contract").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
+			console.error("Lỗi khi lấy dữ liệu:", error);
+		}
+
+
+	}
+
+	let currentPage = 1;
+	let itemsPerPage = 10; // Số lượng hiển thị mặc định
+
+	// Hàm hiển thị dữ liệu
+	function displayData(data) {
+		const tableBody = document.getElementById("data-table");
+		tableBody.innerHTML = ""; // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
+
+		// Phân trang dữ liệu
+		const totalItems = data.length;
+		const totalPages = Math.ceil(totalItems / itemsPerPage);
+		const startIndex = (currentPage - 1) * itemsPerPage;
+		const endIndex = startIndex + itemsPerPage;
+		const currentPageData = data.slice(startIndex, endIndex); // Lấy dữ liệu cho trang hiện tại
+
+		const rows = currentPageData.map(item => `
+			<tr>
+				<td>
+					<div class="table-img">
+						<a href="profile.html">
+							<div>
+								<img src="${item.avatarUrl}" alt="profile" class="img-table" style="width: 40px; height: 40px; object-fit: cover;" />
+								<label>${item.fullName}</label>
+							</div>
+						</a>
+					</div>
+				</td>
+				<td><label>${item.email}</label></td>
+				<td><label>${item.phone}</label></td>
+				<td><label>${item.birthDate}</label></td>
+				<td><label>${item.address}</label></td>
+				<td><label>${item.hireDate}</label></td>
+				<td class="tab-select">
+					<select class="select">
+						<option value="Admin">Admin</option>
+						<option value="Manager">Manager</option>
+						<option value="HR">HR</option>
+						<option value="Employee">Employee</option>
+					</select>
+				</td>
+				<td class="tab-select">
+					<select class="select">
+						<option value="active">Active</option>
+						<option value="inactive">Inactive</option>
+					</select>
+				</td>
+				<td>
+					<div class="btn-group" role="group" aria-label="Basic outlined example">
+						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContract" onclick="fetchDataContract(${item.id})">contract</button>
+						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#attendanceModal" onclick="fetchDataAttendance(${item.id})">attendance</button>
+						<button type="button" class="btn btn-outline-primary">salary</button>
+					</div>
+				</td>
+				<td>
+					<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+						<button type="button" class="btn btn-danger">update</button>
+						<button type="button" class="btn btn-warning">delete</button>
+					</div>
+				</td>
+				<td><input type="hidden" id="emp-id-${item.id}" value="${item.id}"></td>
+			</tr>
+		`);
+
+		// Gán toàn bộ dữ liệu một lần để tối ưu hiệu suất
+		tableBody.innerHTML = rows.join("");
+
+		// renderPaginationControls(totalItems, totalPages); // Hiển thị phân trang
+	}
+
+	// // Hàm render phân trang
+	// function renderPaginationControls(totalItems, totalPages) {
+	// 	const paginationContainer = document.getElementById("pagination1");
+	// 	paginationContainer.innerHTML = ""; // Xóa phân trang cũ
+
+	// 	if (totalPages <= 1) return; // Nếu chỉ có một trang thì không hiển thị phân trang
+
+	// 	let paginationHTML = `
+	// 		<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+	// 			<a class="page-link" href="#" onclick="navigateToPage(${currentPage - 1})">«</a>
+	// 		</li>
+	// 	`;
+
+	// 	for (let i = 1; i <= totalPages; i++) {
+	// 		paginationHTML += `
+	// 			<li class="page-item ${i === currentPage ? 'active' : ''}">
+	// 				<a class="page-link" href="#" onclick="navigateToPage(${i})">${i}</a>
+	// 			</li>
+	// 		`;
+	// 	}
+
+	// 	paginationHTML += `
+	// 		<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+	// 			<a class="page-link" href="#" onclick="navigateToPage(${currentPage + 1})">»</a>
+	// 		</li>
+	// 	`;
+
+	// 	paginationContainer.innerHTML = paginationHTML;
+	// }
+
+	// // Hàm chuyển trang
+	// function navigateToPage(page) {
+	// 	const totalItems = document.getElementById("data-table").children.length; // Số lượng tổng
+	// 	const totalPages = Math.ceil(totalItems / itemsPerPage);
+	// 	if (page < 1 || page > totalPages) return;
+
+	// 	currentPage = page;
+	// 	displayData(userData); // Hiển thị dữ liệu theo trang mới
+	// }
+
+	// // Sự kiện thay đổi số mục mỗi trang
+	// document.getElementById("itemsPerEmployeePageSelect").addEventListener("change", function () {
+	// 	itemsPerPage = parseInt(this.value);
+	// 	currentPage = 1; // Reset về trang đầu tiên
+	// 	displayData(userData); // Hiển thị lại dữ liệu với số lượng mục mới trên mỗi trang
+	// });
+
+	function logout() {
+		localStorage.removeItem("token");
+		window.location.href = "/login.html";
+	}
+
+	// Gọi fetchData khi trang tải xong
+	window.onload = fetchData;
+
+
+	// modal contract
+	async function fetchDataContract(id) {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		try {
+			const response1 = await fetch(`http://localhost:8080/contract/select_by/${id}`, {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response1.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response1.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response1.ok) {
+				throw new Error(`Lỗi API: ${response1.statusText}`);
+			}
+
+			const data1 = await response1.json();
+
+			displayContracts(data1); // Hiển thị dữ liệu lên giao diện
+
+		} catch (error) {
+			document.getElementById("contract").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
+			console.error("Lỗi khi lấy dữ liệu:", error);
+		}
+	}
+
+	function displayContracts(data1) {
+		const tableBody = document.getElementById("contract");
+		tableBody.innerHTML = ""; // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
+
+		// Kiểm tra nếu không có dữ liệu
+		if (!data1 || data1.length === 0) {
+			tableBody.innerHTML = `<h2>Không có hợp đồng nào</h2>`;
+			return;
+		}
+
+		// Tạo HTML từ danh sách hợp đồng
+		let html = data1.map(contract => `
+			<div class="col-xl-12 col-sm-12 col-12 ">
+			<div class="card">
+			<div class="card-body">
+			<div class="employee-contents">
+			<ul>
+			<li>
+			<a href="${contract.documentUrl}" target="_blank"><img src="assets/img/pdf.png" alt="pdf" /> Contract.pdf</a>
+			<a class="edit-link" href="${contract.documentUrl}" download>
+				<i data-feather="edit">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+						<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+						<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+					</svg>	
+				</i>
+			</a>
+			</li>
+			<li>
+				<label>Contract Type</label>
+				<span>${contract.contractType}</span>
+			</li>
+			<li>
+				<label>Department</label>
+				<span>${contract.department}</span>
+			</li>
+			<li>
+				<label>Start Date</label>
+				<span>${contract.startDate}</span>
+			</li>
+			<li>
+				<label>End Date</label>
+				<span>${contract.endDate}</span>
+			</li>
+			<li>
+				<label>Salary</label>
+				<span>${contract.salary}</span>
+			</li>
+			</ul>
+			</div>
+			</div>
+			</div>
+			</div>
+		`).join("");
+
+		// Gán HTML một lần để tối ưu hiệu suất
+		tableBody.innerHTML = html;
+	}
+
+
+	async function fetchDataAttendance(id) {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		try {
+			const response = await fetch(`http://localhost:8080/attendance/display/${id}`, {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+
+			const data = await response.json();
+
+			displayAttendance(data); // Hiển thị dữ liệu lên giao diện
+
+		} catch (error) {
+			document.getElementById("attendance").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
+			console.error("Lỗi khi lấy dữ liệu:", error);
+		}
+	}
+
+	let attendanceData = {}; // Dữ liệu chấm công từ API
+	let currentPageAttendance = 1;
+	let itemsPerPageAttendance = 5; // Số lượng hiển thị mặc định
+
+	function sortDataAttendance(){
+		const sortedAttendance = Object.entries(attendanceData)
+            .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA));
+
+        // Tạo lại object đã sắp xếp
+        const sortedData = sortedAttendance.reduce((acc, [date, records]) => {
+            acc[date] = records;
+            return acc;
+        }, {});
+
+        // Cập nhật lại attendanceData với dữ liệu đã sắp xếp
+        attendanceData = sortedData;
+	}
+
+	function displayAttendance(data) {
+		attendanceData = data.attendanceOfDay || {}; // Lưu dữ liệu
+		sortDataAttendance();
+		currentPageAttendance = 1; // Reset về trang đầu tiên
+		renderAttendancePage();
+	}
+
+	function renderAttendancePage() {
+		const attendanceContainer = document.getElementById("attendanceList");
+		attendanceContainer.innerHTML = ""; // Xóa dữ liệu cũ
+
+		const dates = Object.keys(attendanceData);
+		if (dates.length === 0) {
+			attendanceContainer.innerHTML = `<h5 class="text-center text-muted">Không có dữ liệu chấm công</h5>`;
+			return;
+		}
+
+		// Xác định dữ liệu hiển thị theo trang
+		const startIndex = (currentPageAttendance - 1) * itemsPerPageAttendance;
+		const endIndex = startIndex + itemsPerPageAttendance;
+		const currentDates = dates.slice(startIndex, endIndex);
+
+		let html = "";
+		currentDates.forEach(date => {
+			const records = attendanceData[date];
+
+			html += `
+			<div class="card mb-3">
+				<div class="card-header bg-light text-dark border">
+				<h6 class="mb-0">Ngày: ${date}</h6>
+				</div>
+				<div class="card-body">
+				<ul class="list-group">
+			`;
+
+			records.forEach(record => {
+				html += `
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<strong>${record.second}</strong> 
+						<span>${record.first}</span>
+					</li>
+				`;
+			});
+
+			html += `
+						</ul>
+					</div>
+				</div>
+			`;
+		});
+
+		attendanceContainer.innerHTML = html;
+		renderPaginationAttendance(dates.length);
+	}
+
+	// Render phân trang đánh số
+	function renderPaginationAttendance(totalItems) {
+		const totalPages = Math.ceil(totalItems / itemsPerPageAttendance);
+		const paginationContainer = document.getElementById("pagination");
+		paginationContainer.innerHTML = "";
+
+		if (totalPages <= 1) return;
+
+		let paginationHTML = `
+			<li class="page-item ${currentPageAttendance === 1 ? 'disabled' : ''}">
+				<a class="page-link" href="#" onclick="changePageAttendance(${currentPageAttendance - 1})">«</a>
+			</li>
+		`;
+
+		for (let i = 1; i <= totalPages; i++) {
+			paginationHTML += `
+				<li class="page-item ${i === currentPageAttendance ? 'active' : ''}">
+					<a class="page-link" href="#" onclick="changePageAttendance(${i})">${i}</a>
+				</li>
+			`;
+		}
+
+		paginationHTML += `
+			<li class="page-item ${currentPageAttendance === totalPages ? 'disabled' : ''}">
+				<a class="page-link" href="#" onclick="changePageAttendance(${currentPageAttendance + 1})">»</a>
+			</li>
+		`;
+
+		paginationContainer.innerHTML = paginationHTML;
+	}
+
+	// Chuyển trang
+	function changePageAttendance(page) {
+		const totalPages = Math.ceil(Object.keys(attendanceData).length / itemsPerPageAttendance);
+		if (page < 1 || page > totalPages) return;
+
+		currentPageAttendance = page;
+		renderAttendancePage();
+	}
+
+	// Xử lý sự kiện thay đổi số mục hiển thị mỗi trang
+	document.getElementById("itemsPerPageSelect").addEventListener("change", function () {
+		itemsPerPageAttendance = parseInt(this.value);
+		currentPageAttendance = 1; // Reset về trang đầu tiên
+		renderAttendancePage();
+	});
+
+
+
+</script>
+
+
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

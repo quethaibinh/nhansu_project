@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<title>HR Management</title>
+
+<link rel="shortcut icon" href="assets/img/favicon.png">
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="assets/css/style.css">
+<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+
+<div class="main-wrapper">
+
+<div class="header">
+
+<div class="header-left">
+<a href="index.html" class="logo">
+<img src="assets/img/logo.png" alt="Logo">
+</a>
+<a href="index.html" class="logo logo-small">
+<img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+</a>
+<a href="javascript:void(0);" id="toggle_btn">
+<span class="bar-icon">
+<span></span>
+<span></span>
+<span></span>
+</span>
+</a>
+</div>
+
+
+
+
+<div class="top-nav-search">
+<form>
+<input type="text" class="form-control" placeholder="">
+<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+</form>
+</div>
+
+
+<a class="mobile_btn" id="mobile_btn">
+<i class="fas fa-bars"></i>
+</a>
+
+
+<ul class="nav user-menu">
+
+<li class="nav-item dropdown">
+<a href="#" class="dropdown-toggle nav-link pr-0" data-toggle="dropdown">
+<i data-feather="bell"></i> <span class="badge badge-pill"></span>
+</a>
+<div class="dropdown-menu notifications">
+<div class="topnav-dropdown-header">
+<span class="notification-title">Notifications</span>
+<a href="javascript:void(0)" class="clear-noti"> Clear All</a>
+</div>
+<div class="noti-content">
+<ul class="notification-list">
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-02.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Brian Johnson</span> paid the invoice <span class="noti-title">#DF65485</span></p>
+<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-03.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Marie Canales</span> has accepted your estimate <span class="noti-title">#GTR458789</span></p>
+<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<div class="avatar avatar-sm">
+ <span class="avatar-title rounded-circle bg-primary-light"><i class="far fa-user"></i></span>
+</div>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">New user registered</span></p>
+<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<span class="avatar avatar-sm">
+<img class="avatar-img rounded-circle" alt="" src="assets/img/profiles/avatar-04.jpg">
+</span>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">Barbara Moore</span> declined the invoice <span class="noti-title">#RDW026896</span></p>
+<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media">
+<div class="avatar avatar-sm">
+<span class="avatar-title rounded-circle bg-info-light"><i class="far fa-comment"></i></span>
+</div>
+<div class="media-body">
+<p class="noti-details"><span class="noti-title">You have received a new message</span></p>
+<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<div class="topnav-dropdown-footer">
+<a href="activities.html">View all Notifications</a>
+</div>
+</div>
+</li>
+
+
+<li class="nav-item dropdown has-arrow main-drop">
+	<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+		<span class="user-img">
+		<img src="" alt="profile" class="img-table" id="avatar3" style="width: 40px; height: 40px;object-fit: cover;" />
+		<span class="status online"></span>
+		</span>
+		<span id="name"></span>
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+			<a class="dropdown-item" href="super-admin.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+			<a class="dropdown-item" href="login.html"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+			</div>
+			</li>
+			
+			</ul>
+			<div class="dropdown mobile-user-menu show">
+			<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+			<div class="dropdown-menu dropdown-menu-right ">
+			<a class="dropdown-item" href="profile.html">My Profile</a>
+			<a class="dropdown-item" href="super-admin.html">Settings</a>
+			<a class="dropdown-item" href="login.html">Logout</a>
+			</div>
+			</div>
+
+</div>
+
+
+<div class="sidebar" id="sidebar">
+<div class="sidebar-inner slimscroll">
+<div class="sidebar-contents">
+<div id="sidebar-menu" class="sidebar-menu">
+<div class="mobile-show">
+<div class="offcanvas-menu">
+<div class="user-info align-center bg-theme text-center">
+<span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
+<a href="javascript:void(0)" class="d-block menu-style text-white">
+<div class="user-avatar d-inline-block mr-3">
+<img src="assets/img/profiles/avatar-18.jpg" alt="user avatar" class="rounded-circle" width="50">
+</div>
+</a>
+</div>
+</div>
+<div class="sidebar-input">
+<div class="top-nav-search">
+<form>
+<input type="text" class="form-control" placeholder="Search here">
+<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+</form>
+</div>
+</div>
+</div>
+<ul>
+<li>
+<a href="index.html"><img src="assets/img/home.svg" alt="sidebar_img"> <span>Dashboard</span></a>
+</li>
+<li>
+<a href="employee.html"><img src="assets/img/employee.svg" alt="sidebar_img"><span> Employees</span></a>
+</li>
+<li>
+<a href="calendar.html"><img src="assets/img/calendar.svg" alt="sidebar_img"> <span>Calendar</span></a>
+</li>
+<li>
+<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
+</li>
+<li class="active">
+<a href="profile.html"><img src="assets/img/profile.svg" alt="sidebar_img"> <span>Profile</span></a>
+</li>
+</ul>
+<ul class="logout">
+<li>
+<a href="login.html"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="page-wrapper">
+<div class="content container-fluid">
+<div class="row">
+<div class="col-xl-12 col-sm-12 col-12 ">
+<div class="breadcrumb-path mb-4">
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="index.html"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb">Home</a>
+</li>
+<li class="breadcrumb-item active"> Profile</li>
+</ul>
+<h3>Profile	</h3>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
+<div class="head-link-set">
+<ul>
+<li><a href="profile.html">Employee</a></li>
+<li><a href="profile-detail.html">Work History</a></li>
+<li><a href="#" class="active">Contract</a></li>
+<li><a href="profile-payroll.html">Payroll</a></li>
+<li><a href="profile-timeoff.html">Attendance</a></li>
+<li><a href="profile-setting.html">Password</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
+<div class="row">
+<div class="col-xl-12 col-sm-12 col-12">
+<div class=" card card-lists">
+<div class="card-header">
+<h2 class="card-titles">Basic Information</h2>
+</div>
+<div class="card-body">
+<div class="row" id="contract">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+<script>
+
+	let userData = {};
+
+	async function fetchData() {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		try {
+
+			const response1 = await fetch("http://localhost:8080/employee/current_user_info", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			const data1 = await response1.json();
+			userData = data1;
+
+			// avatar header
+			document.getElementById("name").innerText = `${userData.fullName}`;
+			document.getElementById("avatar3").src = userData.avatarUrl;
+
+			// avatar header
+			document.getElementById("name").innerText = `${userData.fullName}`;
+			document.getElementById("avatar3").src = userData.avatarUrl;
+
+			const response = await fetch("http://localhost:8080/contract/select", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+
+			const data = await response.json();
+
+			displayContracts(data); // Hiển thị dữ liệu lên giao diện
+
+		} catch (error) {
+			document.getElementById("contract").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
+			console.error("Lỗi khi lấy dữ liệu:", error);
+		}
+	}
+
+	function displayContracts(data) {
+		const tableBody = document.getElementById("contract");
+		tableBody.innerHTML = ""; // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
+
+		// Kiểm tra nếu không có dữ liệu
+		if (!data || data.length === 0) {
+			tableBody.innerHTML = `<h2>Không có hợp đồng nào</h2>`;
+			return;
+		}
+
+		// Tạo HTML từ danh sách hợp đồng
+		let html = data.map(contract => `
+			<div class="col-xl-12 col-sm-12 col-12 ">
+			<div class="card">
+			<div class="card-header">
+			<h2 class="card-titles">Contract</h2>
+			</div>
+			<div class="card-body">
+			<div class="employee-contents">
+			<ul>
+			<li>
+			<a href="${contract.documentUrl}" target="_blank"><img src="assets/img/pdf.png" alt="pdf" /> Contract.pdf</a>
+			<a class="edit-link" href="${contract.documentUrl}" download>
+				<i data-feather="edit">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+						<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+						<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+					</svg>	
+				</i>
+			</a>
+			</li>
+			<li>
+				<label>Contract Type</label>
+				<span>${contract.contractType}</span>
+			</li>
+			<li>
+				<label>Department</label>
+				<span>${contract.department}</span>
+			</li>
+			<li>
+				<label>Start Date</label>
+				<span>${contract.startDate}</span>
+			</li>
+			<li>
+				<label>End Date</label>
+				<span>${contract.endDate}</span>
+			</li>
+			<li>
+				<label>Salary</label>
+				<span>${contract.salary}</span>
+			</li>
+			</ul>
+			</div>
+			</div>
+			</div>
+			</div>
+		`).join("");
+
+		// Gán HTML một lần để tối ưu hiệu suất
+		tableBody.innerHTML = html;
+	}
+
+	function logout() {
+		localStorage.removeItem("token");
+		window.location.href = "/login.html";
+	}
+
+	// Gọi fetchData khi trang tải xong
+	window.onload = fetchData;
+</script>
+
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
