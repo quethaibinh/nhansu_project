@@ -26,7 +26,7 @@
 
 <div class="main-wrapper">
 
-<div class="header">
+<div class="header" style="background-color: rgb(249, 249, 252);"> 
 
 <div class="header-left">
 <a href="index.html" class="logo">
@@ -175,7 +175,7 @@
 </div>
 
 
-<div class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar" style="background-color: rgb(249, 249, 252);">
 <div class="sidebar-inner slimscroll">
 <div class="sidebar-contents">
 <div id="sidebar-menu" class="sidebar-menu">
@@ -245,26 +245,39 @@
 
 <div class="row">
 <div class="col-lg-3 col-md-4">
-<div class="card">
+<div class="card" style="background-color: rgb(247, 246, 251);">
 <div class="card-body">
 <h2 class="calendar_head">Calendar</h2>
 </div>
 <div class="calendar_events">
-<h4 class="card-title">Drag and drop your event or click in the calendar</h4>
+<h5 class="card-title">Phụ lục</h5>
 <div id="calendar-events" class="mb-3">
-<div class="calendar-events" data-class="bg-info"><i class="fas fa-square bg-primary"></i> New Theme Release</div>
-<div class="calendar-events" data-class="bg-success"><i class="fas fa-square bg-success"></i>My Event</div>
-<div class="calendar-events" data-class="bg-danger"><i class="fas fa-square bg-warning"></i> Meet Manager</div>
-<div class="calendar-events" data-class="bg-warning"><i class="fas fa-square bg-secondary"></i> Create New theme</div>
+	<div class="calendar-events" style="display: flex; align-items: center; margin-bottom: 5px;">
+		<i style="background-color: #ffdddd; width: 25px; height: 20px; margin-right: 5px; border: 1px solid black;"></i>
+		<h6>: Ngày đi làm</h6>
+	</div>
+	  
+	<div class="calendar-events" style="display: flex; align-items: center; margin-bottom: 5px;">
+		<i style="background-color: #fdfdfd; width: 25px; height: 20px; margin-right: 5px; border: 1px solid black;"></i>
+		<h6>: Ngày nghỉ</h6>
+	</div>
+	  
+	<div class="calendar-events" style="display: flex; align-items: center; margin-bottom: 5px;">
+		<i style="background-color: #fdfdfd; width: 25px; height: 20px; margin-right: 5px; border: 3px solid red;"></i>
+		<h6>: Hôm nay</h6>
+	</div>
+	  
+	<div class="calendar-events" style="display: flex; align-items: center; margin-bottom: 5px;">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="background-color: #fdfdfd; width: 25px; height: 20px; margin-right: 5px;">
+			<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+			<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+			<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+	  </svg>
+		<h6>: Tạo ghi chú</h6>
+	</div>
 </div>
-<div class="checkbox  mb-3">
-<input id="drop-remove" type="checkbox">
-<label for="drop-remove">
-Remove after drop
-</label>
-</div>
-<a href="#" data-toggle="modal" data-target="#add_new_event" class="btn mb-3 btn-primary btn-block">
-<i class="fas fa-plus"></i> Create New
+<a href="#" data-toggle="modal" data-target="#scheduleModal" class="btn mb-3 btn-primary btn-block" style="background-color: rgb(45, 156, 79);">
+<i class="fas fa-plus"></i> Create Schedule
 </a>
 </div>
 </div>
@@ -272,123 +285,334 @@ Remove after drop
 <div class="col-lg-9 col-md-8">
 <div class="card bg-white">
 <div class="card-body">
-<div id="calendar"></div>
+	<div class="container mt-4">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<button type="button" class="btn btn-outline-success" onclick="showWeek()">Week</button>
+			<button type="button" class="btn btn-outline-primary" onclick="showMonth()">Month</button>
+		</div>
+		<!-- lịch theo tuần -->
+		<div id="week-table">
+			<h2 class="mb-4 text-center">Lịch làm việc trong tuần</h2>
+			<div class="table-responsive" id="schedule-table">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Ngày</th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Thứ 2 <h6 id="mon"></h6></th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Thứ 3 <h6 id="tue"></h6></th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Thứ 4 <h6 id="wen"></h6></th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Thứ 5 <h6 id="thu"></h6></th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Thứ 6 <h6 id="fri"></h6></th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Thứ 7 <h6 id="sat"></h6></th>
+							<th scope="col" style="background-color: rgb(249, 249, 252)">Chủ nhật <h6 id="sun"></h6></th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<tr>
+							<th scope="row">Ca sáng</th>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+						</tr>
+						<tr>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">Ca chiều</th>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+							<td style="height: 200px; vertical-align: top;" contenteditable="true"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- lịch theo tháng -->
+		<div id="month-table" style="display: none;">
+			<button id="prevMonthBtn" style="padding: 10px; background-color: #f4ecf4; color: rgb(23, 22, 22); border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;"> <<< </button>
+			<button id="nextMonthBtn" style="padding: 10px; background-color: #f4ecf4; color: rgb(23, 22, 22); border: none; border-radius: 5px; cursor: pointer;"> >>> </button>
+			<h2 id="monthYear" style="color: #b353b3;"></h2>
+			<div class="table-responsive">
+				<table  class="table table-bordered">
+					<thead>
+						<tr style="background-color: rgb(249, 249, 252)">
+							<th scope="col">Thứ 2 <h6 id="mon"></h6></th>
+							<th scope="col">Thứ 3 <h6 id="tue"></h6></th>
+							<th scope="col">Thứ 4 <h6 id="wen"></h6></th>
+							<th scope="col">Thứ 5 <h6 id="thu"></h6></th>
+							<th scope="col">Thứ 6 <h6 id="fri"></h6></th>
+							<th scope="col">Thứ 7 <h6 id="sat"></h6></th>
+							<th scope="col">Chủ nhật <h6 id="sun"></h6></th>
+						</tr>
+					</thead>
+					<tbody id="calendarGrid">
+					  <!-- Lưới lịch sẽ được tạo bằng JS -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	  </div>
 </div>
 </div>
- </div>
+</div>
 </div>
 
+
+<!-- Modal ghi chú -->
 <div class="customize_popup">
-<div class="modal fade" id="add_event" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelevent" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="staticBackdropLabelevent">Add New Event</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
+	<div class="modal fade" id="noteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+	
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Ghi chú làm việc</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+	
+			<div class="modal-body">
+			<textarea class="form-control" rows="6" placeholder="Nhập ghi chú tại đây..."></textarea>
+			</div>
+	
+			<div class="modal-footer">
+				<button type="button" class="btn btn-apply">Apply</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</div>
+	
+		</div>
+		</div>
+	</div>
 </div>
-<div class="modal-body">
-<div class=" col-md-12 p-0">
-<div class=" form-popup">
-<label>Event Name</label>
-<input type="text" placeholder="Insert Event Name">
-</div>
-<div class=" form-popup">
-<label>Category Color</label>
-<select name="Danger">
-<option value="Danger">Danger</option>
-<option value="Success">Success</option>
-<option value="Warning">Warning</option>
-</select>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-apply">Apply</button>
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-</div>
-</div>
-</div>
-</div>
+  
+
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  	<h5 class="modal-title" id="scheduleModalLabel">Đăng ký lịch làm việc trong tuần</h5>
+		  	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+		  <table class="table table-bordered text-center align-middle" style="min-width: 100%;">
+			<thead class="table-light">
+			  <tr>
+				<th style="width: 12%;">Ca / Thứ</th>
+				<th>Thứ 2
+					<h6 id="mon1"></h6>
+				</th>
+				<th >Thứ 3
+					<h6 id="tue1"></h6>
+				</th>
+				<th >Thứ 4
+					<h6 id="wen1"></h6>
+				</th>
+				<th >Thứ 5
+					<h6 id="thu1"></h6>
+				</th>
+				<th >Thứ 6
+					<h6 id="fri1"></h6>
+				</th>
+				<th >Thứ 7
+					<h6 id="sat1"></h6>
+				</th>
+				<th >Chủ nhật
+					<h6 id="sun1"></h6>
+				</th>
+			  </tr>
+			</thead>
+			<tbody id="scheduleRegisterTable">
+			  <tr>
+				<td style="height: 200px;">Ca sáng</td>
+				<td><input type="checkbox" name="Mon-morning" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Tue-morning" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Wed-morning" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Thu-morning" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Fri-morning" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Sat-morning" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Sun-morning" style="width: 24px; height: 24px;" /></td>
+			  </tr>
+			  <tr>
+				<td style="height: 200px;">Ca chiều</td>
+				<td><input type="checkbox" name="Mon-afternoon" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Tue-afternoon" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Wed-afternoon" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Thu-afternoon" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Fri-afternoon" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Sat-afternoon" style="width: 24px; height: 24px;" /></td>
+				<td><input type="checkbox" name="Sun-afternoon" style="width: 24px; height: 24px;" /></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+		  <button type="button" class="btn btn-success" onclick="saveSchedule()">Lưu lịch</button>
+		</div>
+	  </div>
+	</div>
 </div>
 
 
-<div class="customize_popup">
-<div class="modal fade" id="my_event" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabeladd" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="staticBackdropLabeladd">Add New Event</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<div class=" col-md-12 p-0">
-<div class=" form-popup">
-<label>Event Name</label>
-<input type="text" placeholder="Insert Event Name">
-</div>
-<div class=" form-popup">
-<label>Category Color</label>
-<select name="Danger">
-<option value="Danger">Danger</option>
-<option value="Success">Success</option>
-<option value="Warning">Warning</option>
-</select>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-apply">Apply</button>
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-</div>
-</div>
-</div>
-</div>
-</div>
+
+<!-- logic của bảng lịch làm việc tháng -->
+<script>
+    const monthYearEl = document.getElementById('monthYear');
+    const calendarGrid = document.getElementById('calendarGrid');
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+
+    let currentMonth = new Date().getMonth(); // Tháng hiện tại (0-11)
+    let currentYear = new Date().getFullYear();
+
+    const monthNames = [
+      "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+      "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+    ];
+
+    function renderCalendar() {
+      monthYearEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      const startDay = (firstDay.getDay() + 6) % 7; // Chuyển Chủ nhật (0) thành 6
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      let currentDay = 1;
+      const rows = Math.ceil((startDay + daysInMonth) / 7);
+
+      calendarGrid.innerHTML = ''; // Xóa nội dung cũ trước khi render lại
+
+      for (let i = 0; i < rows; i++) {
+        const row = document.createElement('tr');
+
+        for (let j = 0; j < 7; j++) {
+			const cell = document.createElement('td');
+          	let baseStyle = "height: 100px; vertical-align: top; padding: 5px; background-color: #f9f9f9; ";
+
+          if ((i === 0 && j < startDay) || currentDay > daysInMonth) {
+            cell.setAttribute("style", baseStyle + "border: 1px solid #ccc;");
+            cell.innerHTML = '';
+          } else {
+            const isToday = currentDay === new Date().getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear();
+            if (isToday) {
+              cell.setAttribute("style", baseStyle + "border: 3px solid red;");
+            } else {
+              cell.setAttribute("style", baseStyle + "border: 1px solid #ccc;");
+            }
+
+			let day_c = currentDay < 10 ? `0${currentDay}` : currentDay; // Đảm bảo ngày có 2 chữ số
+			let month_c = (currentMonth + 1) < 10 ? `0${currentMonth + 1}` : (currentMonth + 1); // Tháng là currentMonth + 1 và đảm bảo 2 chữ số
+			let year_c = currentYear;
+			let time = `${year_c}-${month_c}-${day_c}`; // Định dạng dd-MM-yyyy
+			cell.setAttribute("id", `m-${time}`)
+
+            cell.innerHTML = `
+				<div style="font-weight: bold; position: relative;">${currentDay}
+					<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${time}" style="position: absolute; top: 5px; right: 5px;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+						</svg>
+					</a>
+				</div>`;
+            currentDay++;
+          }
+
+          row.appendChild(cell);
+        }
+
+        calendarGrid.appendChild(row);
+      }
+
+	  getData();
+
+    }
+
+    // Xử lý sự kiện "Tháng trước"
+    prevMonthBtn.addEventListener('click', () => {
+      if (currentMonth === 0) {
+        currentMonth = 11;
+        currentYear--;
+      } else {
+        currentMonth--;
+      }
+      renderCalendar();
+    });
+
+    // Xử lý sự kiện "Tháng sau"
+    nextMonthBtn.addEventListener('click', () => {
+      if (currentMonth === 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else {
+        currentMonth++;
+      }
+      renderCalendar();
+    });
+
+    // Vẽ lịch ban đầu
+    renderCalendar();
 
 
-<div class="customize_popup">
-<div class="modal fade" id="add_new_event" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="staticBackdropLabel">Add a category</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<div class=" col-md-12 p-0">
-<div class=" form-popup">
-<label>Category Name</label>
-<input type="text" placeholder="Enter Name">
-</div>
-<div class=" form-popup">
-<label>Choose Category Color</label>
-<select name="Success">
-<option value="Success">Success</option>
-<option value="Cancel">Danger</option>
-<option value="Cancel">Warning</option>
-</select>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-apply">Apply</button>
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-</div>
-</div>
-</div>
-</div>
-</div>
+	// lấy dữ liệu từ db đổ lên
+	async function getData(){
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
 
-</div>
-</div>
+		try{
+			let month_c = (currentMonth + 1) < 10 ? `0${currentMonth + 1}` : (currentMonth + 1); // Tháng là currentMonth + 1 và đảm bảo 2 chữ số
+			const response = await fetch(`http://localhost:8080/work_schedule/display_month/${month_c}-${currentYear}`, {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+			if(!response.ok){
+				throw new Error(`Lỗi API: ${await response.statusText}`);
+			}
 
-</div>
+			const monthData = await response.json();
+		
+			// Duyệt qua danh sách lịch làm việc từ API và thay đổi màu ô tương ứng
+			monthData.forEach(schedule => {
+				let cellId = `m-${schedule.workDate}`;
+
+				// Lấy phần tử cell từ ID tương ứng và thay đổi màu nền
+				const cell = document.getElementById(cellId);
+				if (cell) {
+					// Thay đổi màu nền cho ô lịch dựa trên trạng thái công việc
+					if (schedule.status === null) {
+						cell.style.backgroundColor = '#ffdddd'; // Màu nền nếu không có trạng thái (có thể là chưa xác nhận)
+					} else {
+						cell.style.backgroundColor = '#ddffdd'; // Màu nền nếu có trạng thái (được xác nhận)
+					}
+				}
+			});
+
+		}catch(Error){
+			console.log(Error.statusText);
+		}
+	}
+
+
+</script>
+
 
 <script>
 	let userData = {};
@@ -419,7 +643,7 @@ async function fetchData() {
 		} else if (response.status === 403) {
 			throw new Error("Bạn không có quyền truy cập!");
 		} else if (!response.ok) {
-			throw new Error(`Lỗi API: ${response.statusText}`);
+			throw new Error(`Lỗi API: ${await response.statusText}`);
 		}
 
 		const data = await response.json();
@@ -429,15 +653,457 @@ async function fetchData() {
 		document.getElementById("name").innerText = `${userData.fullName}`;
 		document.getElementById("avatar3").src = userData.avatarUrl;
 
-		
+
+		// set id cho bảng lịch
+		const response2 = await fetch("http://localhost:8080/work_schedule/current_week", {
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + token,
+				"Content-Type": "application/json"
+			}
+		});
+		if(!response2.ok){
+			document.getElementById("table-body").innerHTML(`<tr><h2>lỗi: ${response2.statusText}</h2></tr>`);
+			throw new Error(`Lỗi API: ${await response2.statusText}`);
+		}
+		const dataWeek = await response2.json();
+
+		document.getElementById("mon").innerText = `${dataWeek[0]}`;
+		document.getElementById("tue").innerText = `${dataWeek[1]}`;
+		document.getElementById("wen").innerText = `${dataWeek[2]}`;
+		document.getElementById("thu").innerText = `${dataWeek[3]}`;
+		document.getElementById("fri").innerText = `${dataWeek[4]}`;
+		document.getElementById("sat").innerText = `${dataWeek[5]}`;
+		document.getElementById("sun").innerText = `${dataWeek[6]}`;
+
+		let tableHtml = '';
+		tableHtml += `
+		<tr>
+			<th scope="row" style="background-color: rgb(249, 249, 252)">Ca sáng</th>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[0]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[1]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[2]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[3]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[4]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[5]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[6]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color: rgb(249, 249, 252)"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<th scope="row" style="background-color: rgb(249, 249, 252)">Ca chiều</th>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[0]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[1]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[2]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[3]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[4]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[5]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[6]}">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+  						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+					</svg>
+				</a>
+			</td>
+		</tr>
+		`
+		document.getElementById("table-body").innerHTML = "";
+		document.getElementById("table-body").innerHTML = tableHtml;
+
+
+		// hiển thị lịch làm, ...
+		const response3 = await fetch("http://localhost:8080/work_schedule/display", {
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + token,
+				"Content-Type": "application/json"
+			}
+		});
+		if(!response3.ok){
+			throw new Error(`Lỗi API: ${await response3.statusText}`);
+		}
+		const dataSchedule = await response3.json();
+
+		// Duyệt qua danh sách lịch làm việc từ API và thay đổi màu ô tương ứng
+		dataSchedule.forEach(schedule => {
+			const workDate = new Date(schedule.workDate); // Chuyển đổi workDate thành đối tượng Date
+			const workDay = workDate.getDay(); // Lấy ngày trong tuần (0: Chủ nhật, 1: Thứ 2, ..., 6: Thứ 7)
+
+			let cellId_s = '';
+			let cellId_c = '';
+ 			
+			if(schedule.startTime == "08:00:00"){
+				if (workDay === 0) { // Chủ nhật
+					cellId_s = `s-${dataWeek[6]}`; // Ca sáng
+				} else if (workDay === 1) { // Thứ 2
+					cellId_s = `s-${dataWeek[0]}`; // Ca sáng
+				} else if (workDay === 2) { // Thứ 3
+					cellId_s = `s-${dataWeek[1]}`; // Ca sáng
+				} else if (workDay === 3) { // Thứ 4
+					cellId_s = `s-${dataWeek[2]}`; // Ca sáng
+				} else if (workDay === 4) { // Thứ 5
+					cellId_s = `s-${dataWeek[3]}`; // Ca sáng
+				} else if (workDay === 5) { // Thứ 6
+					cellId_s = `s-${dataWeek[4]}`; // Ca sáng
+				} else { // Thứ 7
+					cellId_s = `s-${dataWeek[5]}`; // Ca sáng
+				}
+			}
+			if(schedule.endTime == "17:30:00"){
+				if (workDay === 0) { // Chủ nhật
+					cellId_c = `c-${dataWeek[6]}`; // Ca chiều
+				} else if (workDay === 1) { // Thứ 2
+					cellId_c = `c-${dataWeek[0]}`; // Ca chiều
+				} else if (workDay === 2) { // Thứ 3
+					cellId_c = `c-${dataWeek[1]}`; // Ca chiều
+				} else if (workDay === 3) { // Thứ 4
+					cellId_c = `c-${dataWeek[2]}`; // Ca chiều
+				} else if (workDay === 4) { // Thứ 5
+					cellId_c = `c-${dataWeek[3]}`; // Ca chiều
+				} else if (workDay === 5) { // Thứ 6
+					cellId_c = `c-${dataWeek[4]}`; // Ca chiều
+				} else { // Thứ 7
+					cellId_c = `c-${dataWeek[5]}`; // Ca chiều
+				}
+			}
+
+			// Lấy phần tử cell từ ID tương ứng và thay đổi màu nền
+			const cell_s = document.getElementById(cellId_s);
+			if (cell_s) {
+				// Thay đổi màu nền cho ô lịch dựa trên trạng thái công việc
+				if (schedule.status === null) {
+					cell_s.style.backgroundColor = '#ffdddd'; // Màu nền nếu không có trạng thái (có thể là chưa xác nhận)
+				} else {
+					cell_s.style.backgroundColor = '#ddffdd'; // Màu nền nếu có trạng thái (được xác nhận)
+				}
+			}
+			const cell_c = document.getElementById(cellId_c);
+			if (cell_c) {
+				// Thay đổi màu nền cho ô lịch dựa trên trạng thái công việc
+				if (schedule.status === null) {
+					cell_c.style.backgroundColor = '#ffdddd'; // Màu nền nếu không có trạng thái (có thể là chưa xác nhận)
+				} else {
+					cell_c.style.backgroundColor = '#ddffdd'; // Màu nền nếu có trạng thái (được xác nhận)
+				}
+			}
+		});
+
+		getModalRegister(dataSchedule)
 
 	} catch (error) {
+		console.log(error.statusText)
 	}
 }
+
+
+async function getModalRegister(dataSchedule){
+	const today = new Date();
+	const dayOfWeek = today.getDay(); // Chủ nhật = 0, Thứ 2 = 1, ..., Thứ 7 = 6
+
+	let startDate;
+
+	if (dayOfWeek === 0) {
+		// Chủ nhật: bắt đầu từ thứ 2 tuần sau
+		startDate = new Date(today);
+		startDate.setDate(today.getDate() + 1);
+	} else {
+		// Các ngày khác: bắt đầu từ thứ 2 tuần hiện tại
+		startDate = new Date(today);
+		startDate.setDate(today.getDate() - (dayOfWeek - 1));
+	}
+
+	// Lấy 7 ngày bắt đầu từ startDate
+	const weekDates = [];
+	for (let i = 0; i < 7; i++) {
+		const date = new Date(startDate);
+		date.setDate(startDate.getDate() + i);
+		weekDates.push(date.toISOString().split('T')[0]); // yyyy-mm-dd
+	}
+
+	document.getElementById("mon1").innerText = `${weekDates[0]}`;
+	document.getElementById("tue1").innerText = `${weekDates[1]}`;
+	document.getElementById("wen1").innerText = `${weekDates[2]}`;
+	document.getElementById("thu1").innerText = `${weekDates[3]}`;
+	document.getElementById("fri1").innerText = `${weekDates[4]}`;
+	document.getElementById("sat1").innerText = `${weekDates[5]}`;
+	document.getElementById("sun1").innerText = `${weekDates[6]}`;
+
+	let scheduleTableModalHtml = '';
+	document.getElementById("scheduleRegisterTable").innerHTML = "";
+	scheduleTableModalHtml += `
+		<tr>
+			<td style="height: 200px;">Ca sáng</td>
+			<td><input type="checkbox" name="${weekDates[0]}" style="width: 24px; height: 24px;" id="rs_${weekDates[0]}" /></td>
+			<td><input type="checkbox" name="${weekDates[1]}" style="width: 24px; height: 24px;" id="rs_${weekDates[1]}" /></td>
+			<td><input type="checkbox" name="${weekDates[2]}" style="width: 24px; height: 24px;" id="rs_${weekDates[2]}" /></td>
+			<td><input type="checkbox" name="${weekDates[3]}" style="width: 24px; height: 24px;" id="rs_${weekDates[3]}" /></td>
+			<td><input type="checkbox" name="${weekDates[4]}" style="width: 24px; height: 24px;" id="rs_${weekDates[4]}" /></td>
+			<td><input type="checkbox" name="${weekDates[5]}" style="width: 24px; height: 24px;" id="rs_${weekDates[5]}" /></td>
+			<td><input type="checkbox" name="${weekDates[6]}" style="width: 24px; height: 24px;" id="rs_${weekDates[6]}" /></td>
+		</tr>
+		<tr>
+			<td style="height: 200px;">Ca chiều</td>
+			<td><input type="checkbox" name="${weekDates[0]}" style="width: 24px; height: 24px;" id="rc_${weekDates[0]}" /></td>
+			<td><input type="checkbox" name="${weekDates[1]}" style="width: 24px; height: 24px;" id="rc_${weekDates[1]}" /></td>
+			<td><input type="checkbox" name="${weekDates[2]}" style="width: 24px; height: 24px;" id="rc_${weekDates[2]}" /></td>
+			<td><input type="checkbox" name="${weekDates[3]}" style="width: 24px; height: 24px;" id="rc_${weekDates[3]}" /></td>
+			<td><input type="checkbox" name="${weekDates[4]}" style="width: 24px; height: 24px;" id="rc_${weekDates[4]}" /></td>
+			<td><input type="checkbox" name="${weekDates[5]}" style="width: 24px; height: 24px;" id="rc_${weekDates[5]}" /></td>
+			<td><input type="checkbox" name="${weekDates[6]}" style="width: 24px; height: 24px;" id="rc_${weekDates[6]}" /></td>
+		</tr>
+	`
+	document.getElementById("scheduleRegisterTable").innerHTML = scheduleTableModalHtml;
+
+	dataSchedule.forEach(schedule => {
+		const workDate = new Date(schedule.workDate); // Chuyển đổi workDate thành đối tượng Date
+		const workDay = workDate.getDay(); // Lấy ngày trong tuần (0: Chủ nhật, 1: Thứ 2, ..., 6: Thứ 7)
+
+		let cellId_s = '';
+		let cellId_c = '';
+		
+		if(schedule.startTime == "08:00:00"){
+			if (workDay === 0) { // Chủ nhật
+				cellId_s = `rs_${weekDates[6]}`; // Ca sáng
+			} else if (workDay === 1) { // Thứ 2
+				cellId_s = `rs_${weekDates[0]}`; // Ca sáng
+			} else if (workDay === 2) { // Thứ 3
+				cellId_s = `rs_${weekDates[1]}`; // Ca sáng
+			} else if (workDay === 3) { // Thứ 4
+				cellId_s = `rs_${weekDates[2]}`; // Ca sáng
+			} else if (workDay === 4) { // Thứ 5
+				cellId_s = `rs_${weekDates[3]}`; // Ca sáng
+			} else if (workDay === 5) { // Thứ 6
+				cellId_s = `rs_${weekDates[4]}`; // Ca sáng
+			} else { // Thứ 7
+				cellId_s = `rs_${weekDates[5]}`; // Ca sáng
+			}
+		}
+		if(schedule.endTime == "17:30:00"){
+			if (workDay === 0) { // Chủ nhật
+				cellId_c = `rc_${weekDates[6]}`; // Ca chiều
+			} else if (workDay === 1) { // Thứ 2
+				cellId_c = `rc_${weekDates[0]}`; // Ca chiều
+			} else if (workDay === 2) { // Thứ 3
+				cellId_c = `rc_${weekDates[1]}`; // Ca chiều
+			} else if (workDay === 3) { // Thứ 4
+				cellId_c = `rc_${weekDates[2]}`; // Ca chiều
+			} else if (workDay === 4) { // Thứ 5
+				cellId_c = `rc_${weekDates[3]}`; // Ca chiều
+			} else if (workDay === 5) { // Thứ 6
+				cellId_c = `rc_${weekDates[4]}`; // Ca chiều
+			} else { // Thứ 7
+				cellId_c = `rc_${weekDates[5]}`; // Ca chiều
+			}
+		}
+
+		const cell_s = document.getElementById(cellId_s);
+		if (cell_s) {
+			cell_s.checked = true;
+		}
+		const cell_c = document.getElementById(cellId_c);
+		if (cell_c) {
+			cell_c.checked = true;
+		}
+	});
+
+}
+
+async function saveSchedule(){
+	const token = localStorage.getItem("token");
+	if (!token) {
+		alert("Bạn chưa đăng nhập!");
+		window.location.href = "/login.html";
+		return;
+	}
+
+	// logic đăng ký lịch làm việc
+	try{
+		const checkedList = [];
+		const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		const tempList = {}; // Dùng object để gộp theo workDate
+
+		checkboxes.forEach(cb => {
+			if (cb.checked) {
+				const workDate = cb.name; // Đặt tên checkbox là workDate
+				const startDate = cb.id[1] == 's' ? "08:00" : "13:30"; // "morning" hoặc "afternoon"
+				const endTime = cb.id[1] == 's' ? "12:00" : "17:30"; // Set end time for morning and afternoon
+				const location = "phòng 502 tòa AA";
+				const note = "";
+
+				// Nếu workDate đã tồn tại trong tempList, gộp lại, nếu không tạo mới
+				if (tempList[workDate]) {
+					tempList[workDate].startTime = "08:00";  // Đặt lại startTime cho tất cả
+					tempList[workDate].endTime = "17:30";    // Đặt lại endTime cho tất cả
+				} else {
+					tempList[workDate] = {
+						workDate: workDate,
+						startTime: startDate,
+						endTime: endTime,
+						location: location,
+						note: note
+					};
+				}
+			}
+		});
+
+		// Chuyển object tempList thành mảng
+		for (const key in tempList) {
+			checkedList.push(tempList[key]);
+		}
+
+		const response = await fetch(`http://localhost:8080/work_schedule/create`, {
+			method: "POST",
+			headers: {
+				"Authorization": "Bearer " + token,
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(checkedList)
+		});
+		if(!response.ok){
+			throw new Error(`Lỗi API: ${await response.text()}`);
+		}
+
+		window.location.href("/calendar.html");
+
+
+	}catch(error){
+		alert(error.message);
+	}
+}
+
 
 // Gọi fetchData khi trang tải xong
 window.onload = fetchData;
 </script>
+  
+
+<!-- chuyển đổi giữa bảng tuần và tháng -->
+<script>
+	function showWeek() {
+	  document.getElementById("week-table").style.display = "block";
+	  document.getElementById("month-table").style.display = "none";
+	}
+  
+	function showMonth() {
+	  document.getElementById("week-table").style.display = "none";
+	  document.getElementById("month-table").style.display = "block";
+	}
+</script>
+  
 
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>

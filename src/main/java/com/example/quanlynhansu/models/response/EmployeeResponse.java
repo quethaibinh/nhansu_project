@@ -13,7 +13,16 @@ public class EmployeeResponse {
     private String hireDate;
     private String status;
     private String avatarUrl;
+    private String position;
     private List<String> role;
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public String getAvatarUrl() {
         return avatarUrl;

@@ -43,13 +43,8 @@ public class EmployeeEntity extends BaseEntity{
     @Column(name = "avatar_url", columnDefinition = "VARCHAR(255) DEFAULT 'http://localhost:9000/btlweb/avatar_defaultPng.pnghttp://localhost:9000/btlweb/avatar_defaultPng.png'")
     private String avatarUrl;
 
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
+    @Column(name = "position")
+    private String position;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // Chỉ serialize danh sách này
@@ -66,6 +61,18 @@ public class EmployeeEntity extends BaseEntity{
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<AttendanceEntity> attendance;
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<WorkScheduleEntity> workSchedule;
+
+    public List<WorkScheduleEntity> getWorkSchedule() {
+        return workSchedule;
+    }
+
+    public void setWorkSchedule(List<WorkScheduleEntity> workSchedule) {
+        this.workSchedule = workSchedule;
+    }
 
     public List<AttendanceEntity> getAttendance() {
         return attendance;
@@ -97,6 +104,22 @@ public class EmployeeEntity extends BaseEntity{
 
     public void setAccounts(List<AccountEntity> accounts) {
         this.accounts = accounts;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public Long getId() {

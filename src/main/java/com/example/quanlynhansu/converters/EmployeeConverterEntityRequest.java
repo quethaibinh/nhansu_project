@@ -57,6 +57,7 @@ public class EmployeeConverterEntityRequest {
         employeeResponse.setBirthDate(sdf.format(employeeEntity.getBirthDate()));
         employeeResponse.setHireDate(sdf.format(employeeEntity.getBirthDate()));
         employeeResponse.setStatus((employeeEntity.getStatus()));
+        employeeResponse.setPosition(employeeEntity.getPosition());
         employeeResponse.setAvatarUrl(employeeEntity.getAvatarUrl());
 
         List<String> roles = new ArrayList<>();

@@ -96,6 +96,8 @@ public class ContractServiceImpl implements ContractService {
                         }
                     }
                 }
+                employeeEntity.setPosition(contractEntity.getContractType()); // tạo hợp đồng hoặc gia hạn hợp đồng thì sẽ update position
+
                 // tiếp tục tạo lịch sử làm việc mới
                 WorkHistoryEntity workHistoryEntity = new WorkHistoryEntity();
                 workHistoryEntity.setDepartment(contractEntity.getDepartment());
@@ -108,6 +110,7 @@ public class ContractServiceImpl implements ContractService {
                 contractEntity.setWorkHistory(workHistoryEntity);
                 workHistoryEntity.setEmployee(employeeEntity);
                 workHistoryEntity.setContract(contractEntity);
+
             }catch(Exception e){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(e.getMessage());
@@ -151,6 +154,7 @@ public class ContractServiceImpl implements ContractService {
         return null;
     }
 
+    // hàm này chưa được sử dụng, nếu sử dụng thì phải fix lại xíu
     @Override // id gửi bằng pathVariable, còn lại gửi theo dạng body
     public ContractResponse updateContract(ContractRequest contractRequest) throws ParseException {
 

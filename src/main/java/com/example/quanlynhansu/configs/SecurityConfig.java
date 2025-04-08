@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/user/login").permitAll()
                         .requestMatchers(POST, "/user/register").hasAuthority("Admin")
-                        .requestMatchers(GET, "/employee/all").hasAuthority("Admin")
+                        .requestMatchers(GET, "/employee/all").hasAnyAuthority("Admin", "HR")
                         .requestMatchers(GET, "/employee/current_user_info").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(PUT, "/employee/update_current_user_info").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(PUT, "/employee/update_password").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
@@ -62,6 +62,10 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/attendance/display/{id}").hasAnyAuthority("Admin", "Manager")
                         .requestMatchers(GET, "/attendance/display").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .requestMatchers(POST, "/attendance/add").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(POST, "/work_schedule/create").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(GET, "/work_schedule/display").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(GET, "/work_schedule/current_week").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(GET, "/work_schedule/display_month/{monthYear}").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

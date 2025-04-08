@@ -13,5 +13,6 @@ public interface EmployeeRepo extends JpaRepository<EmployeeEntity, Long> {
     List<EmployeeEntity> findAll();
     EmployeeEntity findOneByEmail(String username);
     EmployeeEntity findOneById(Long id);
+    List<EmployeeEntity> findByPositionNotIn(List<String> listPosition);
 
 }
