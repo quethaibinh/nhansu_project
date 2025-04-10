@@ -66,6 +66,8 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/work_schedule/display").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .requestMatchers(GET, "/work_schedule/current_week").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .requestMatchers(GET, "/work_schedule/display_month/{monthYear}").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(POST, "/note/display_note_ca").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(POST, "/note/create").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

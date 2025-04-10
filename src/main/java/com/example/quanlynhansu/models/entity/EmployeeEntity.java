@@ -66,6 +66,10 @@ public class EmployeeEntity extends BaseEntity{
     @JsonManagedReference
     private List<WorkScheduleEntity> workSchedule;
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<NoteEntity> note;
+
     public List<WorkScheduleEntity> getWorkSchedule() {
         return workSchedule;
     }

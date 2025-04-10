@@ -366,6 +366,23 @@
 </div>
 
 
+<div class="modal fade" id="noteModalSelect" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="noteModalLabel">Ghi chú của ca làm</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span>&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body" id="noteModalBody">
+		  <!-- Ghi chú sẽ được render tại đây -->
+		</div>
+	  </div>
+	</div>
+  </div>
+
+
 <!-- Modal ghi chú -->
 <div class="customize_popup">
 	<div class="modal fade" id="noteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -462,6 +479,71 @@
 	  </div>
 	</div>
 </div>
+
+
+
+<!-- logic hiển thị những ghi chú -->
+<script>
+	async function openNoteModal(workDate, ca) {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+	
+	  const params = {
+		workDate: workDate,
+		ca: ca
+	  };
+	
+	  try {
+		const response5 = await fetch("http://localhost:8080/note/display_note_ca", {
+		  method: "POST",
+		  headers: {
+			"Authorization": "Bearer " + token,
+			"Content-Type": "application/json"
+		  },
+		  body: JSON.stringify(params)
+		});
+	
+		if (!response5.ok) {
+		  document.getElementById("noteModalBody").innerText = "Không thể lấy dữ liệu ghi chú.";
+		  $('#noteModal').modal('show');
+		  return;
+		}
+	
+		const dataNoteCa1 = await response5.json();
+	
+		// Render ghi chú
+		let html = "";
+		if (dataNoteCa1) {
+			html += `
+				<h6 style="">${dataNoteCa1.workDate} - ca ${dataNoteCa1.ca == 'sang'? 1: 2}:</h6>
+				<textarea class="form-control" rows="6" style="text-align: left;" disabled readonly>${dataNoteCa1.note}</textarea>
+			`;
+		} else {
+		  html = "<p>Không có ghi chú cho ca này.</p>";
+		}
+	
+		document.getElementById("noteModalBody").innerHTML = html;
+		$('#noteModalSelect').modal('show');
+	
+	  } catch (error) {
+		console.error("Lỗi gọi API:", error);
+		document.getElementById("noteModalBody").innerText = "Lỗi hệ thống.";
+		$('#noteModalSelect').modal('show');
+	  }
+	}
+</script>
+
+
+<!-- logic tạo ghi chú -->
+ <script>
+	async function createNote(workDate, ca) {
+		
+	}
+ </script>
 
 
 
@@ -596,12 +678,7 @@
 				// Lấy phần tử cell từ ID tương ứng và thay đổi màu nền
 				const cell = document.getElementById(cellId);
 				if (cell) {
-					// Thay đổi màu nền cho ô lịch dựa trên trạng thái công việc
-					if (schedule.status === null) {
-						cell.style.backgroundColor = '#ffdddd'; // Màu nền nếu không có trạng thái (có thể là chưa xác nhận)
-					} else {
-						cell.style.backgroundColor = '#ddffdd'; // Màu nền nếu có trạng thái (được xác nhận)
-					}
+					cell.style.backgroundColor = '#ffdddd'; // Màu nền nếu không có trạng thái (có thể là chưa xác nhận)
 				}
 			});
 
@@ -668,6 +745,8 @@ async function fetchData() {
 		}
 		const dataWeek = await response2.json();
 
+
+
 		document.getElementById("mon").innerText = `${dataWeek[0]}`;
 		document.getElementById("tue").innerText = `${dataWeek[1]}`;
 		document.getElementById("wen").innerText = `${dataWeek[2]}`;
@@ -681,8 +760,8 @@ async function fetchData() {
 		<tr>
 			<th scope="row" style="background-color: rgb(249, 249, 252)">Ca sáng</th>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[0]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}" onclick="createNote('${dataWeek[0]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -690,8 +769,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[1]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[1]}" onclick="createNote('${dataWeek[1]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -699,8 +778,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[2]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[2]}" onclick="createNote('${dataWeek[2]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -708,8 +787,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[3]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[3]}" onclick="createNote('${dataWeek[3]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -717,8 +796,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[4]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[4]}" onclick="createNote('${dataWeek[4]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -726,8 +805,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[5]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[5]}" onclick="createNote('${dataWeek[5]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -735,8 +814,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="s-${dataWeek[6]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataWeek[6]}" onclick="createNote('${dataWeek[6]}', 'sang')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -757,8 +836,8 @@ async function fetchData() {
 		<tr>
 			<th scope="row" style="background-color: rgb(249, 249, 252)">Ca chiều</th>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[0]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}" onclick="createNote('${dataWeek[0]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -766,8 +845,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[1]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[1]}" onclick="createNote('${dataWeek[1]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -775,8 +854,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[2]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[2]}" onclick="createNote('${dataWeek[2]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -784,8 +863,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[3]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[3]}" onclick="createNote('${dataWeek[3]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -793,8 +872,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[4]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[4]}" onclick="createNote('${dataWeek[4]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -802,8 +881,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[5]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[5]}" onclick="createNote('${dataWeek[5]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -811,8 +890,8 @@ async function fetchData() {
 				</a>
 			</td>
 			<td style="height: 250px; vertical-align: top;" id="c-${dataWeek[6]}">
-				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[0]}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+				<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataWeek[6]}" onclick="createNote('${dataWeek[6]}', 'chieu')">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
   						<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
   						<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
   						<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
@@ -901,6 +980,87 @@ async function fetchData() {
 				}
 			}
 		});
+
+
+		for (const schedule of dataWeek) {
+			// check lịch ca sángsáng
+				let noteOfCaRequest = {};
+				noteOfCaRequest.workDate = schedule;
+				noteOfCaRequest.ca = "sang";
+
+				try{
+
+				const response4 = await fetch("http://localhost:8080/note/display_note_ca", {
+					method: "POST",
+					headers: {
+						"Authorization": "Bearer " + token,
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(noteOfCaRequest)
+				});
+				if(!response4.ok){
+					document.getElementById("table-body").innerHTML(`<tr><h2>lỗi: ${response2.statusText}</h2></tr>`);
+					throw new Error(`Lỗi API: ${await response2.statusText}`);
+				}
+				const dataNoteCa = await response4.json();
+
+				if(dataNoteCa){
+					document.getElementById(`s-${dataNoteCa.workDate}`).innerHTML = `
+						<a href="#" data-toggle="modal" data-target="#noteModal" id="s-note-${dataNoteCa.workDate}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
+								<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+								<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+								<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+							</svg>
+						</a>
+						<button onclick="openNoteModal('${dataNoteCa.workDate}', 'sang')" type="button"  class="btn btn-outline-primary" style="display: block; margin-top: 30px" id="s-se-${dataNoteCa.workDate}">xem chi tiết</button>
+					`
+				}
+
+
+				}catch(Error){
+					console.log(Error.message);
+				}
+
+			// check lịch ca chiều
+				noteOfCaRequest.workDate = schedule;
+				noteOfCaRequest.ca = "chieu";
+
+				try{
+
+				const response4 = await fetch("http://localhost:8080/note/display_note_ca", {
+					method: "POST",
+					headers: {
+						"Authorization": "Bearer " + token,
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(noteOfCaRequest)
+				});
+				if(!response4.ok){
+					document.getElementById("table-body").innerHTML(`<tr><h2>lỗi: ${response2.statusText}</h2></tr>`);
+					throw new Error(`Lỗi API: ${await response2.statusText}`);
+				}
+				const dataNoteCa = await response4.json();
+
+				if(dataNoteCa){
+					document.getElementById(`c-${dataNoteCa.workDate}`).innerHTML = `
+						<a href="#" data-toggle="modal" data-target="#noteModal" id="c-note-${dataNoteCa.workDate}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16" style="width: 28px; height: 30px">
+								<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+								<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+								<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+							</svg>
+						</a>
+						<button type="button"  class="btn btn-outline-primary" style="display: block; margin-top: 30px" id="c-se-${dataNoteCa.workDate}" onclick="openNoteModal('${dataNoteCa.workDate}', 'chieu')">xem chi tiết</button>
+					`
+				}
+
+				}catch(Error){
+					console.log(Error.message);
+				}
+
+			
+		};
 
 		getModalRegister(dataSchedule)
 
