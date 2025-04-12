@@ -31,6 +31,14 @@ public class JwtConfig extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String path = request.getServletPath();
+        // Bỏ qua filter nếu là kết nối WebSocket
+        if (path.startsWith("/ws")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             String authHeader = request.getHeader("Authorization");
             String token = null;

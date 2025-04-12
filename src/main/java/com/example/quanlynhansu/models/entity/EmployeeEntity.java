@@ -70,6 +70,38 @@ public class EmployeeEntity extends BaseEntity{
     @JsonManagedReference
     private List<NoteEntity> note;
 
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<MessageEntity> sentMessages;
+
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<MessageEntity> receivedMessages;
+
+    public List<NoteEntity> getNote() {
+        return note;
+    }
+
+    public void setNote(List<NoteEntity> note) {
+        this.note = note;
+    }
+
+    public List<MessageEntity> getSentMessages() {
+        return sentMessages;
+    }
+
+    public void setSentMessages(List<MessageEntity> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public List<MessageEntity> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(List<MessageEntity> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
+
     public List<WorkScheduleEntity> getWorkSchedule() {
         return workSchedule;
     }

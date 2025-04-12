@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtConfig, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/user/login").permitAll()
+                        .requestMatchers("/ws/**").permitAll() // Cho phép kết nối WebSocket
                         .requestMatchers(POST, "/user/register").hasAuthority("Admin")
                         .requestMatchers(GET, "/employee/all").hasAnyAuthority("Admin", "HR")
                         .requestMatchers(GET, "/employee/current_user_info").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
@@ -68,6 +69,9 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/work_schedule/display_month/{monthYear}").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .requestMatchers(POST, "/note/display_note_ca").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .requestMatchers(POST, "/note/create").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(GET, "/employee/list_info_chat").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
+                        .requestMatchers(GET, "/api/online-users").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(GET, "/history").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

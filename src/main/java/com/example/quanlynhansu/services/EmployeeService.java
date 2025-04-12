@@ -17,5 +17,6 @@ public interface EmployeeService {
     UpdateInfoOfEmployeeDTO updateCurrentUserInfo(UpdateInfoOfEmployeeDTO updateInfoOfEmployeeDTO) throws ParseException;
     String updatePassword(UpdatePasswordDTO updatePasswordDTO);
     ResponseEntity<?> updateAvatar(MultipartFile file);
+    ResponseEntity<?> findListChatEmployee();
 
 }

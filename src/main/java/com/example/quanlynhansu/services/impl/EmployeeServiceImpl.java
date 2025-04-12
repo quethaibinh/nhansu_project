@@ -2,6 +2,7 @@ package com.example.quanlynhansu.services.impl;
 
 import com.example.quanlynhansu.converters.EmployeeConverterDTOEntity;
 import com.example.quanlynhansu.converters.EmployeeConverterEntityRequest;
+import com.example.quanlynhansu.models.DTO.EmployeeChatDTO;
 import com.example.quanlynhansu.models.DTO.UpdateInfoOfEmployeeDTO;
 import com.example.quanlynhansu.models.DTO.UpdatePasswordDTO;
 import com.example.quanlynhansu.models.entity.AccountEntity;
@@ -12,6 +13,7 @@ import com.example.quanlynhansu.repos.UserDetailsRepo;
 import com.example.quanlynhansu.services.EmployeeService;
 import com.example.quanlynhansu.services.MinioService;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private MinioService minioService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -130,6 +135,27 @@ public class EmployeeServiceImpl implements EmployeeService {
             return ResponseEntity.ok(fileUrl);
 
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> findListChatEmployee() {
+        try{
+
+            List<EmployeeEntity> employeeEntityList = employeeRepo.findAll();
+            List<EmployeeChatDTO> employeeChatDTOList = new ArrayList<>();
+
+            EmployeeEntity employeeCurrent = employeeRepo.findOneByEmail(infoCurrentUserService.getCurrentUsername());
+
+            for(EmployeeEntity employee: employeeEntityList){
+                // không hiển thị người dùng hiện tại.
+                if(employee != employeeCurrent) employeeChatDTOList.add(modelMapper.map(employee, EmployeeChatDTO.class));
+            }
+            return ResponseEntity.ok(employeeChatDTOList);
+
+        }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
         }

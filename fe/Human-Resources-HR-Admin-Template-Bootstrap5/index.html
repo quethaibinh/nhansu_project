@@ -14,10 +14,13 @@
 
 <link rel="stylesheet" href="assets/css/style.css">
 
+<link rel="stylesheet" type="text/css" href="chatstyle.css">
+
 <!--[if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 </head>
 <body>
 
@@ -223,85 +226,1633 @@
 </div>
 </div>
 
-<!-- ảnh ở đây -->
-<div class="page-wrapper" style="margin-left: 240px; margin-top: 35px; padding: 5px;">
-	<div class="content container-fluid">
-		<div class="page-name mb-4">
-			<div style="position: relative; width: 100%; max-width: 100%; overflow: hidden;">
-				<!-- Các hình ảnh -->
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/1.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 1</p>
-				</div>
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/2.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 2</p>
-				</div>
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/3.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 3</p>
-				</div>
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/4.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 3</p>
-				</div>
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/5.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 3</p>
-				</div>
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/6.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 3</p>
-				</div>
-				<div style="text-align: center; display: none;">
-					<img src="./assets/img/7.png" style="width: 100%; height: 100vh; transition: opacity 1s ease-in-out;" class="slides">
-					<p style="color: black; background-color: rgba(255, 255, 255, 0.7); padding: 10px; margin: 0;">Mô tả hình ảnh 3</p>
-				</div>
-				<!-- Nút chuyển ảnh -->
-	<button style="position: absolute; top: 50%; padding: 16px; color: white; font-size: 18px; font-weight: bold; background-color: rgba(0, 0, 0, 0.5); border: none; cursor: pointer; transition: 0.3s; z-index: 1; left: 0; transform: translateY(-50%);" onclick="plusSlides(-1)">&#10094;</button>
-	<button style="position: absolute; top: 50%; padding: 16px; color: white; font-size: 18px; font-weight: bold; background-color: rgba(0, 0, 0, 0.5); border: none; cursor: pointer; transition: 0.3s; z-index: 1; right: 0; transform: translateY(-50%);" onclick="plusSlides(1)">&#10095;</button>
-			</div>
-		</div>
-</div>
+<!-- Phần content chính với slideshow và navigation cards -->
+<div class="page-wrapper" style="margin-left: 240px; padding: 0;">
+    <div class="content container-fluid p-0">
+        <!-- Hero section with slideshow -->
+        <div class="hero-slideshow">
+            <!-- Slideshow container -->
+            <div class="slideshow-container">
+                <!-- Slides -->
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/1.png" class="slide-img" alt="HR Management Interface">
+                    <div class="slide-caption">
+                        <h3>HR Management Interface</h3>
+                        <p>Modern and easy-to-use interface for human resources management</p>
+                    </div>
+                </div>
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/2.png" class="slide-img" alt="Employee Management">
+                    <div class="slide-caption">
+                        <h3>Employee Management</h3>
+                        <p>Manage employee profiles, roles and responsibilities efficiently</p>
+                    </div>
+                </div>
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/3.png" class="slide-img" alt="Calendar Management">
+                    <div class="slide-caption">
+                        <h3>Calendar Management</h3>
+                        <p>Visual scheduling and shift planning for better organization</p>
+                    </div>
+                </div>
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/4.png" class="slide-img" alt="Reporting">
+                    <div class="slide-caption">
+                        <h3>Reporting Tools</h3>
+                        <p>Comprehensive analytics for data-driven decision making</p>
+                    </div>
+                </div>
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/5.png" class="slide-img" alt="Mobile Access">
+                    <div class="slide-caption">
+                        <h3>Mobile Access</h3>
+                        <p>Access HR data and functions anytime, anywhere with mobile support</p>
+                    </div>
+                </div>
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/6.png" class="slide-img" alt="User Profile">
+                    <div class="slide-caption">
+                        <h3>User Profile</h3>
+                        <p>Personalized user settings and information management</p>
+                    </div>
+                </div>
+                <div class="slide" style="display: none;">
+                    <img src="./assets/img/7.png" class="slide-img" alt="System Integration">
+                    <div class="slide-caption">
+                        <h3>System Integration</h3>
+                        <p>Seamless integration with other business systems and tools</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation arrows -->
+                <button class="slide-prev" onclick="plusSlides(-1)">&#10094;</button>
+                <button class="slide-next" onclick="plusSlides(1)">&#10095;</button>
+                
+                <!-- Dots/circles for navigation -->
+                <div class="slide-dots">
+                    <span class="slide-dot" onclick="currentSlide(0)"></span>
+                    <span class="slide-dot" onclick="currentSlide(1)"></span>
+                    <span class="slide-dot" onclick="currentSlide(2)"></span>
+                    <span class="slide-dot" onclick="currentSlide(3)"></span>
+                    <span class="slide-dot" onclick="currentSlide(4)"></span>
+                    <span class="slide-dot" onclick="currentSlide(5)"></span>
+                    <span class="slide-dot" onclick="currentSlide(6)"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main content area -->
+        <div class="container mt-4 mb-5 px-4">
+            <!-- Welcome section -->
+            <div class="welcome-section mb-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h2 class="welcome-heading">Welcome to HR Management System</h2>
+                        <p class="welcome-text">Manage your workforce efficiently with our comprehensive HR solutions designed for modern businesses.</p>
+                    </div>
+                    <div class="col-lg-4 text-right">
+                        <div class="welcome-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="employee-count1">254</span>
+                                <span class="stat-label">Employees</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="working-days">22</span>
+                                <span class="stat-label">Working Days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick navigation cards -->
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Employee Management</h4>
+                            <p>Manage employee profiles, attendance, and performance tracking in one place.</p>
+                            <a href="employee.html" class="card-link">View Employees <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="card-icon card-icon-calendar">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Work Calendar</h4>
+                            <p>Schedule work shifts, manage time off requests, and track employee hours.</p>
+                            <a href="calendar.html" class="card-link card-link-calendar">Open Calendar <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="card-icon card-icon-reports">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Reports & Analytics</h4>
+                            <p>Generate comprehensive reports and analyze workforce performance data.</p>
+                            <a href="report.html" class="card-link card-link-reports">View Reports <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Nút để mở modal chat ở góc dưới phải màn hình -->
+    <button type="button" class="btn btn-primary chat-toggle-btn" data-toggle="modal" data-target="#chatModal">
+        <i class="fas fa-comments"></i>
+    </button>
 </div>
 
+<!-- Modal Chat -->
+<div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatModalLabel">Chat Box</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid h-100">
+                    <div class="row justify-content-center h-100">
+                        <div class="col-md-4 col-xl-4 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
+                            <div class="card-header">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search..." name="" class="form-control search">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body contacts_body">
+                                <ui class="contacts" id="listChatEmployee">
+                                <!-- <li>
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                            <span class="online_icon"></span>
+                                        </div>
+                                        <div class="user_info">
+                                            <span>Khalid Charif</span>
+                                            <p>Online</p>
+                                        </div>
+                                    </div>
+                                </li> -->
+                                </ui>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div></div>
+                        <div class="col-md-8 col-xl-8 chat">
+                            <div class="card">
+                                <div class="card-header msg_head">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img src="" class="rounded-circle user_img" id="avatarChatBox">
+                                            <span class="online_icon"></span>
+                                        </div>
+                                        <div class="user_info">
+                                            <span id="fullNameChatBox"></span>
+                                            <p>...</p>
+                                        </div>
+                                        <div class="video_cam">
+                                            <span><i class="fas fa-video"></i></span>
+                                            <span><i class="fas fa-phone"></i></span>
+                                        </div>
+                                    </div>
+                                    <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                                    <div class="action_menu">
+                                        <ul>
+                                            <li><i class="fas fa-user-circle"></i> View profile</li>
+                                            <li><i class="fas fa-users"></i> Add to close friends</li>
+                                            <li><i class="fas fa-plus"></i> Add to group</li>
+                                            <li><i class="fas fa-ban"></i> Block</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body msg_card_body" id="chatBoxContent">
+                                    <!-- <div class="d-flex justify-content-start mb-4">
+                                        <div class="img_cont_msg">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+                                        </div>
+                                        <div class="msg_cotainer">
+                                            Hi, how are you samim?
+                                            <span class="msg_time">8:40 AM, Today</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-4">
+                                        <div class="msg_cotainer_send">
+                                            Hi Khalid i am good tnx how about you?
+                                            <span class="msg_time_send">8:55 AM, Today</span>
+                                        </div>
+                                        <div class="img_cont_msg">
+                                    <img src="https://avatars.hsoubcdn.com/ed57f9e6329993084a436b89498b6088?s=256" class="rounded-circle user_img_msg">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-4">
+                                        <div class="img_cont_msg">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+                                        </div>
+                                        <div class="msg_cotainer">
+                                            I am good too, thank you for your chat template
+                                            <span class="msg_time">9:00 AM, Today</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-4">
+                                        <div class="msg_cotainer_send">
+                                            You are welcome
+                                            <span class="msg_time_send">9:05 AM, Today</span>
+                                        </div>
+                                        <div class="img_cont_msg">
+                                    <img src="https://avatars.hsoubcdn.com/ed57f9e6329993084a436b89498b6088?s=256" class="rounded-circle user_img_msg">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-4">
+                                        <div class="img_cont_msg">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+                                        </div>
+                                        <div class="msg_cotainer">
+                                            I am looking for your next templates
+                                            <span class="msg_time">9:07 AM, Today</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-4">
+                                        <div class="msg_cotainer_send">
+                                            Ok, thank you have a good day
+                                            <span class="msg_time_send">9:10 AM, Today</span>
+                                        </div>
+                                        <div class="img_cont_msg">
+                                <img src="https://avatars.hsoubcdn.com/ed57f9e6329993084a436b89498b6088?s=256" class="rounded-circle user_img_msg">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-4">
+                                        <div class="img_cont_msg">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+                                        </div>
+                                        <div class="msg_cotainer">
+                                            Bye, see you
+                                            <span class="msg_time">9:12 AM, Today</span>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="card-footer">
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                        </div>
+                                        <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<style>
+/* Hero slideshow styling */
+.hero-slideshow {
+    position: relative;
+    width: 100%;
+    height: 70vh; /* Increased height to take more screen space */
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.slide:hover .slide-img {
+    transform: scale(1.03);
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.4) 60%, transparent);
+    color: white;
+    padding: 80px 10% 40px;
+    text-align: left;
+}
+
+.slide-caption h3 {
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.slide-caption p {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    opacity: 0.95;
+    max-width: 600px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Navigation buttons */
+.slide-prev, .slide-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    z-index: 10;
+}
+
+.slide-prev {
+    left: 30px;
+}
+
+.slide-next {
+    right: 30px;
+}
+
+.slide-prev:hover, .slide-next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Dots navigation */
+.slide-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.slide-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 0 7px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.slide-dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.slide-dot.active {
+    background-color: white;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Welcome section styling */
+.welcome-section {
+    padding: 20px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.welcome-heading {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+}
+
+.welcome-stats {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 25px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: #5C38FD;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Feature cards styling */
+.feature-card {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    flex: 0 0 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5C38FD;
+    color: white;
+}
+
+.card-icon i {
+    font-size: 36px;
+}
+
+.card-icon-calendar {
+    background-color: #FFC107;
+}
+
+.card-icon-reports {
+    background-color: #28a745;
+}
+
+.card-content {
+    padding: 25px 20px;
+    flex: 1;
+}
+
+.card-content h4 {
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.card-content p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.card-link {
+    color: #5C38FD;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.card-link i {
+    margin-left: 8px;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+.card-link:hover {
+    color: #4425d3;
+    text-decoration: none;
+}
+
+.card-link:hover i {
+    transform: translateX(4px);
+}
+
+.card-link-calendar {
+    color: #FFC107;
+}
+
+.card-link-calendar:hover {
+    color: #e0a800;
+}
+
+.card-link-reports {
+    color: #28a745;
+}
+
+.card-link-reports:hover {
+    color: #218838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1199px) {
+    .hero-slideshow {
+        height: 60vh;
+    }
+    
+    .slide-caption h3 {
+        font-size: 1.8rem;
+    }
+    
+    .slide-caption p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-slideshow {
+        height: 50vh;
+    }
+    
+    .slide-prev, .slide-next {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .slide-caption h3 {
+        font-size: 1.6rem;
+    }
+    
+    .welcome-stats {
+        justify-content: flex-start;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-slideshow {
+        height: 40vh;
+    }
+    
+    .slide-caption {
+        padding: 60px 8% 30px;
+    }
+    
+    .slide-caption h3 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    .slide-caption p {
+        font-size: 0.9rem;
+    }
+    
+    .slide-prev, .slide-next {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .slide-prev {
+        left: 15px;
+    }
+    
+    .slide-next {
+        right: 15px;
+    }
+    
+    .slide-dot {
+        width: 12px;
+        height: 12px;
+        margin: 0 5px;
+    }
+}
+
+@media (max-width: 575px) {
+    .hero-slideshow {
+        height: 35vh;
+    }
+    
+    .slide-caption {
+        padding: 40px 8% 25px;
+    }
+    
+    .slide-caption h3 {
+        font-size: 1.2rem;
+    }
+    
+    .slide-caption p {
+        font-size: 0.85rem;
+    }
+    
+    .welcome-heading {
+        font-size: 1.5rem;
+    }
+    
+    .welcome-text {
+        font-size: 0.95rem;
+    }
+}
+
+/* Hiệu ứng đang nhập tin nhắn */
+.typing-dots {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+}
+
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: #a1a1a1;
+    border-radius: 50%;
+    display: inline-block;
+    animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes typing {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.msg_cotainer.typing {
+    padding: 6px 16px;
+    min-width: 60px;
+}
+
+/* Nút tải thêm tin nhắn */
+.load-more-messages {
+    margin: 10px 0;
+}
+
+.load-more-messages button {
+    border-radius: 30px;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.load-more-messages button:hover {
+    background-color: #e9ecef;
+}
+</style>
 
 <script>
-	let slideIndex = 0;
-	showSlides();
+let slideIndex = 0;
+const slides = document.getElementsByClassName("slide");
+const dots = document.getElementsByClassName("slide-dot");
 
-	function plusSlides(n) {
-		slideIndex += n;
-		showSlides();
-	}
+function showSlides() {
+  // Hide all slides
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    if (dots[i]) dots[i].classList.remove("active");
+  }
+  
+  // Show current slide
+  slideIndex = slideIndex >= slides.length ? 0 : slideIndex < 0 ? slides.length - 1 : slideIndex;
+  slides[slideIndex].style.display = "block";
+  if (dots[slideIndex]) dots[slideIndex].classList.add("active");
+}
 
-	function showSlides() {
-		let slides = document.getElementsByClassName("slides");
-		if (slideIndex >= slides.length) slideIndex = 0;
-		if (slideIndex < 0) slideIndex = slides.length - 1;
+function plusSlides(n) {
+  slideIndex += n;
+  showSlides();
+}
 
-		for (let i = 0; i < slides.length; i++) {
-			slides[i].parentElement.style.display = "none"; // Ẩn toàn bộ phần tử chứa ảnh và mô tả
-		}
+function currentSlide(n) {
+  slideIndex = n;
+  showSlides();
+}
 
-		slides[slideIndex].parentElement.style.display = "block"; // Hiển thị phần tử hiện tại
-	}
-
-	// Tự động chuyển ảnh mỗi 3 giây
-	setInterval(function() {
-		slideIndex++;
-		showSlides();
-	}, 4000);
+// Initialize slideshow
+document.addEventListener("DOMContentLoaded", function() {
+  showSlides();
+  
+  // Auto advance slides
+  setInterval(function() {
+    slideIndex++;
+    showSlides();
+  }, 5000);
+});
 </script>
 
-</div>
-
-
-
-
+<!-- logic hiển thị chatbox và xử lý realtime chat -->
 <script>
-	let userData = {};
+    let employeeChatBox = [];
+    let userData = {};
+    let stompClient = null;
+    
+    // Kết nối WebSocket khi người dùng đã đăng nhập thành công
+    async function connectWebSocket() {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("Không tìm thấy token để kết nối WebSocket");
+                return;
+            }
+            
+            console.log("Đang kết nối WebSocket...");
+            
+            // Tạo kết nối WebSocket
+            const socket = new WebSocket("ws://localhost:8080/ws?token=" + encodeURIComponent(token));
+            
+            stompClient = Stomp.over(socket);
+            stompClient.debug = null; // Tắt log để tránh spam console
+            
+            stompClient.connect({}, function(frame) {
+                console.log('WebSocket đã kết nối: ' + frame);
+                
+                // Đăng ký nhận tin nhắn cho người dùng hiện tại
+                if (userData && userData.email) {
+                    subscribeToUserMessages(userData.email);
+                    console.log("Đã đăng ký nhận tin nhắn cho:", userData.email);
+                } else {
+                    console.warn("Chưa có thông tin email người dùng để đăng ký nhận tin nhắn");
+                }
+                
+            }, function(error) {
+                console.error("Kết nối WebSocket thất bại:", error);
+                
+                // Thử kết nối lại sau 5 giây nếu mất kết nối
+                setTimeout(connectWebSocket, 5000);
+            });
+            
+        } catch (error) {
+            console.error("Lỗi khi thiết lập kết nối WebSocket:", error);
+        }
+    }
+    
+    // Đăng ký nhận tin nhắn cho một email cụ thể
+    function subscribeToUserMessages(email) {
+        if (!stompClient || !email) {
+            console.error("Không thể đăng ký nhận tin nhắn: stompClient hoặc email không hợp lệ");
+            return;
+        }
+        
+        console.log(`Đăng ký nhận tin nhắn cho: ${email}`);
+        
+        // Hủy đăng ký cũ nếu có để tránh đăng ký nhiều lần
+        try {
+            if (window.currentSubscription) {
+                console.log("Hủy đăng ký cũ trước khi đăng ký mới");
+                window.currentSubscription.unsubscribe();
+            }
+        } catch (error) {
+            console.warn("Lỗi khi hủy đăng ký cũ:", error);
+        }
+        
+        // Đăng ký nhận tin nhắn đến cho người dùng hiện tại
+        window.currentSubscription = stompClient.subscribe(`/topic/messages/${email}`, function(messageOutput) {
+            try {
+                const newMessage = JSON.parse(messageOutput.body);
+                console.log("Nhận tin nhắn mới:", newMessage);
+                
+                // Xử lý tin nhắn mới nhận được
+                handleIncomingMessage(newMessage);
+            } catch (error) {
+                console.error("Lỗi khi xử lý tin nhắn WebSocket:", error);
+            }
+        });
+        
+        // Đăng ký để nhận các tin nhắn broadcast chung (nếu có)
+        stompClient.subscribe('/topic/public', function(messageOutput) {
+            try {
+                const publicMessage = JSON.parse(messageOutput.body);
+                console.log("Nhận tin nhắn công khai:", publicMessage);
+                // Xử lý tin nhắn công khai nếu cần
+            } catch (error) {
+                console.error("Lỗi khi xử lý tin nhắn public:", error);
+            }
+        });
+        
+        console.log("Đã đăng ký nhận tin nhắn thành công");
+    }
+    
+    // Xử lý tin nhắn mới nhận được
+    function handleIncomingMessage(message) {
+        console.log("Xử lý tin nhắn đến:", message);
+        const chatContainer = document.getElementById("chatBoxContent");
+        const currentlyChattingWith = chatContainer?.dataset?.employeeEmail;
+        
+        // Debug: Ghi ra các giá trị để kiểm tra
+        console.log("currentlyChattingWith:", currentlyChattingWith);
+        console.log("userData.email:", userData.email);
+        console.log("message.sender:", message.senderEmail);
+        console.log("message.receiver:", message.receiverEmail);
+        
+        // Lưu tin nhắn vào cache để hiển thị khi mở chat tương ứng
+        cacheNewMessage(message);
+        
+        // Xác định chính xác liệu tin nhắn này có thuộc cuộc trò chuyện hiện tại không
+        const condition1 = message.senderEmail === currentlyChattingWith && message.receiverEmail === userData.email;
+        const condition2 = message.senderEmail === userData.email && message.receiverEmail === currentlyChattingWith;
+        
+        console.log("Điều kiện 1:", condition1);
+        console.log("Điều kiện 2:", condition2);
+        
+        const isRelevantToCurrentChat = currentlyChattingWith && (condition1 || condition2);
+        console.log("isRelevantToCurrentChat:", isRelevantToCurrentChat);
+
+        if (isRelevantToCurrentChat) {
+            console.log("Đang hiển thị tin nhắn vào khung chat hiện tại");
+            // Nếu là người đang chat, thêm tin nhắn vào khung chat
+            const isCurrentUser = message.senderEmail === userData.email;
+            const messageTime = formatMessageTime(new Date());
+            
+            // Tìm avatar người gửi
+            let senderAvatar;
+            if (isCurrentUser) {
+                senderAvatar = userData.avatarUrl;
+            } else {
+                // Tìm người gửi dựa trên email thay vì employeeId
+                const sender = employeeChatBox.find(emp => emp.email === message.senderEmail);
+                senderAvatar = sender ? sender.avatarUrl : 'assets/img/default-avatar.png';
+            }
+            
+            // Tạo HTML cho tin nhắn mới
+            const newMessageHTML = isCurrentUser ? 
+                `<div class="d-flex justify-content-end mb-4">
+                    <div class="msg_cotainer_send">
+                        ${message.content}
+                        <span class="msg_time_send">${messageTime}</span>
+                    </div>
+                    <div class="img_cont_msg">
+                        <img src="${senderAvatar}" class="rounded-circle user_img_msg">
+                    </div>
+                </div>` :
+                `<div class="d-flex justify-content-start mb-4">
+                    <div class="img_cont_msg">
+                        <img src="${senderAvatar}" class="rounded-circle user_img_msg">
+                    </div>
+                    <div class="msg_cotainer">
+                        ${message.content}
+                        <span class="msg_time">${messageTime}</span>
+                    </div>
+                </div>`;
+            
+            // Thêm tin nhắn mới vào cuối khung chat
+            chatContainer.innerHTML += newMessageHTML;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Cập nhật danh sách tin nhắn trong dataset
+            try {
+                const allMessages = JSON.parse(chatContainer.dataset.allMessages || '[]');
+                allMessages.push(message);
+                chatContainer.dataset.allMessages = JSON.stringify(allMessages);
+            } catch (error) {
+                console.error("Lỗi khi cập nhật danh sách tin nhắn:", error);
+            }
+        } else {
+            console.log("Tin nhắn không liên quan đến cuộc trò chuyện hiện tại, hiển thị thông báo");
+            // Nếu không phải người đang chat, hiển thị thông báo
+            showNotification(message);
+        }
+    }
+
+    // Thêm hàm mới để cache tin nhắn
+    function cacheNewMessage(message) {
+        // Tạo một object trong localStorage để lưu tin nhắn theo thread
+        const chatCacheKey = 'chat_cache';
+        let chatCache = {};
+        
+        try {
+            const existingCache = localStorage.getItem(chatCacheKey);
+            if (existingCache) {
+                chatCache = JSON.parse(existingCache);
+            }
+            
+            // Xác định key cho thread chat này (kết hợp email người gửi và người nhận)
+            const threadKey = [message.sender, message.receiver].sort().join('_');
+            
+            if (!chatCache[threadKey]) {
+                chatCache[threadKey] = [];
+            }
+            
+            // Giới hạn số lượng tin nhắn cache để tránh quá tải localStorage
+            if (chatCache[threadKey].length > 50) {
+                chatCache[threadKey] = chatCache[threadKey].slice(-50);
+            }
+            
+            // Thêm tin nhắn mới
+            chatCache[threadKey].push(message);
+            
+            // Lưu lại vào localStorage
+            localStorage.setItem(chatCacheKey, JSON.stringify(chatCache));
+        } catch (error) {
+            console.error("Lỗi khi cache tin nhắn:", error);
+        }
+    }
+    
+    // Hiển thị thông báo khi có tin nhắn mới từ người không đang chat
+    function showNotification(message) {
+        // Tìm thông tin người gửi
+        const sender = employeeChatBox.find(emp => emp.email === message.sender);
+        if (!sender) return;
+        
+        // Hiển thị thông báo (có thể sử dụng thư viện toastr hoặc thông báo native)
+        if ("Notification" in window && Notification.permission === "granted") {
+            new Notification(`Tin nhắn mới từ ${sender.fullName}`, {
+                body: message.content,
+                icon: sender.avatarUrl
+            });
+        } else {
+            // Thông báo bằng toast hoặc element trên trang
+            const toast = document.createElement('div');
+            toast.className = 'chat-notification toast';
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <img src="${sender.avatarUrl}" class="rounded mr-2" width="20" height="20">
+                    <strong class="mr-auto">${sender.fullName}</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+                </div>
+                <div class="toast-body">
+                    ${message.content}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Xóa thông báo sau 5 giây
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 5000);
+        }
+        
+        // Làm mới danh sách tin nhắn nếu cần
+        fetchEmployeeChatBox();
+    }
+
+    // Hàm lấy danh sách nhân viên cho chatbox
+    async function fetchEmployeeChatBox() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Bạn chưa đăng nhập!");
+            window.location.href = "/login.html";
+            return;
+        }
+        try {
+            // Lấy danh sách nhân viên
+            const response = await fetch("http://localhost:8080/employee/list_info_chat", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`Lỗi API: ${response.statusText}`);
+            }
+            const data = await response.json();
+            employeeChatBox = data;
+
+            // Hiển thị số lượng nhân viên
+			document.getElementById("employee-count1").innerText = `${data.length + 1}`;
+
+            // Lấy danh sách người dùng online
+            const onlineResponse = await fetch("http://localhost:8080/api/online-users", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            });
+            
+            if (!onlineResponse.ok) {
+                throw new Error(`Lỗi API Online Users: ${onlineResponse.statusText}`);
+            }
+            
+            const onlineUsers = await onlineResponse.json();
+            console.log("Người dùng online:", onlineUsers);
+            
+            // Tạo HTML với trạng thái online/offline
+            document.getElementById("listChatEmployee").innerHTML = `
+                ${data.map(employee => {
+                    // Kiểm tra xem email có trong danh sách người dùng online không
+                    const isOnline = onlineUsers.includes(employee.email);
+                    const onlineStatusClass = isOnline ? "online_icon" : "offline_icon";
+                    
+                    return `
+                    <li>
+                        <a onclick="showChatBox(${employee.id})" href="#" class="chat-employee-item">
+                            <div class="d-flex bd-highlight">
+                                <div class="img_cont">
+                                    <img src="${employee.avatarUrl}" class="rounded-circle user_img">
+                                    <span class="${onlineStatusClass}"></span>
+                                </div>
+                                <div class="user_info">
+                                    <span>${employee.fullName}</span>
+                                    <p>${isOnline ? "Online" : "Offline"}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>`;
+                }).join("")}
+            `;
+        } catch (error) {
+            console.error("Lỗi khi lấy danh sách nhân viên:", error);
+        }
+    }
+
+    // Hàm kiểm tra kết nối WebSocket
+    function ensureWebSocketConnection() {
+        if (!stompClient || !stompClient.connected) {
+            console.log("WebSocket chưa kết nối. Đang kết nối lại...");
+            connectWebSocket();
+            return false;
+        }
+        return true;
+    }
+
+    // Cập nhật hàm showChatBox để kiểm tra kết nối WebSocket
+    async function showChatBox(employeeId) {
+        // Đảm bảo kết nối WebSocket đã hoạt động
+        if (!ensureWebSocketConnection()) {
+            setTimeout(() => showChatBox(employeeId), 1000); // Thử lại sau 1 giây
+            return;
+        }
+        
+        try {
+            // 1. Tìm thông tin nhân viên từ danh sách đã lưu
+            const employee = employeeChatBox.find(emp => emp.id === employeeId);
+            if (!employee) {
+                console.error("Không tìm thấy thông tin nhân viên với ID:", employeeId);
+                return;
+            }
+            
+            // 2. Cập nhật thông tin header của chat box
+            document.getElementById("avatarChatBox").src = employee.avatarUrl;
+            document.getElementById("fullNameChatBox").innerText = employee.fullName;
+            
+            // 3. Hiển thị loading trong khi lấy lịch sử chat
+            document.getElementById("chatBoxContent").innerHTML = `
+                <div class="text-center p-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p class="mt-2">Đang tải lịch sử trò chuyện...</p>
+                </div>
+            `;
+            
+            // 4. Lấy token xác thực
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Phiên đăng nhập hết hạn!");
+                window.location.href = "/login.html";
+                return;
+            }
+            
+            // 5. Gọi API để lấy lịch sử chat
+            const response = await fetch(`http://localhost:8080/history?withEmail=${employee.email}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Lỗi khi lấy lịch sử chat: ${response.statusText}`);
+            }
+            
+            // 6. Xử lý dữ liệu trả về
+            const chatHistory = await response.json();
+            
+            // 7. Hiển thị lịch sử chat với giới hạn số tin nhắn hiển thị
+            const chatContainer = document.getElementById("chatBoxContent");
+            
+            // Đặt chiều cao cố định cho container tin nhắn để có thanh cuộn
+            chatContainer.style.overflowY = "auto";
+            
+            if (chatHistory.length === 0) {
+                chatContainer.innerHTML = `
+                    <div class="text-center p-4">
+                        <p class="text-muted">Chưa có cuộc trò chuyện nào. Hãy bắt đầu trò chuyện!</p>
+                    </div>
+                `;
+            } else {
+                // Tính toán số lượng tin nhắn hiển thị dựa trên kích thước của khung chat
+                let chatBoxHeight = chatContainer.clientHeight;
+                let approximateMessageHeight = 80; // Chiều cao ước lượng của mỗi tin nhắn (px)
+                let maxVisibleMessages = Math.max(5, Math.floor(chatBoxHeight / approximateMessageHeight));
+                
+                // Chỉ lấy số lượng tin nhắn gần nhất để hiển thị
+                const recentMessages = chatHistory.length > maxVisibleMessages ? 
+                                    chatHistory.slice(-maxVisibleMessages) : 
+                                    chatHistory;
+                
+                // Tạo HTML cho tin nhắn
+                let chatHTML = "";
+                const currentUserAvatar = userData.avatarUrl;
+                
+                recentMessages.forEach(message => {
+                    const isCurrentUser = message.senderEmail === userData.email;
+                    const messageTime = formatMessageTime(message.createdAt);
+                    
+                    if (isCurrentUser) {
+                        // Tin nhắn của người dùng hiện tại (phía bên phải)
+                        chatHTML += `
+                            <div class="d-flex justify-content-end mb-4">
+                                <div class="msg_cotainer_send">
+                                    ${message.content}
+                                    <span class="msg_time_send">${messageTime}</span>
+                                </div>
+                                <div class="img_cont_msg">
+                                    <img src="${currentUserAvatar}" class="rounded-circle user_img_msg">
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Tin nhắn của người nhận (phía bên trái)
+                        chatHTML += `
+                            <div class="d-flex justify-content-start mb-4">
+                                <div class="img_cont_msg">
+                                    <img src="${employee.avatarUrl}" class="rounded-circle user_img_msg">
+                                </div>
+                                <div class="msg_cotainer">
+                                    ${message.content}
+                                    <span class="msg_time">${messageTime}</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                
+                // Thêm chỉ báo cho người dùng biết có tin nhắn cũ hơn nếu cần thiết
+                if (chatHistory.length > maxVisibleMessages) {
+                    chatHTML = `
+                        <div class="text-center older-messages-indicator py-2">
+                            <small class="text-muted">Cuộn lên để xem ${chatHistory.length - maxVisibleMessages} tin nhắn cũ hơn</small>
+                        </div>
+                    ` + chatHTML;
+                }
+                
+                // Cập nhật nội dung vào chatbox
+                chatContainer.innerHTML = chatHTML;
+            }
+            
+            // 8. Cuộn xuống tin nhắn mới nhất
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // 9. Lưu employeeId và email hiện tại để sử dụng khi gửi tin nhắn
+            document.querySelector(".type_msg").dataset.recipientId = employeeId;
+            document.querySelector(".type_msg").dataset.recipientEmail = employee.email;
+            
+            // 10. Lưu toàn bộ lịch sử tin nhắn để có thể tải khi người dùng cuộn lên
+            chatContainer.dataset.allMessages = JSON.stringify(chatHistory);
+            chatContainer.dataset.employeeId = employeeId;
+            chatContainer.dataset.employeeEmail = employee.email;
+            
+            // 11. Thêm sự kiện cuộn lên để tải thêm tin nhắn cũ
+            // Đảm bảo chiều cao của container để thanh cuộn hoạt động
+            chatContainer.style.height = "400px";
+            chatContainer.style.overflowY = "auto";
+            
+            setupScrollLoadMoreMessages(chatContainer, employee);
+            
+            // 12. Thêm event listener cho nút gửi tin nhắn
+            setupSendMessageHandler();
+            
+        } catch (error) {
+            console.error("Lỗi khi hiển thị chat box:", error);
+            document.getElementById("chatBoxContent").innerHTML = `
+                <div class="text-center p-4">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        Không thể tải lịch sử chat. Vui lòng thử lại sau.
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Gửi tin nhắn qua WebSocket
+async function sendMessage() {
+    const msgInput = document.querySelector(".type_msg");
+    const message = msgInput.value.trim();
+    const recipientEmail = msgInput.dataset.recipientEmail;
+    
+    if (!message || !recipientEmail || !stompClient) return;
+    
+    try {
+        // Hiển thị tin nhắn tạm thời
+        const currentUserAvatar = userData.avatarUrl;
+        const chatContainer = document.getElementById("chatBoxContent");
+        
+        const tempMessage = {
+            sender: userData.email,
+            receiver: recipientEmail,
+            content: message,
+            createdAt: new Date().toISOString(),
+            // Thêm một ID tạm thời để có thể cập nhật sau
+            tempId: 'temp_' + Date.now()
+        };
+        
+        const tempMessageHTML = `
+            <div class="d-flex justify-content-end mb-4" id="${tempMessage.tempId}">
+                <div class="msg_cotainer_send">
+                    ${message}
+                    <span class="msg_time_send">Đang gửi...</span>
+                </div>
+                <div class="img_cont_msg">
+                    <img src="${currentUserAvatar}" class="rounded-circle user_img_msg">
+                </div>
+            </div>
+        `;
+        
+        chatContainer.innerHTML += tempMessageHTML;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        // Xóa nội dung input
+        msgInput.value = "";
+        
+        // Tạo đối tượng tin nhắn
+        const chatMessage = {
+            receiver: recipientEmail,
+            content: message
+        };
+        
+        console.log("Đang gửi tin nhắn qua WebSocket:", chatMessage);
+        
+        // Gửi tin nhắn qua WebSocket
+        stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+        
+        // Thêm tin nhắn vào cache local
+        cacheNewMessage(tempMessage);
+        
+    } catch (error) {
+        console.error("Lỗi khi gửi tin nhắn:", error);
+        alert("Không thể gửi tin nhắn. Vui lòng thử lại sau.");
+    }
+}
+
+    // Thiết lập xử lý gửi tin nhắn
+    function setupSendMessageHandler() {
+        const msgInput = document.querySelector(".type_msg");
+        const sendBtn = document.querySelector(".send_btn");
+        
+        // Xóa event listener cũ nếu có
+        sendBtn.removeEventListener("click", sendMessage);
+        sendBtn.addEventListener("click", sendMessage);
+        
+        // Thêm event listener cho phím Enter
+        msgInput.removeEventListener("keypress", handleKeyPress);
+        msgInput.addEventListener("keypress", handleKeyPress);
+    }
+
+    // Xử lý sự kiện nhấn phím Enter
+    function handleKeyPress(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    }
+
+    // Hàm định dạng thời gian tin nhắn
+    function formatMessageTime(timestamp) {
+        if (!timestamp) return "Không rõ thời gian";
+        
+        const date = new Date(timestamp);
+        if (isNaN(date.getTime())) return "Ngày không hợp lệ";
+        
+        const now = new Date();
+        const isToday = date.toDateString() === now.toDateString();
+        
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        
+        if (isToday) {
+            return `${hours}:${minutes}, Hôm nay`;
+        } else {
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            return `${hours}:${minutes}, ${day}/${month}/${date.getFullYear()}`;
+        }
+    }
+
+    // Hàm lấy thông tin người dùng hiện tại
+    async function fetchData() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Bạn chưa đăng nhập!");
+            window.location.href = "/login.html";
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/employee/current_user_info", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status === 401) {
+                alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+                localStorage.removeItem("token");
+                window.location.href = "/login.html";
+                return;
+            } else if (response.status === 403) {
+                throw new Error("Bạn không có quyền truy cập!");
+            } else if (!response.ok) {
+                throw new Error(`Lỗi API: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            userData = data;
+
+            // avatar header
+            document.getElementById("name").innerText = `${userData.fullName}`;
+            document.getElementById("avatar3").src = userData.avatarUrl;
+            
+            // Kết nối WebSocket sau khi có thông tin người dùng
+            connectWebSocket();
+
+        } catch (error) {
+            console.error("Lỗi khi lấy thông tin người dùng:", error);
+        }
+    }
+
+    // Yêu cầu quyền thông báo khi trang được tải
+    function requestNotificationPermission() {
+        if ("Notification" in window) {
+            Notification.requestPermission();
+        }
+    }
+
+    // Gọi fetchData và các hàm khởi tạo khi trang tải xong
+    window.addEventListener('load', async function() {
+        await fetchData();
+        await fetchEmployeeChatBox();
+        connectWebSocket(); // Đảm bảo kết nối WebSocket được thiết lập
+        requestNotificationPermission();
+        
+        // Thêm xử lý đóng/mở menu trong chat
+        const actionMenuBtn = document.getElementById('action_menu_btn');
+        if (actionMenuBtn) {
+            actionMenuBtn.addEventListener('click', function() {
+                document.querySelector('.action_menu').classList.toggle('active');
+            });
+        }
+
+        // Thêm event listener cho modal chat
+        $('#chatModal').on('show.bs.modal', function () {
+            console.log("Modal chat đang mở");
+            // Đảm bảo kết nối WebSocket khi mở modal
+            if (ensureWebSocketConnection()) {
+                console.log("WebSocket đã kết nối khi mở modal");
+            }
+            // Khi modal mở, hiển thị welcome message hoặc chọn chat gần đây nhất
+            setupDefaultChatView();
+        });
+    });
+
+    // Hàm thiết lập giao diện mặc định khi mở modal chat
+    function setupDefaultChatView() {
+        // Kiểm tra nếu chưa có chat box nào được chọn
+        const chatContainer = document.getElementById("chatBoxContent");
+        if (!chatContainer.dataset.employeeEmail) {
+            // Hiển thị thông báo chào mừng
+            document.getElementById("avatarChatBox").src = "assets/img/logo.png";
+            document.getElementById("fullNameChatBox").innerText = "Chat System";
+            chatContainer.innerHTML = `
+                <div class="text-center p-4">
+                    <div class="mb-4">
+                        <i class="fas fa-comments fa-4x text-primary"></i>
+                    </div>
+                    <h4>Chào mừng đến với hệ thống chat</h4>
+                    <p class="text-muted">Chọn một người từ danh sách bên trái để bắt đầu cuộc trò chuyện</p>
+                </div>
+            `;
+        }
+    }
+
+    // Hàm thiết lập tính năng tải thêm tin nhắn cũ khi cuộn lên
+    function setupScrollLoadMoreMessages(chatContainer, employee) {
+        // Biến để theo dõi trạng thái đang tải
+        let isLoading = false;
+        // Số lượng tin nhắn mỗi lần tải
+        const messagePerLoad = 10;
+        
+        // Lắng nghe sự kiện cuộn
+        chatContainer.addEventListener('scroll', function() {
+            // Nếu người dùng cuộn gần đến đầu khung chat và không đang trong quá trình tải
+            if (chatContainer.scrollTop < 50 && !isLoading) {
+                // Lấy tất cả các tin nhắn hiện có
+                try {
+                    const allMessages = JSON.parse(chatContainer.dataset.allMessages || '[]');
+                    const visibleMessagesCount = chatContainer.querySelectorAll('.d-flex.justify-content-start, .d-flex.justify-content-end').length;
+                    
+                    // Nếu số lượng tin nhắn hiển thị ít hơn tổng số tin nhắn, tải thêm
+                    if (visibleMessagesCount < allMessages.length) {
+                        isLoading = true;
+                        
+                        // Tính số lượng tin nhắn cần tải thêm
+                        const startIndex = Math.max(0, allMessages.length - visibleMessagesCount - messagePerLoad);
+                        const endIndex = allMessages.length - visibleMessagesCount;
+                        const messagesToLoad = allMessages.slice(startIndex, endIndex);
+                        
+                        // Lưu vị trí cuộn và chiều cao hiện tại
+                        const scrollHeight = chatContainer.scrollHeight;
+                        const currentPosition = chatContainer.scrollTop;
+                        
+                        // Hiển thị loading
+                        const loadingIndicator = document.createElement('div');
+                        loadingIndicator.className = 'text-center py-2 loading-indicator';
+                        loadingIndicator.innerHTML = `
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="sr-only">Đang tải...</span>
+                            </div>
+                        `;
+                        chatContainer.insertBefore(loadingIndicator, chatContainer.firstChild);
+                        
+                        // Giả lập độ trễ mạng để tránh nhấp nháy giao diện
+                        setTimeout(() => {
+                            // Tạo HTML cho tin nhắn cũ
+                            let oldMessagesHTML = '';
+                            const currentUserAvatar = userData.avatarUrl;
+                            
+                            messagesToLoad.forEach(message => {
+                                const isCurrentUser = message.senderEmail === userData.email || message.sender === userData.email;
+                                const messageTime = formatMessageTime(message.createdAt || message.timestamp);
+                                
+                                if (isCurrentUser) {
+                                    oldMessagesHTML += `
+                                        <div class="d-flex justify-content-end mb-4">
+                                            <div class="msg_cotainer_send">
+                                                ${message.content}
+                                                <span class="msg_time_send">${messageTime}</span>
+                                            </div>
+                                            <div class="img_cont_msg">
+                                                <img src="${currentUserAvatar}" class="rounded-circle user_img_msg">
+                                            </div>
+                                        </div>
+                                    `;
+                                } else {
+                                    oldMessagesHTML += `
+                                        <div class="d-flex justify-content-start mb-4">
+                                            <div class="img_cont_msg">
+                                                <img src="${employee.avatarUrl}" class="rounded-circle user_img_msg">
+                                            </div>
+                                            <div class="msg_cotainer">
+                                                ${message.content}
+                                                <span class="msg_time">${messageTime}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            });
+                            
+                            try {
+                                // Tìm và xóa loading indicator một cách an toàn
+                                const indicator = chatContainer.querySelector('.loading-indicator');
+                                if (indicator && indicator.parentNode === chatContainer) {
+                                    chatContainer.removeChild(indicator);
+                                }
+                                
+                                // Thêm tin nhắn cũ vào đầu khung chat
+                                chatContainer.innerHTML = oldMessagesHTML + chatContainer.innerHTML;
+                                
+                                // Điều chỉnh vị trí cuộn để giữ nguyên vị trí người dùng đang đọc
+                                chatContainer.scrollTop = chatContainer.scrollHeight - scrollHeight + currentPosition;
+                            } catch (removeError) {
+                                console.error("Lỗi khi cập nhật giao diện:", removeError);
+                                // Cập nhật toàn bộ nội dung để đảm bảo hiển thị đúng
+                                let currentContent = chatContainer.innerHTML;
+                                chatContainer.innerHTML = oldMessagesHTML + currentContent.replace(/<div class="text-center py-2 loading-indicator">[\s\S]*?<\/div>/, '');
+                                chatContainer.scrollTop = chatContainer.scrollHeight - scrollHeight + currentPosition;
+                            }
+                            
+                            // Reset trạng thái loading
+                            isLoading = false;
+                            
+                        }, 500);
+                    }
+                } catch (error) {
+                    console.error("Lỗi khi tải thêm tin nhắn cũ:", error);
+                    isLoading = false;
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+/* CSS cho thông báo chat */
+.chat-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 0.95;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 0.95;
+    }
+}
+
+/* CSS cho nút toggle chat */
+.chat-toggle-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #5C38FD;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.chat-toggle-btn:hover {
+    transform: scale(1.1);
+    background-color: #4425d3;
+}
+
+.chat-toggle-btn i {
+    font-size: 24px;
+}
+
+/* Cải thiện chat item */
+.chat-employee-item:hover {
+    background-color: rgba(92, 56, 253, 0.1);
+    transition: all 0.3s ease;
+}
+</style>
+
+<!-- <script>
 
 async function fetchData() {
 	const token = localStorage.getItem("token");
@@ -333,22 +1884,32 @@ async function fetchData() {
 		}
 
 		const data = await response.json();
-		userData = data;
 
 		// avatar header
 		document.getElementById("name").innerText = `${userData.fullName}`;
 		document.getElementById("avatar3").src = userData.avatarUrl;
 
-		
 
 	} catch (error) {
 	}
 }
 
 // Gọi fetchData khi trang tải xong
-window.onload = fetchData;
-</script>
+window.addEventListener('load', function() {
+    fetchData();
+    fetchEmployeeChatBox();
+});
+</script> -->
 
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper.js (cần thiết cho Bootstrap Modal) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- Custom JS -->
+<!-- <script type="text/javascript" src="chatscripts.js"></script> -->
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 
