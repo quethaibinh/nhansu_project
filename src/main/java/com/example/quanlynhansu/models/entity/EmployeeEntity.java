@@ -78,6 +78,30 @@ public class EmployeeEntity extends BaseEntity{
     @JsonManagedReference
     private List<MessageEntity> receivedMessages;
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<PayrollEntity> payrollEntities;
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<CalculateScoreEntity> calculateScoreEntities;
+
+    public List<PayrollEntity> getPayrollEntities() {
+        return payrollEntities;
+    }
+
+    public void setPayrollEntities(List<PayrollEntity> payrollEntities) {
+        this.payrollEntities = payrollEntities;
+    }
+
+    public List<CalculateScoreEntity> getCalculateScoreEntities() {
+        return calculateScoreEntities;
+    }
+
+    public void setCalculateScoreEntities(List<CalculateScoreEntity> calculateScoreEntities) {
+        this.calculateScoreEntities = calculateScoreEntities;
+    }
+
     public List<NoteEntity> getNote() {
         return note;
     }

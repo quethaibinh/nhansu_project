@@ -56,7 +56,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
                     if (auth != null) {
                         SecurityContextHolder.getContext().setAuthentication(auth);
-                        accessor.setUser(auth); // cái này giúp bạn lấy Principal trong controller
+                        accessor.setUser(auth); // cái này giúp lấy Principal trong controller
                     }
                 }
                 return message;

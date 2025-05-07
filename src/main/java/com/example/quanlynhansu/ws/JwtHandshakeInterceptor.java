@@ -22,7 +22,7 @@ import java.util.Map;
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     @Autowired
-    private JwtService jwtService; // lớp kiểm tra JWT, bạn đã có hoặc sẽ tạo
+    private JwtService jwtService; // lớp kiểm tra JWT, đã có hoặc sẽ tạo
 
     @Autowired
     private UserDetailsService userDetailsService;

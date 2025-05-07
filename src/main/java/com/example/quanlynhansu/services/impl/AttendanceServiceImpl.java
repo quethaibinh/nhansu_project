@@ -6,8 +6,10 @@ import com.example.quanlynhansu.models.entity.EmployeeEntity;
 import com.example.quanlynhansu.models.request.attendance.AttendanceRequest;
 import com.example.quanlynhansu.models.response.AttendanceResponse;
 import com.example.quanlynhansu.repos.AttendanceRepo;
+import com.example.quanlynhansu.repos.CalculateScoreRepo;
 import com.example.quanlynhansu.repos.EmployeeRepo;
 import com.example.quanlynhansu.services.AttendanceService;
+import com.example.quanlynhansu.services.PayrollService;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
 import com.example.quanlynhansu.utils.CheckTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,6 +39,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Autowired
     private CheckTime checkTime;
 
+    @Autowired
+    private PayrollService payrollService;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("hh:mm yyyy/MM/dd");
 
     public void addCheckInCheckOut(AttendanceRequest attendanceRequest) throws ParseException {
@@ -44,34 +51,60 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (employeeEntity != null) {
             AttendanceEntity lastAttendance = attendanceRepo.findTopByEmployeeIdOrderByTimeStampDesc(attendanceRequest.getEmployeeId());
 
-            // Nếu là lần đầu chấm công, mặc định là CHECKIN
-            if (lastAttendance == null) {
-                attendanceEntity.setTimeStamp(sdf.parse(attendanceRequest.getTime()));
-                attendanceEntity.setStatus("CHECKIN");
-            } else {
-                String oldDayAttendance = sdf.format(lastAttendance.getTimeStamp());  // Ngày của lần chấm công gần nhất
-                String newDayAttendance = attendanceRequest.getTime();  // Ngày mới
+            String newDayAttendance = attendanceRequest.getTime();  // Thời gian mới gửi từ frontend
+            Date newTime = sdf.parse(newDayAttendance);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(newTime);
 
-                boolean isNewDay = checkTime.isAttendanceOfNewDay(oldDayAttendance.substring(6), newDayAttendance.substring(6));
-
-                if (lastAttendance.getStatus().equals("CHECKOUT") || isNewDay) {
-                    attendanceEntity.setStatus("CHECKIN"); // Nếu là ngày mới hoặc đã CHECKOUT trước đó -> CHECKIN
-                } else {
-                    attendanceEntity.setStatus("CHECKOUT"); // Nếu chưa CHECKOUT -> CHECKOUT
-                }
-
-                attendanceEntity.setTimeStamp(sdf.parse(newDayAttendance));
+            boolean isNewDay = true;
+            if (lastAttendance != null) {
+                String oldDayAttendance = sdf.format(lastAttendance.getTimeStamp());
+                isNewDay = checkTime.isAttendanceOfNewDay(oldDayAttendance.substring(6), newDayAttendance.substring(6));
             }
 
-            // Gán nhân viên vào chấm công
+            // Xác định CHECKIN hoặc CHECKOUT
+            if (lastAttendance == null || lastAttendance.getStatus().equals("CHECKOUT") || isNewDay) {
+                attendanceEntity.setStatus("CHECKIN");
+
+                // ⚠️ Kiểm tra đi muộn
+                Calendar workStart = Calendar.getInstance();
+                workStart.setTime(newTime);
+                workStart.set(Calendar.HOUR_OF_DAY, 8);
+                workStart.set(Calendar.MINUTE, 0);
+                workStart.set(Calendar.SECOND, 0);
+
+                if (newTime.after(workStart.getTime())) {
+                    payrollService.saveCalculateScore(0L, 1L, "Đi làm muộn sau 8h sáng", employeeEntity);
+                }
+
+            } else {
+                attendanceEntity.setStatus("CHECKOUT");
+
+                // ⚠️ Kiểm tra ra ngoài quá 10 phút trong giờ làm
+                long diffMinutes = (newTime.getTime() - lastAttendance.getTimeStamp().getTime()) / (60 * 1000);
+                boolean inWorkTime = isInWorkingHours(lastAttendance.getTimeStamp());
+
+                if (inWorkTime && diffMinutes > 10) {
+                    payrollService.saveCalculateScore(0L, 1L, "Ra ngoài quá 10 phút trong giờ làm việc", employeeEntity);
+                }
+            }
+
+            attendanceEntity.setTimeStamp(newTime);
             attendanceEntity.setEmployee(employeeEntity);
-
-            // Thêm vào danh sách chấm công của nhân viên
             employeeEntity.getAttendance().add(attendanceEntity);
-
-            // Lưu vào DB
             attendanceRepo.save(attendanceEntity);
         }
+    }
+
+    // 🕒 Kiểm tra thời gian có nằm trong giờ làm việc không
+    private boolean isInWorkingHours(Date time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        double timeValue = hour + (minute / 60.0);
+
+        return (timeValue >= 8.0 && timeValue <= 12.0) || (timeValue >= 13.5 && timeValue <= 17.5);
     }
 
 
