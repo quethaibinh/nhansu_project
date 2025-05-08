@@ -72,6 +72,9 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/employee/list_info_chat").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(GET, "/api/online-users").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
                         .requestMatchers(GET, "/history").hasAnyAuthority("Admin", "HR", "Manager", "Employee")
+                        .requestMatchers(POST, "/payroll/summary").permitAll()
+                        .requestMatchers(GET, "payroll/payroll_last_month").permitAll()
+                        .requestMatchers(GET, "payroll/history_calculate_score").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -243,7 +243,7 @@
 <ul>
 <li><a class="active" href="#">All</a></li>
 </ul>
-<a class="btn-add" href="add-employee.html"><i data-feather="plus"></i> Add Person</a>
+<a class="btn-add" href="add-employee.html"><i data-feather="plus"></i> Thêm người dùng</a>
 </div>
 </div>
 <div class="col-xl-12 col-sm-12 col-12 mb-4">
@@ -259,22 +259,22 @@
 <div class="col-xl-12 col-sm-12 col-12 mb-4">
     <div class="card">
         <div class="table-heading">
-            <h2>Project Summery</h2>
+            <h2>tất cả nhân viên</h2>
         </div>
         <div class="table-responsive">
             <table class="table custom-table no-footer">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Tên đầy đủ</th>
                         <th>Email</th>
-                        <th>Phone</th>
-                        <th>BirthDate</th>
-                        <th>Address</th>
-                        <th>HireDate</th>
+                        <th>Sdt</th>
+                        <th>Ngày Sinh</th>
+                        <th>Địa chỉ</th>
+                        <th>Làm việc từ ngày</th>
                         <th>Role</th>
-                        <th>Status</th>
-                        <th>Information</th>
-                        <th>Activities</th>
+                        <th>Trạng thái</th>
+                        <th>Thông tin tài khoản</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="data-table">
@@ -330,8 +330,8 @@
 			  <div class="col-xl-12 col-sm-12 col-12">
 				<div class="card card-lists">
 				  <div class="card-header">
-					<h2 class="card-titles">Contract Information</h2>
-					<a class="btn btn-apply" data-toggle="modal" data-target="#adddocument">Add Document</a>
+					<h2 class="card-titles">Thông tin hợp đồng</h2>
+					<a class="btn btn-apply" data-toggle="modal" data-target="#adddocument">Thêm hợp đồng mới</a>
 				  </div>
 				  <div class="card-body">
 					<div class="row" id="contract">
@@ -359,7 +359,7 @@
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
 <div class="modal-header">
-<h5 class="modal-title" id="staticBackdropLabel">Add Document</h5>
+<h5 class="modal-title" id="staticBackdropLabel">Thêm hợp đồng</h5>
 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 <span aria-hidden="true">&times;</span>
 </button>
@@ -367,8 +367,54 @@
 <div class="modal-body">
 <div class=" col-md-12 p-0">
 <div class=" form-popup">
-<label>Document Description</label>
-<input type="text">
+<label>Phòng ban</label>
+    <input type="text" id="department" class="form-control">
+    </div>
+<div class=" form-popup">
+    <label>loại hợp đồng</label>
+    <input type="text" id="contractType" class="form-control">
+</div>
+<div class=" form-popup">
+    <label>Ngày bắt đầu làm việc</label>
+    <div class="date-picker-container" style="position: relative;">
+        <input type="text" id="startDateInput" readonly placeholder="Chọn ngày bắt đầu" 
+            style="width: 100%; padding: 8px 12px; border: 1px solid #e3e3e3; border-radius: 4px; cursor: pointer; background: #fff url('assets/img/calendar.svg') no-repeat 98% center; background-size: 16px; padding-right: 30px;">
+        <div id="startDatePicker" class="date-picker-dropdown" 
+            style="display: none; position: absolute; top: 100%; left: 0; z-index: 1000; background: white; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px; width: 250px; margin-top: 2px;">
+            <div class="date-picker-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <button class="month-nav prev" onclick="changeMonth(-1, 'startContract')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❮</button>
+                <div class="current-month" id="startContractCurrentMonth" style="font-weight: 600; color: #333;"></div>
+                <button class="month-nav next" onclick="changeMonth(1, 'startContract')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❯</button>
+            </div>
+            <div class="weekdays" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 5px;">
+                <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+            </div>
+            <div id="startContractDateGrid" class="date-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
+        </div>
+    </div>
+</div>
+<div class=" form-popup">
+    <label>Ngày kết thúc hợp đồng</label>
+    <div class="date-picker-container" style="position: relative;">
+        <input type="text" id="endDateInput" readonly placeholder="Chọn ngày kết thúc" 
+            style="width: 100%; padding: 8px 12px; border: 1px solid #e3e3e3; border-radius: 4px; cursor: pointer; background: #fff url('assets/img/calendar.svg') no-repeat 98% center; background-size: 16px; padding-right: 30px;">
+        <div id="endDatePicker" class="date-picker-dropdown" 
+            style="display: none; position: absolute; top: 100%; left: 0; z-index: 1000; background: white; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px; width: 250px; margin-top: 2px;">
+            <div class="date-picker-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <button class="month-nav prev" onclick="changeMonth(-1, 'endContract')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❮</button>
+                <div class="current-month" id="endContractCurrentMonth" style="font-weight: 600; color: #333;"></div>
+                <button class="month-nav next" onclick="changeMonth(1, 'endContract')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❯</button>
+            </div>
+            <div class="weekdays" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 5px;">
+                <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+            </div>
+            <div id="endContractDateGrid" class="date-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
+        </div>
+    </div>
+</div>
+<div class=" form-popup">
+    <label>Mức lương</label>
+    <input type="text" id="salary" class="form-control">
 </div>
 <div class=" form-popup">
 <div class="file-uploads">
@@ -381,13 +427,269 @@
 </div>
 </div>
 <div class="modal-footer">
-<button type="button" class="btn btn-primary">Add</button>
+<button type="button" class="btn btn-primary" onclick="addContractData()">Add</button>
 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 </div>
 </div>
 </div>
 </div>
 </div>
+
+<!-- Add the following script section after your existing scripts -->
+<script>
+// Variables to store selected dates for contract
+let contractStartDate = null;
+let contractEndDate = null;
+let currentContractStartMonth = new Date();
+let currentContractEndMonth = new Date();
+let currentEmployeeId = null;
+
+// Initialize date pickers for contracts when document is ready - this ensures it works regardless of modal
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up click handlers for date input fields
+    setupContractDatePickers();
+});
+
+// Initialize date pickers for contracts when modal is opened
+$('#adddocument').on('show.bs.modal', function (e) {
+    // Clear previous values
+    document.getElementById('startDateInput').value = '';
+    document.getElementById('endDateInput').value = '';
+    document.getElementById('department').value = '';
+    document.getElementById('contractType').value = '';
+    document.getElementById('salary').value = '';
+    
+    // Get the button that triggered the modal
+    const button = $(e.relatedTarget);
+    // Extract employee ID
+    currentEmployeeId = button.data('employee-id');
+    
+    // Reset date variables
+    contractStartDate = null;
+    contractEndDate = null;
+    currentContractStartMonth = new Date();
+    currentContractEndMonth = new Date();
+    
+    // Make sure pickers are closed when modal opens
+    document.getElementById('startDatePicker').style.display = 'none';
+    document.getElementById('endDatePicker').style.display = 'none';
+});
+
+function setupContractDatePickers() {
+    const startInput = document.getElementById('startDateInput');
+    const endInput = document.getElementById('endDateInput');
+    
+    if (startInput) {
+        // Remove any existing event listeners to prevent duplicates
+        startInput.removeEventListener('click', handleStartDateClick);
+        // Add fresh event listener
+        startInput.addEventListener('click', handleStartDateClick);
+    }
+    
+    if (endInput) {
+        // Remove any existing event listeners to prevent duplicates
+        endInput.removeEventListener('click', handleEndDateClick);
+        // Add fresh event listener
+        endInput.addEventListener('click', handleEndDateClick);
+    }
+    
+    // Close date pickers when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.date-picker-container')) {
+            const startPicker = document.getElementById('startDatePicker');
+            const endPicker = document.getElementById('endDatePicker');
+            if (startPicker) startPicker.style.display = 'none';
+            if (endPicker) endPicker.style.display = 'none';
+        }
+    });
+}
+
+function handleStartDateClick(e) {
+    e.stopPropagation();
+    toggleContractDatePicker('startDatePicker');
+    generateContractCalendar('startContract');
+}
+
+function handleEndDateClick(e) {
+    e.stopPropagation();
+    toggleContractDatePicker('endDatePicker');
+    generateContractCalendar('endContract');
+}
+
+// Toggle contract date picker visibility
+function toggleContractDatePicker(pickerId) {
+    const picker = document.getElementById(pickerId);
+    const otherPicker = pickerId === 'startDatePicker' ? 
+        document.getElementById('endDatePicker') : 
+        document.getElementById('startDatePicker');
+    
+    if (otherPicker) otherPicker.style.display = 'none';
+    if (picker) picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+}
+
+// Generate the calendar for contract dates
+function generateContractCalendar(type) {
+    const currentMonth = type === 'startContract' ? currentContractStartMonth : currentContractEndMonth;
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    
+    // Set current month display
+    const monthEl = document.getElementById(`${type}CurrentMonth`);
+    if (monthEl) {
+        monthEl.textContent = `${currentMonth.toLocaleString('default', { month: 'long' })} ${year}`;
+    }
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    const dateGrid = document.getElementById(`${type}DateGrid`);
+    if (!dateGrid) return;
+    
+    dateGrid.innerHTML = '';
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.style.padding = '8px';
+        emptyCell.style.textAlign = 'center';
+        dateGrid.appendChild(emptyCell);
+    }
+    
+    // Add cells for each day of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateCell = document.createElement('div');
+        const currentDate = new Date(year, month, day);
+        
+        dateCell.textContent = day;
+        dateCell.style.padding = '8px';
+        dateCell.style.textAlign = 'center';
+        dateCell.style.cursor = 'pointer';
+        dateCell.style.borderRadius = '4px';
+        
+        // Highlight today's date
+        if (isToday(currentDate)) {
+            dateCell.style.border = '1px solid #7638ff';
+        }
+        
+        // Highlight selected date
+        if ((type === 'startContract' && contractStartDate && isSameDay(currentDate, contractStartDate)) ||
+            (type === 'endContract' && contractEndDate && isSameDay(currentDate, contractEndDate))) {
+            dateCell.style.backgroundColor = '#7638ff';
+            dateCell.style.color = 'white';
+        }
+        
+        // Add click event to select date
+        dateCell.addEventListener('click', function() {
+            if (type === 'startContract') {
+                contractStartDate = new Date(year, month, day);
+                document.getElementById('startDateInput').value = formatContractDate(contractStartDate);
+            } else {
+                contractEndDate = new Date(year, month, day);
+                document.getElementById('endDateInput').value = formatContractDate(contractEndDate);
+            }
+            
+            document.getElementById(`${type === 'startContract' ? 'startDatePicker' : 'endDatePicker'}`).style.display = 'none';
+        });
+        
+        dateGrid.appendChild(dateCell);
+    }
+}
+
+// Change the displayed month for contract calendars
+function changeMonth(delta, type) {
+    if (type === 'startContract') {
+        currentContractStartMonth.setMonth(currentContractStartMonth.getMonth() + delta);
+        generateContractCalendar('startContract');
+    } else {
+        currentContractEndMonth.setMonth(currentContractEndMonth.getMonth() + delta);
+        generateContractCalendar('endContract');
+    }
+    return false; // Prevent default action
+}
+
+// Check if a date is today (reusing the function if it already exists elsewhere)
+function isToday(date) {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+}
+
+// Check if two dates are the same day (reusing the function if it already exists elsewhere)
+function isSameDay(date1, date2) {
+    return date1.getDate() === date2.getDate() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getFullYear() === date2.getFullYear();
+}
+
+// Format date for contract fields as YYYY-MM-DD
+function formatContractDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+
+// Function to add new contract
+async function addContractData() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bạn chưa đăng nhập!");
+        return;
+    }
+    
+    // Get values from form
+    const department = document.getElementById('department').value;
+    const contractType = document.getElementById('contractType').value;
+    const startDate = document.getElementById('startDateInput').value;
+    const endDate = document.getElementById('endDateInput').value;
+    const salary = document.getElementById('salary').value;
+    const fileInput = document.getElementById('upload_img');
+    
+    // Validate form
+    if (!department || !contractType || !startDate || !endDate || !salary || !fileInput.files[0]) {
+        alert("Vui lòng điền đầy đủ thông tin và tải lên file hợp đồng!");
+        return;
+    }
+    
+    // Create form data to send to server
+    const formData = new FormData();
+    formData.append('department', department);
+    formData.append('contractType', contractType);
+    formData.append('startDate', startDate);
+    formData.append('endDate', endDate);
+    formData.append('salary', salary);
+    formData.append('file', fileInput.files[0]);
+    formData.append('employeeId', currentEmployeeId);
+    
+    try {
+        const response = await fetch("http://localhost:8080/contract/add", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Lỗi: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        alert("Thêm hợp đồng thành công!");
+        $('#adddocument').modal('hide');
+        
+        // Refresh contract list if needed
+        if (currentEmployeeId) {
+            fetchDataContract(currentEmployeeId);
+        }
+        
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Đã xảy ra lỗi khi thêm hợp đồng!");
+    }
+}
+</script>
 
 
 <!-- Modal attendance -->
@@ -553,7 +855,11 @@
 		const endIndex = startIndex + itemsPerPage;
 		const currentPageData = data.slice(startIndex, endIndex); // Lấy dữ liệu cho trang hiện tại
 
-		const rows = currentPageData.map(item => `
+		const rows = currentPageData.map(item => {
+			const roleOptions = item.role.map(role => `
+				<option value="${role}" ${item.role === role ? 'selected' : ''}>${role}</option>
+			`).join("");
+			return `
 			<tr>
 				<td>
 					<div class="table-img">
@@ -570,20 +876,46 @@
 				<td><label>${item.birthDate}</label></td>
 				<td><label>${item.address}</label></td>
 				<td><label>${item.hireDate}</label></td>
-				<td class="tab-select">
-					<select class="select">
-						<option value="Admin">Admin</option>
-						<option value="Manager">Manager</option>
-						<option value="HR">HR</option>
-						<option value="Employee">Employee</option>
+				<td style="padding: 10px;">
+					<select style="
+						padding: 8px 12px;
+						border: 1px solid #ccc;
+						border-radius: 6px;
+						background-color: #f9f9ff;
+						font-family: 'Segoe UI', sans-serif;
+						font-size: 14px;
+						color: #333;
+						box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+						outline: none;
+						transition: border-color 0.2s;
+					"
+					onfocus="this.style.borderColor='#6c63ff'"
+					onblur="this.style.borderColor='#ccc'"
+					>
+						${roleOptions}
 					</select>
 				</td>
-				<td class="tab-select">
-					<select class="select">
-						<option value="active">Active</option>
-						<option value="inactive">Inactive</option>
+				<td style="padding: 10px;">
+					<select style="
+						padding: 8px 14px;
+						font-size: 14px;
+						font-family: 'Segoe UI', sans-serif;
+						color: #333;
+						background-color: #f4f6ff;
+						border: 1px solid #ccc;
+						border-radius: 6px;
+						box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+						transition: border-color 0.2s, box-shadow 0.2s;
+						outline: none;
+						cursor: pointer;
+					"
+					onfocus="this.style.borderColor='#6c63ff'; this.style.boxShadow='0 0 0 2px rgba(108,99,255,0.2)'"
+					onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'"
+					>
+						<option value="active">${item.status}</option>
 					</select>
 				</td>
+
 				<td>
 					<div class="btn-group" role="group" aria-label="Basic outlined example">
 						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#infoContract" onclick="fetchDataContract(${item.id})">contract</button>
@@ -599,7 +931,7 @@
 				</td>
 				<td><input type="hidden" id="emp-id-${item.id}" value="${item.id}"></td>
 			</tr>
-		`);
+		`});
 
 		// Gán toàn bộ dữ liệu một lần để tối ưu hiệu suất
 		tableBody.innerHTML = rows.join("");

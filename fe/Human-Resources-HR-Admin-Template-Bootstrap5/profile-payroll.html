@@ -251,119 +251,263 @@
 </div>
 </div>
 <div class="col-xl-12 col-sm-12 col-12 mb-4">
+	<div class="row">
+		<div class="col-xl-12 col-sm-12 col-12">
+			<div class="card ">
+				<div class="card-header">
+					<div style="display: flex; align-items: center; gap: 20px;">
+						<label class="card-titles" style="color: black;"><strong id="titleSalary">Lương Tháng 04-2025: </strong></label>
+						<span><strong id="salary" style="color: rgb(49, 177, 98); font-size: 20px;">0 VND</strong></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-xl-12 col-sm-12 col-12 mb-4">
 <div class="row">
 <div class="col-xl-12 col-sm-12 col-12">
 <div class="card ">
 <div class="card-header">
-<h2 class="card-titles">Payroll Forms</h2>
+	<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+		<h3 style="font-size: 1.25rem; font-weight: 600; color: #333; margin: 0; text-transform: capitalize;">Lịch sử thưởng phạt</h3>
+		<div style="display: flex; align-items: center; gap: 10px; position: relative;">
+			<div class="date-picker-container" style="position: relative;">
+				<input type="text" id="startTimeInput" readonly placeholder="Start Date" 
+					style="padding: 8px 12px; border: 1px solid #e3e3e3; border-radius: 4px; cursor: pointer; background: #fff url('assets/img/calendar.svg') no-repeat 95% center; background-size: 16px; padding-right: 30px; width: 140px;">
+				<div id="startDatePicker" class="date-picker-dropdown" 
+					style="display: none; position: absolute; top: 100%; left: 0; z-index: 1000; background: white; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px; width: 250px; margin-top: 2px;">
+					<div class="date-picker-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+						<button class="month-nav prev" onclick="changeMonth(-1, 'start')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❮</button>
+						<div class="current-month" id="startCurrentMonth" style="font-weight: 600; color: #333;"></div>
+						<button class="month-nav next" onclick="changeMonth(1, 'start')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❯</button>
+					</div>
+					<div class="weekdays" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 5px;">
+						<div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+					</div>
+					<div id="startDateGrid" class="date-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
+				</div>
+			</div>
+
+			<div class="date-picker-container" style="position: relative;">
+				<input type="text" id="endTimeInput" readonly placeholder="End Date" 
+					style="padding: 8px 12px; border: 1px solid #e3e3e3; border-radius: 4px; cursor: pointer; background: #fff url('assets/img/calendar.svg') no-repeat 95% center; background-size: 16px; padding-right: 30px; width: 140px;">
+				<div id="endDatePicker" class="date-picker-dropdown" 
+					style="display: none; position: absolute; top: 100%; left: 0; z-index: 1000; background: white; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 10px; width: 250px; margin-top: 2px;">
+					<div class="date-picker-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+						<button class="month-nav prev" onclick="changeMonth(-1, 'end')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❮</button>
+						<div class="current-month" id="endCurrentMonth" style="font-weight: 600; color: #333;"></div>
+						<button class="month-nav next" onclick="changeMonth(1, 'end')" style="border: none; background: none; cursor: pointer; color: #7638ff;">❯</button>
+					</div>
+					<div class="weekdays" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 5px;">
+						<div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+					</div>
+					<div id="endDateGrid" class="date-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
+				</div>
+			</div>
+
+			<button id="searchBtn" onclick="displayHistory()" style="background-color: #2837c1; color: white; border: none; border-radius: 4px; padding: 8px 15px; cursor: pointer; display: flex; align-items: center; font-weight: 500;">
+				<i class="fas fa-search" style="margin-right: 5px;"></i> Search
+			</button>
+		</div>
+	</div>
 </div>
+
 <div class="card-body">
 <div class="table-responsive">
-<table class="table  custom-table no-footer border">
-<thead>
+<table class="table custom-table no-footer border">
+<thead style="background-color: #e3e3e3;">
 <tr>
-<th> Name	</th>
-<th>Active</th>
-<th>Email</th>
-<th>Salary	</th>
-<th>Bank Name</th>
-<th>Account Number</th>
+<th> Thời gian	</th>
+<th>Điểm cộng</th>
+<th>Điểm trừ</th>
+<th>Lý do</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td>
-<div class="table-img">
-<a href="profile.html"><img src="assets/img/profiles/avatar-10.jpg" alt="profile" class="img-table"></a>
-<label>Danny Ward</label>
-</div>
-</td>
-<td class="tab-select">
-<select class="select">
-<option value="active">Active</option>
- <option value="inactive">Inactive</option>
-</select>
-</td>
-<td><label><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4420252a3d3325362004213c25293428216a272b29">[email&#160;protected]</a> </label></td>
-<td><label>$4000</label></td>
-<td><label>Life Essence Banks, Inc.</label></td>
-<td><label>112300987652</label></td>
-</tr>
-<tr>
-<td>
-<div class="table-img">
-<a href="profile.html"><img src="assets/img/profiles/avatar-17.jpg" alt="profile" class="img-table"></a>
-<label>Linda Craver</label>
-</div>
-</td>
-<td class="tab-select">
-<select class="select">
-<option value="active">Active</option>
-<option value="inactive">Inactive</option>
-</select>
-</td>
-<td><label><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="187471767c797b6a796e7d6a587d60797568747d367b7775">[email&#160;protected]</a></label></td>
-<td><label>$3000</label></td>
-<td><label>Life Essence Banks, Inc.</label></td>
-<td><label>112300987652</label></td>
-</tr>
-<tr>
-<td>
-<div class="table-img">
-<a href="profile.html"><img src="assets/img/profiles/avatar-19.jpg" alt="profile" class="img-table"></a>
-<label>Jenni Sims</label>
-</div>
-</td>
-<td class="tab-select">
-<select class="select">
-<option value="active">Active</option>
-<option value="inactive">Inactive</option>
-</select>
-</td>
-<td><label><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="79131c1717100a10140a391c01181409151c571a1614">[email&#160;protected]</a></label></td>
-<td><label>$4000</label></td>
-<td><label>Life Essence Banks, Inc.</label></td>
-<td><label>112300987652</label></td>
-</tr>
-<tr>
-<td>
-<div class="table-img">
-<a href="profile.html"><img src="assets/img/profiles/avatar-14.jpg" alt="profile" class="img-table"></a>
-<label>Maria Cotton</label>
-</div>
-</td>
-<td class="tab-select">
-<select class="select">
-<option value="active">Active</option>
-<option value="inactive">Inactive</option>
-</select>
-</td>
-<td><label><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c3aea2b1aaa2a0acb7b7acad83a6bba2aeb3afa6eda0acae">[email&#160;protected]</a></label></td>
-<td><label>$2000</label></td>
-<td><label>Life Essence Banks, Inc.</label></td>
-<td><label>112300987652</label></td>
-</tr>
-<tr>
-<td>
-<div class="table-img">
-<a href="profile.html"><img src="assets/img/profiles/avatar-18.jpg" alt="profile" class="img-table"></a>
-<label>John Gibbs</label>
-</div>
-</td>
-<td class="tab-select">
-<select class="select">
-<option value="active">Active</option>
-<option value="inactive">Inactive</option>
-</select>
-</td>
-<td><label><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8fe5e0e7e1ebfdf6fcebeee3eacfeaf7eee2ffe3eaa1ece0e2">[email&#160;protected]</a></label></td>
-<td><label>$4000</label></td>
-<td><label>Life Essence Banks, Inc.</label></td>
-<td><label>112300987652</label></td>
-</tr>
+<tbody id="tableBody">
+<!-- Table data will be inserted here -->
 </tbody>
 </table>
+
+<!-- Pagination Controls -->
+<div class="row mt-4">
+    <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="paginationInfo" role="status" aria-live="polite">
+            Showing 0 to 0 of 0 entries
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="paginationControls">
+            <ul class="pagination" style="justify-content: flex-end;">
+                <li class="paginate_button page-item previous disabled" id="prevBtn">
+                    <a href="#" class="page-link" aria-controls="datatable" data-dt-idx="0" tabindex="0">Previous</a>
+                </li>
+                <li class="paginate_button page-item next disabled" id="nextBtn">
+                    <a href="#" class="page-link" aria-controls="datatable" data-dt-idx="7" tabindex="0">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+
+<script>
+// Add these variables at the beginning of your script or alongside other global variables
+let currentPage = 1;
+let itemsPerPage = 5;
+let totalItems = 0;
+let allHistoryData = []; // Store all data fetched from API
+
+// Modified displayHistory function to handle pagination
+async function displayHistory() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bạn chưa đăng nhập!");
+        window.location.href = "/login.html";
+        return;
+    }
+
+    const startDate = document.getElementById("startTimeInput").value;
+    const endDate = document.getElementById("endTimeInput").value;
+    if (!startDate || !endDate) {
+        alert("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc!");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/payroll/history_calculate_score/${startDate}/${endDate}`, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            }
+        });
+        
+        if(!response.ok) {
+            throw new Error(`Lỗi API: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        allHistoryData = data; // Store all data
+        totalItems = data.length;
+        
+        // Reset to first page when new search is performed
+        currentPage = 1;
+        
+        // Display data for current page
+        displayPageData();
+        
+        // Update pagination controls
+        updatePagination();
+    } catch (error) {
+        console.error("Error fetching history data:", error);
+        alert("Có lỗi xảy ra khi tải dữ liệu!");
+    }
+}
+
+// Function to display data for current page
+function displayPageData() {
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = ""; // Clear existing content
+    
+    // Calculate start and end index for current page
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+    
+    // Slice the data array to get current page items
+    const currentPageData = allHistoryData.slice(startIndex, endIndex);
+    
+    // Add rows for current page data
+    currentPageData.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td><label style="color: #2837c1;">${item.createdAt}</label></td>
+            <td><label style="color: rgb(49, 177, 98);">${item.plusScore}</label></td>
+            <td><label style="color: rgb(207, 36, 36);">${item.minusScore}</label></td>
+            <td><label>${item.reason}</label></td>
+        `;
+        tableBody.appendChild(row);
+    });
+    
+    // Update pagination info text
+    updatePaginationInfo(startIndex, endIndex);
+}
+
+// Update the pagination info text
+function updatePaginationInfo(startIndex, endIndex) {
+    const infoElement = document.getElementById("paginationInfo");
+    if (totalItems === 0) {
+        infoElement.textContent = "Showing 0 to 0 of 0 entries";
+    } else {
+        infoElement.textContent = `Showing ${startIndex + 1} to ${endIndex} of ${totalItems} entries`;
+    }
+}
+
+// Update pagination controls
+function updatePagination() {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const paginationControls = document.getElementById("paginationControls").getElementsByTagName("ul")[0];
+    
+    // Clear existing page number buttons, keeping Previous and Next buttons
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    
+    // Remove all pagination items except first (prev) and last (next)
+    while (paginationControls.children.length > 2) {
+        paginationControls.removeChild(paginationControls.children[1]);
+    }
+    
+    // Add page number buttons
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.className = `paginate_button page-item ${i === currentPage ? "active" : ""}`;
+        
+        const pageLink = document.createElement("a");
+        pageLink.href = "#";
+        pageLink.className = "page-link";
+        pageLink.textContent = i;
+        pageLink.addEventListener("click", function(e) {
+            e.preventDefault();
+            currentPage = i;
+            displayPageData();
+            updatePagination();
+        });
+        
+        pageItem.appendChild(pageLink);
+        paginationControls.insertBefore(pageItem, nextBtn);
+    }
+    
+    // Update Previous button state
+    if (currentPage === 1) {
+        prevBtn.classList.add("disabled");
+    } else {
+        prevBtn.classList.remove("disabled");
+        prevBtn.querySelector("a").addEventListener("click", function(e) {
+            e.preventDefault();
+            if (currentPage > 1) {
+                currentPage--;
+                displayPageData();
+                updatePagination();
+            }
+        });
+    }
+    
+    // Update Next button state
+    if (currentPage === totalPages || totalPages === 0) {
+        nextBtn.classList.add("disabled");
+    } else {
+        nextBtn.classList.remove("disabled");
+        nextBtn.querySelector("a").addEventListener("click", function(e) {
+            e.preventDefault();
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayPageData();
+                updatePagination();
+            }
+        });
+    }
+}
+</script>
 </div>
 </div>
 </div>
@@ -375,6 +519,226 @@
 
 </div>
 
+<script>
+
+	let userData = {};
+
+	async function fetchData() {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			alert("Bạn chưa đăng nhập!");
+			window.location.href = "/login.html";
+			return;
+		}
+
+		try {
+			const response = await fetch("http://localhost:8080/employee/current_user_info", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+
+			// Xử lý lỗi HTTP (401, 403, 500...)
+			if (response.status === 401) {
+				alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+				localStorage.removeItem("token");
+				window.location.href = "/login.html";
+				return;
+			} else if (response.status === 403) {
+				throw new Error("Bạn không có quyền truy cập!");
+			} else if (!response.ok) {
+				throw new Error(`Lỗi API: ${response.statusText}`);
+			}
+
+			const data = await response.json();
+			userData = data;
+
+			// avatar header
+			document.getElementById("name").innerText = `${userData.fullName}`;
+			document.getElementById("avatar3").src = userData.avatarUrl;
+
+
+			const response1 = await fetch("http://localhost:8080/payroll/payroll_last_month", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + token,
+					"Content-Type": "application/json"
+				}
+			});
+			if(!response1.ok) {
+				throw new Error(`Lỗi API: ${response1.statusText}`);
+			}
+			
+			const data1 = await response1.json();
+			document.getElementById("salary").innerText = `${data1.payrollMonth} VND`;
+			document.getElementById("salary").style.color = "rgb(49, 177, 98)";
+			document.getElementById("titleSalary").innerText = `Lương tháng ${data1.month}: `;
+			document.getElementById("titleSalary").style.color = "black";
+
+		} catch (error) {
+		}
+	}
+
+
+	// Gọi fetchData khi trang tải xong
+	window.onload = fetchData;
+
+
+</script>
+
+<script>
+// Variables to store selected dates
+let startDate = null;
+let endDate = null;
+let currentStartMonth = new Date();
+let currentEndMonth = new Date();
+
+// Initialize date pickers when the document is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up click handlers for input fields
+    document.getElementById('startTimeInput').addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleDatePicker('startDatePicker');
+        generateCalendar('start');
+    });
+    
+    document.getElementById('endTimeInput').addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleDatePicker('endDatePicker');
+        generateCalendar('end');
+    });
+    
+    // Close date pickers when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.date-picker-container')) {
+            document.getElementById('startDatePicker').style.display = 'none';
+            document.getElementById('endDatePicker').style.display = 'none';
+        }
+    });
+    
+    // Handle search button click
+    document.getElementById('searchBtn').addEventListener('click', function() {
+        if (startDate && endDate) {
+            // Implement your search functionality here
+            console.log('Searching from', formatDate(startDate), 'to', formatDate(endDate));
+            // You can add AJAX call or other functionality here
+        } else {
+            alert('Please select both start and end dates');
+        }
+    });
+});
+
+// Toggle date picker visibility
+function toggleDatePicker(pickerId) {
+    const picker = document.getElementById(pickerId);
+    const otherPicker = pickerId === 'startDatePicker' ? 
+        document.getElementById('endDatePicker') : 
+        document.getElementById('startDatePicker');
+    
+    otherPicker.style.display = 'none';
+    picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+}
+
+// Generate the calendar for a given type (start/end)
+function generateCalendar(type) {
+    const currentMonth = type === 'start' ? currentStartMonth : currentEndMonth;
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    
+    // Set current month display
+    document.getElementById(`${type}CurrentMonth`).textContent = 
+        `${currentMonth.toLocaleString('default', { month: 'long' })} ${year}`;
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    const dateGrid = document.getElementById(`${type}DateGrid`);
+    dateGrid.innerHTML = '';
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.style.padding = '8px';
+        emptyCell.style.textAlign = 'center';
+        dateGrid.appendChild(emptyCell);
+    }
+    
+    // Add cells for each day of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateCell = document.createElement('div');
+        const currentDate = new Date(year, month, day);
+        
+        dateCell.textContent = day;
+        dateCell.style.padding = '8px';
+        dateCell.style.textAlign = 'center';
+        dateCell.style.cursor = 'pointer';
+        dateCell.style.borderRadius = '4px';
+        
+        // Highlight today's date
+        if (isToday(currentDate)) {
+            dateCell.style.border = '1px solid #7638ff';
+        }
+        
+        // Highlight selected date
+        if ((type === 'start' && startDate && isSameDay(currentDate, startDate)) ||
+            (type === 'end' && endDate && isSameDay(currentDate, endDate))) {
+            dateCell.style.backgroundColor = '#7638ff';
+            dateCell.style.color = 'white';
+        }
+        
+        // Add click event to select date
+        dateCell.addEventListener('click', function() {
+            if (type === 'start') {
+                startDate = new Date(year, month, day);
+                document.getElementById('startTimeInput').value = formatDate(startDate);
+            } else {
+                endDate = new Date(year, month, day);
+                document.getElementById('endTimeInput').value = formatDate(endDate);
+            }
+            
+            document.getElementById(`${type}DatePicker`).style.display = 'none';
+        });
+        
+        dateGrid.appendChild(dateCell);
+    }
+}
+
+// Change the displayed month
+function changeMonth(delta, type) {
+    if (type === 'start') {
+        currentStartMonth.setMonth(currentStartMonth.getMonth() + delta);
+        generateCalendar('start');
+    } else {
+        currentEndMonth.setMonth(currentEndMonth.getMonth() + delta);
+        generateCalendar('end');
+    }
+}
+
+// Check if a date is today
+function isToday(date) {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+}
+
+// Check if two dates are the same day
+function isSameDay(date1, date2) {
+    return date1.getDate() === date2.getDate() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getFullYear() === date2.getFullYear();
+}
+
+// Format date as YYYY-MM-DD
+function formatDate(date) {
+	const day = String(date.getDate()).padStart(2, '0');
+	const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+	const year = date.getFullYear();
+	return `${year}-${month}-${day}`;
+}
+</script>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
 
