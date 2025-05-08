@@ -66,27 +66,53 @@ public class AttendanceServiceImpl implements AttendanceService {
             if (lastAttendance == null || lastAttendance.getStatus().equals("CHECKOUT") || isNewDay) {
                 attendanceEntity.setStatus("CHECKIN");
 
-                // ⚠️ Kiểm tra đi muộn
-                Calendar workStart = Calendar.getInstance();
-                workStart.setTime(newTime);
-                workStart.set(Calendar.HOUR_OF_DAY, 8);
-                workStart.set(Calendar.MINUTE, 0);
-                workStart.set(Calendar.SECOND, 0);
+                if(lastAttendance != null && isNewDay){
+                    // Tìm lần CHECKOUT gần nhất sau lần CHECKIN đó
+                    AttendanceEntity nextCheckout = attendanceRepo
+                            .findFirstByEmployeeIdAndTimeStampAfterAndStatusOrderByTimeStampAsc(
+                                    employeeEntity.getId(), lastAttendance.getTimeStamp(), "CHECKOUT"
+                            );
 
-                if (newTime.after(workStart.getTime())) {
-                    payrollService.saveCalculateScore(0L, 1L, "Đi làm muộn sau 8h sáng", employeeEntity);
+                    // Nếu không có CHECKOUT sau lần CHECKIN -> là quên checkout
+                    if (nextCheckout == null) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(lastAttendance.getTimeStamp());
+                        cal.set(Calendar.HOUR_OF_DAY, 17);
+                        cal.set(Calendar.MINUTE, 30);
+                        cal.set(Calendar.SECOND, 0);
+                        Date deadline = cal.getTime();
+
+                        if (lastAttendance.getTimeStamp().before(deadline)) {
+                            payrollService.saveCalculateScore(0L, 50L, "Không checkout sau 17h30 sau lần CHECKIN gần nhất", employeeEntity);
+                        }
+                    }
+                }
+
+                if(isNewDay){
+                    // ⚠️ Kiểm tra đi muộn
+                    Calendar workStart = Calendar.getInstance();
+                    workStart.setTime(newTime);
+                    workStart.set(Calendar.HOUR_OF_DAY, 8);
+                    workStart.set(Calendar.MINUTE, 0);
+                    workStart.set(Calendar.SECOND, 0);
+
+                    if (newTime.after(workStart.getTime())) {
+                        payrollService.saveCalculateScore(0L, 50L, "Đi làm muộn sau 8h sáng", employeeEntity);
+                    }
+                }
+
+                if(!isNewDay && lastAttendance.getStatus().equals("CHECKOUT")){
+                    // ⚠️ Kiểm tra ra ngoài quá 10 phút trong giờ làm
+                    long diffMinutes = (newTime.getTime() - lastAttendance.getTimeStamp().getTime()) / (60 * 1000);
+                    boolean inWorkTime = isInWorkingHours(lastAttendance.getTimeStamp());
+
+                    if (inWorkTime && diffMinutes > 10) {
+                        payrollService.saveCalculateScore(0L, 30L, "Ra ngoài quá 10 phút trong giờ làm việc", employeeEntity);
+                    }
                 }
 
             } else {
                 attendanceEntity.setStatus("CHECKOUT");
-
-                // ⚠️ Kiểm tra ra ngoài quá 10 phút trong giờ làm
-                long diffMinutes = (newTime.getTime() - lastAttendance.getTimeStamp().getTime()) / (60 * 1000);
-                boolean inWorkTime = isInWorkingHours(lastAttendance.getTimeStamp());
-
-                if (inWorkTime && diffMinutes > 10) {
-                    payrollService.saveCalculateScore(0L, 1L, "Ra ngoài quá 10 phút trong giờ làm việc", employeeEntity);
-                }
             }
 
             attendanceEntity.setTimeStamp(newTime);
