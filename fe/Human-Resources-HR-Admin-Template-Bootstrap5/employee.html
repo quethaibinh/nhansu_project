@@ -368,11 +368,24 @@
 <div class=" col-md-12 p-0">
 <div class=" form-popup">
 <label>Phòng ban</label>
-    <input type="text" id="department" class="form-control">
-    </div>
+    <select id="department" class="form-control">
+        <option value="">-- Chọn phòng ban --</option>
+        <option value="Ke_toan">Kế toán</option>
+        <option value="Nhan_su">Nhân sự</option>
+        <option value="IT">IT</option>
+        <option value="Sale">Sale</option>
+        <option value="Kinh_doanh">Kinh doanh</option>
+        <option value="Thiet_ke">Thiết kế</option>
+    </select>
+</div>
 <div class=" form-popup">
     <label>loại hợp đồng</label>
-    <input type="text" id="contractType" class="form-control">
+    <select id="contractType" class="form-control">
+        <option value="">-- Chọn loại hợp đồng --</option>
+        <option value="Full_time">Full time</option>
+        <option value="Part_time">Part time</option>
+        <option value="Internship">Internship</option>
+    </select>
 </div>
 <div class=" form-popup">
     <label>Ngày bắt đầu làm việc</label>
@@ -418,11 +431,83 @@
 </div>
 <div class=" form-popup">
 <div class="file-uploads">
-<label for="upload_img">
-<input type="file" id="upload_img" />
-<span>Upload</span>
-</label>
+    <label for="upload_img">
+		file hợp đồng
+    <input type="file" id="upload_img" accept=".pdf,.doc,.docx" onchange="displaySelectedFile(this)" />
+    </label>
+    <div id="filePreviewContainer" class="mt-3" style="display: none;">
+        <div class="selected-file-preview p-2" style="border: 1px dashed #ccc; border-radius: 5px; background-color: #f9f9f9;">
+            <div class="d-flex align-items-center">
+                <div class="mr-2">
+                    <i class="far fa-file-pdf" style="font-size: 24px; color: #e74c3c;"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <p id="selectedFileName" class="mb-1" style="font-weight: 500; word-break: break-all;"></p>
+                    <small id="selectedFileSize" class="text-muted"></small>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSelectedFile()" style="margin-left: 10px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+function displaySelectedFile(input) {
+    const filePreviewContainer = document.getElementById('filePreviewContainer');
+    const selectedFileName = document.getElementById('selectedFileName');
+    const selectedFileSize = document.getElementById('selectedFileSize');
+    
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Display file name and size
+        selectedFileName.textContent = file.name;
+        
+        // Format file size
+        let size = file.size;
+        const units = ['B', 'KB', 'MB', 'GB'];
+        let unitIndex = 0;
+        
+        while (size >= 1024 && unitIndex < units.length - 1) {
+            size /= 1024;
+            unitIndex++;
+        }
+        
+        selectedFileSize.textContent = `${size.toFixed(2)} ${units[unitIndex]}`;
+        
+        // Show the preview container
+        filePreviewContainer.style.display = 'block';
+        
+        // Change icon based on file type
+        const fileIcon = filePreviewContainer.querySelector('i');
+        
+        if (file.name.toLowerCase().endsWith('.pdf')) {
+            fileIcon.className = 'far fa-file-pdf';
+            fileIcon.style.color = '#e74c3c';
+        } else if (file.name.toLowerCase().endsWith('.doc') || file.name.toLowerCase().endsWith('.docx')) {
+            fileIcon.className = 'far fa-file-word';
+            fileIcon.style.color = '#3498db';
+        } else {
+            fileIcon.className = 'far fa-file';
+            fileIcon.style.color = '#7f8c8d';
+        }
+    } else {
+        // Hide the preview if no file selected
+        filePreviewContainer.style.display = 'none';
+    }
+}
+
+function removeSelectedFile() {
+    // Clear the file input
+    const fileInput = document.getElementById('upload_img');
+    fileInput.value = '';
+    
+    // Hide the preview
+    document.getElementById('filePreviewContainer').style.display = 'none';
+}
+</script>
 </div>
 </div>
 </div>
@@ -622,12 +707,12 @@ function isSameDay(date1, date2) {
            date1.getFullYear() === date2.getFullYear();
 }
 
-// Format date for contract fields as YYYY-MM-DD
+// Format date for contract fields as dd-mm-yyyy
 function formatContractDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
+    return `${day}/${month}/${year}`;
 }
 
 // Function to add new contract
@@ -654,13 +739,21 @@ async function addContractData() {
     
     // Create form data to send to server
     const formData = new FormData();
-    formData.append('department', department);
-    formData.append('contractType', contractType);
-    formData.append('startDate', startDate);
-    formData.append('endDate', endDate);
-    formData.append('salary', salary);
-    formData.append('file', fileInput.files[0]);
-    formData.append('employeeId', currentEmployeeId);
+
+	formData.append("file", fileInput.files[0]);
+	const metadataObj = {
+		department: department,
+		contractType: contractType,
+		startDate: startDate,
+		endDate: endDate,
+		salary: salary,
+		employeeId: userData.id
+	};
+	const metadataBlob = new Blob(
+		[JSON.stringify(metadataObj)],
+		{ type: "application/json" }
+	);
+	formData.append("metadata", metadataBlob);
     
     try {
         const response = await fetch("http://localhost:8080/contract/add", {

@@ -30,8 +30,8 @@ public class ChatController {
 
         // Gửi lại tin nhắn cho người nhận
         // đây là dòng chủ chốt để giúp người nhận nhận được tin nhắn realtime.
-        // nếu người nhân cũng subcribe vào "/topic/messages/{receiver}"
-        messagingTemplate.convertAndSend("/topic/messages/" + message.getReceiver(), messageDTO);
+        // nếu người nhân cũng subcribe vào "user/queue/messages"
+        messagingTemplate.convertAndSendToUser(message.getReceiver(), "/queue/messages" , messageDTO);
     }
 
     @GetMapping("/history")

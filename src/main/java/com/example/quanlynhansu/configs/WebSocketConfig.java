@@ -26,7 +26,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic"); // client sẽ subscribe vào đây
+        config.enableSimpleBroker("/topic", "/queue"); // client sẽ subscribe vào đây
+        config.setUserDestinationPrefix("/user"); // để gửi riêng cho từng user
         config.setApplicationDestinationPrefixes("/app"); // Định nghĩa prefix cho các message client gửi đến server. (@MessageMapping)
         // VD: client gửi message đến /app/sendMessage, thì Spring sẽ tìm đến hàm controller có @MessageMapping("/sendMessage").
     }

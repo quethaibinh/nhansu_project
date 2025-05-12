@@ -1044,7 +1044,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         
-        console.log(`Đăng ký nhận tin nhắn cho: ${email}`);
+        console.log(`nhận tin nhắn cho: ${email}`);
         
         // Hủy đăng ký cũ nếu có để tránh đăng ký nhiều lần
         try {
@@ -1057,7 +1057,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         // Đăng ký nhận tin nhắn đến cho người dùng hiện tại
-        window.currentSubscription = stompClient.subscribe(`/topic/messages/${email}`, function(messageOutput) {
+        window.currentSubscription = stompClient.subscribe(`/user/queue/messages`, function(messageOutput) {
             try {
                 const newMessage = JSON.parse(messageOutput.body);
                 console.log("Nhận tin nhắn mới:", newMessage);
@@ -1069,16 +1069,16 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         
-        // Đăng ký để nhận các tin nhắn broadcast chung (nếu có)
-        stompClient.subscribe('/topic/public', function(messageOutput) {
-            try {
-                const publicMessage = JSON.parse(messageOutput.body);
-                console.log("Nhận tin nhắn công khai:", publicMessage);
-                // Xử lý tin nhắn công khai nếu cần
-            } catch (error) {
-                console.error("Lỗi khi xử lý tin nhắn public:", error);
-            }
-        });
+        // // Đăng ký để nhận các tin nhắn broadcast chung (nếu có)
+        // stompClient.subscribe('/topic/public', function(messageOutput) {
+        //     try {
+        //         const publicMessage = JSON.parse(messageOutput.body);
+        //         console.log("Nhận tin nhắn công khai:", publicMessage);
+        //         // Xử lý tin nhắn công khai nếu cần
+        //     } catch (error) {
+        //         console.error("Lỗi khi xử lý tin nhắn public:", error);
+        //     }
+        // });
         
         console.log("Đã đăng ký nhận tin nhắn thành công");
     }
@@ -1146,8 +1146,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>`;
             
             // Thêm tin nhắn mới vào cuối khung chat
-            chatContainer.innerHTML += newMessageHTML;
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatContainer.insertAdjacentHTML('beforeend', newMessageHTML);
+            
+            // Đảm bảo cuộn xuống sau khi thêm tin nhắn
+            scrollToBottom(chatContainer);
             
             // Cập nhật danh sách tin nhắn trong dataset
             try {
@@ -1340,8 +1342,22 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("avatarChatBox").src = employee.avatarUrl;
             document.getElementById("fullNameChatBox").innerText = employee.fullName;
             
-            // 3. Hiển thị loading trong khi lấy lịch sử chat
-            document.getElementById("chatBoxContent").innerHTML = `
+            // 3. Lấy chat container và xóa bỏ event listener cũ nếu có
+            const chatContainer = document.getElementById("chatBoxContent");
+            
+            // Xóa event listener cũ nếu có
+            if (chatContainer.onscroll) {
+                chatContainer.removeEventListener('scroll', chatContainer.onscroll);
+                chatContainer.onscroll = null;
+            }
+            
+            // Xóa tất cả dataset cũ để tránh nhầm lẫn dữ liệu
+            for (const key in chatContainer.dataset) {
+                delete chatContainer.dataset[key];
+            }
+            
+            // Hiển thị loading trong khi lấy lịch sử chat
+            chatContainer.innerHTML = `
                 <div class="text-center p-3">
                     <div class="spinner-border text-primary" role="status">
                         <span class="sr-only">Loading...</span>
@@ -1374,10 +1390,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 6. Xử lý dữ liệu trả về
             const chatHistory = await response.json();
             
-            // 7. Hiển thị lịch sử chat với giới hạn số tin nhắn hiển thị
-            const chatContainer = document.getElementById("chatBoxContent");
-            
-            // Đặt chiều cao cố định cho container tin nhắn để có thanh cuộn
+            // 7. Hiển thị lịch sử chat - hiển thị tất cả tin nhắn thay vì giới hạn
             chatContainer.style.overflowY = "auto";
             
             if (chatHistory.length === 0) {
@@ -1387,26 +1400,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                 `;
             } else {
-                // Tính toán số lượng tin nhắn hiển thị dựa trên kích thước của khung chat
-                let chatBoxHeight = chatContainer.clientHeight;
-                let approximateMessageHeight = 80; // Chiều cao ước lượng của mỗi tin nhắn (px)
-                let maxVisibleMessages = Math.max(5, Math.floor(chatBoxHeight / approximateMessageHeight));
-                
-                // Chỉ lấy số lượng tin nhắn gần nhất để hiển thị
-                const recentMessages = chatHistory.length > maxVisibleMessages ? 
-                                    chatHistory.slice(-maxVisibleMessages) : 
-                                    chatHistory;
-                
-                // Tạo HTML cho tin nhắn
+                // Hiển thị tất cả tin nhắn lịch sử thay vì chỉ một phần
                 let chatHTML = "";
                 const currentUserAvatar = userData.avatarUrl;
                 
-                recentMessages.forEach(message => {
+                chatHistory.forEach(message => {
                     const isCurrentUser = message.senderEmail === userData.email;
                     const messageTime = formatMessageTime(message.createdAt);
                     
                     if (isCurrentUser) {
-                        // Tin nhắn của người dùng hiện tại (phía bên phải)
                         chatHTML += `
                             <div class="d-flex justify-content-end mb-4">
                                 <div class="msg_cotainer_send">
@@ -1419,7 +1421,6 @@ document.addEventListener("DOMContentLoaded", function() {
                             </div>
                         `;
                     } else {
-                        // Tin nhắn của người nhận (phía bên trái)
                         chatHTML += `
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
@@ -1434,37 +1435,24 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 });
                 
-                // Thêm chỉ báo cho người dùng biết có tin nhắn cũ hơn nếu cần thiết
-                if (chatHistory.length > maxVisibleMessages) {
-                    chatHTML = `
-                        <div class="text-center older-messages-indicator py-2">
-                            <small class="text-muted">Cuộn lên để xem ${chatHistory.length - maxVisibleMessages} tin nhắn cũ hơn</small>
-                        </div>
-                    ` + chatHTML;
-                }
-                
                 // Cập nhật nội dung vào chatbox
                 chatContainer.innerHTML = chatHTML;
             }
             
-            // 8. Cuộn xuống tin nhắn mới nhất
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // 8. Cuộn xuống tin nhắn mới nhất đã cải tiến
+            scrollToBottom(chatContainer);
             
             // 9. Lưu employeeId và email hiện tại để sử dụng khi gửi tin nhắn
             document.querySelector(".type_msg").dataset.recipientId = employeeId;
             document.querySelector(".type_msg").dataset.recipientEmail = employee.email;
             
-            // 10. Lưu toàn bộ lịch sử tin nhắn để có thể tải khi người dùng cuộn lên
-            chatContainer.dataset.allMessages = JSON.stringify(chatHistory);
+            // 10. Lưu email người dùng hiện tại để đảm bảo gửi đúng tin nhắn
             chatContainer.dataset.employeeId = employeeId;
             chatContainer.dataset.employeeEmail = employee.email;
             
-            // 11. Thêm sự kiện cuộn lên để tải thêm tin nhắn cũ
-            // Đảm bảo chiều cao của container để thanh cuộn hoạt động
+            // 11. Đảm bảo chiều cao của container để thanh cuộn hoạt động
             chatContainer.style.height = "400px";
             chatContainer.style.overflowY = "auto";
-            
-            setupScrollLoadMoreMessages(chatContainer, employee);
             
             // 12. Thêm event listener cho nút gửi tin nhắn
             setupSendMessageHandler();
@@ -1516,8 +1504,11 @@ async function sendMessage() {
             </div>
         `;
         
-        chatContainer.innerHTML += tempMessageHTML;
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        // Sử dụng insertAdjacentHTML thay vì innerHTML để tránh mất các event listeners
+        chatContainer.insertAdjacentHTML('beforeend', tempMessageHTML);
+        
+        // Cuộn xuống sau khi thêm tin nhắn mới
+        scrollToBottom(chatContainer);
         
         // Xóa nội dung input
         msgInput.value = "";
@@ -1685,113 +1676,32 @@ async function sendMessage() {
     }
 
     // Hàm thiết lập tính năng tải thêm tin nhắn cũ khi cuộn lên
-    function setupScrollLoadMoreMessages(chatContainer, employee) {
-        // Biến để theo dõi trạng thái đang tải
-        let isLoading = false;
-        // Số lượng tin nhắn mỗi lần tải
-        const messagePerLoad = 10;
-        
-        // Lắng nghe sự kiện cuộn
-        chatContainer.addEventListener('scroll', function() {
-            // Nếu người dùng cuộn gần đến đầu khung chat và không đang trong quá trình tải
-            if (chatContainer.scrollTop < 50 && !isLoading) {
-                // Lấy tất cả các tin nhắn hiện có
-                try {
-                    const allMessages = JSON.parse(chatContainer.dataset.allMessages || '[]');
-                    const visibleMessagesCount = chatContainer.querySelectorAll('.d-flex.justify-content-start, .d-flex.justify-content-end').length;
-                    
-                    // Nếu số lượng tin nhắn hiển thị ít hơn tổng số tin nhắn, tải thêm
-                    if (visibleMessagesCount < allMessages.length) {
-                        isLoading = true;
-                        
-                        // Tính số lượng tin nhắn cần tải thêm
-                        const startIndex = Math.max(0, allMessages.length - visibleMessagesCount - messagePerLoad);
-                        const endIndex = allMessages.length - visibleMessagesCount;
-                        const messagesToLoad = allMessages.slice(startIndex, endIndex);
-                        
-                        // Lưu vị trí cuộn và chiều cao hiện tại
-                        const scrollHeight = chatContainer.scrollHeight;
-                        const currentPosition = chatContainer.scrollTop;
-                        
-                        // Hiển thị loading
-                        const loadingIndicator = document.createElement('div');
-                        loadingIndicator.className = 'text-center py-2 loading-indicator';
-                        loadingIndicator.innerHTML = `
-                            <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                <span class="sr-only">Đang tải...</span>
-                            </div>
-                        `;
-                        chatContainer.insertBefore(loadingIndicator, chatContainer.firstChild);
-                        
-                        // Giả lập độ trễ mạng để tránh nhấp nháy giao diện
-                        setTimeout(() => {
-                            // Tạo HTML cho tin nhắn cũ
-                            let oldMessagesHTML = '';
-                            const currentUserAvatar = userData.avatarUrl;
-                            
-                            messagesToLoad.forEach(message => {
-                                const isCurrentUser = message.senderEmail === userData.email || message.sender === userData.email;
-                                const messageTime = formatMessageTime(message.createdAt || message.timestamp);
-                                
-                                if (isCurrentUser) {
-                                    oldMessagesHTML += `
-                                        <div class="d-flex justify-content-end mb-4">
-                                            <div class="msg_cotainer_send">
-                                                ${message.content}
-                                                <span class="msg_time_send">${messageTime}</span>
-                                            </div>
-                                            <div class="img_cont_msg">
-                                                <img src="${currentUserAvatar}" class="rounded-circle user_img_msg">
-                                            </div>
-                                        </div>
-                                    `;
-                                } else {
-                                    oldMessagesHTML += `
-                                        <div class="d-flex justify-content-start mb-4">
-                                            <div class="img_cont_msg">
-                                                <img src="${employee.avatarUrl}" class="rounded-circle user_img_msg">
-                                            </div>
-                                            <div class="msg_cotainer">
-                                                ${message.content}
-                                                <span class="msg_time">${messageTime}</span>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
-                            });
-                            
-                            try {
-                                // Tìm và xóa loading indicator một cách an toàn
-                                const indicator = chatContainer.querySelector('.loading-indicator');
-                                if (indicator && indicator.parentNode === chatContainer) {
-                                    chatContainer.removeChild(indicator);
-                                }
-                                
-                                // Thêm tin nhắn cũ vào đầu khung chat
-                                chatContainer.innerHTML = oldMessagesHTML + chatContainer.innerHTML;
-                                
-                                // Điều chỉnh vị trí cuộn để giữ nguyên vị trí người dùng đang đọc
-                                chatContainer.scrollTop = chatContainer.scrollHeight - scrollHeight + currentPosition;
-                            } catch (removeError) {
-                                console.error("Lỗi khi cập nhật giao diện:", removeError);
-                                // Cập nhật toàn bộ nội dung để đảm bảo hiển thị đúng
-                                let currentContent = chatContainer.innerHTML;
-                                chatContainer.innerHTML = oldMessagesHTML + currentContent.replace(/<div class="text-center py-2 loading-indicator">[\s\S]*?<\/div>/, '');
-                                chatContainer.scrollTop = chatContainer.scrollHeight - scrollHeight + currentPosition;
-                            }
-                            
-                            // Reset trạng thái loading
-                            isLoading = false;
-                            
-                        }, 500);
-                    }
-                } catch (error) {
-                    console.error("Lỗi khi tải thêm tin nhắn cũ:", error);
-                    isLoading = false;
-                }
-            }
-        });
+function setupScrollLoadMoreMessages(chatContainer, employee) {
+    // Không cần thêm logic tải tin nhắn khi cuộn lên
+    // Chỉ cần đảm bảo xóa handler cũ (nếu có) để tránh nhầm lẫn
+    if (chatContainer.onscroll) {
+        chatContainer.removeEventListener('scroll', chatContainer.onscroll);
+        chatContainer.onscroll = null;
     }
+}
+
+// Thêm hàm mới để cuộn xuống tin nhắn mới nhất
+function scrollToBottom(container) {
+    if (container) {
+        // Cuộn xuống ngay lập tức
+        container.scrollTop = container.scrollHeight;
+        
+        // Đảm bảo cuộn xuống sau khi DOM đã được render hoàn toàn
+        setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+        }, 50);
+        
+        // Một lần nữa sau khi các ảnh đã tải
+        setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+        }, 300);
+    }
+}
 </script>
 
 <style>
