@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private ModelMapper modelMapper;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     public List<EmployeeResponse> finddAll() {
@@ -99,6 +102,34 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeRepo.save(employeeEntity);
         }
 
+    }
+
+    @Override
+    public ResponseEntity<?> udateEmployeeById(UpdateInfoOfEmployeeDTO updateInfoOfEmployeeDTO) {
+        try{
+            EmployeeEntity employeeOld = employeeRepo.findOneById(updateInfoOfEmployeeDTO.getId());
+            if(employeeOld == null || !employeeOld.getStatus().equals("Active")){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("người dùng không tồn tại!");
+            }
+            EmployeeEntity employee = new EmployeeEntity();
+            employee.setId(updateInfoOfEmployeeDTO.getId()); // nếu là admin thì truyền id người cần update vào
+            employee.setFullName(updateInfoOfEmployeeDTO.getFullName());
+            employee.setEmail(updateInfoOfEmployeeDTO.getEmail());
+            employee.setPhone(updateInfoOfEmployeeDTO.getPhone());
+            employee.setAddress(updateInfoOfEmployeeDTO.getAddress());
+            employee.setStatus(updateInfoOfEmployeeDTO.getStatus());
+            employee.setBirthDate(sdf.parse(updateInfoOfEmployeeDTO.getBirthDate()));
+            employee.setHireDate(sdf.parse(updateInfoOfEmployeeDTO.getHireDate()));
+
+            employeeRepo.save(employee);
+
+            return ResponseEntity.ok("successful!");
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
     }
 
     @Override // dữ liệu vào là mật khẩu cũ và mật khẩu mới

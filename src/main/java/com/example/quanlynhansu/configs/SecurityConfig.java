@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers(PUT, "/employee/update_password").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(PUT, "/employee/update_avatar").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(PUT, "/employee/delete/{id}").hasAnyAuthority("Admin")
+                        .requestMatchers(PUT, "/employee/update_by_admin").hasAnyAuthority("Admin")
                         .requestMatchers(GET, "/contract/select").hasAnyAuthority("Admin", "Manager", "Employee", "HR")
                         .requestMatchers(GET, "/contract/select_by/**").hasAnyAuthority("Admin", "HR")
                         .requestMatchers(POST, "/contract/add").hasAnyAuthority("Admin", "HR")

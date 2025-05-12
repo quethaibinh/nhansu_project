@@ -28,6 +28,11 @@ public class EmployeeApi {
         employeeService.deleteEmployee(id);
     }
 
+    @PutMapping("/update_by_admin")
+    public ResponseEntity<?> updateByAdmin(@RequestBody UpdateInfoOfEmployeeDTO updateInfoOfEmployeeDTO){
+        return employeeService.udateEmployeeById(updateInfoOfEmployeeDTO);
+    }
+
     @PutMapping("/update_password") // truyền mật khẩu cũ và mật khẩu mới
     public String updatePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO){
         return employeeService.updatePassword(updatePasswordDTO);

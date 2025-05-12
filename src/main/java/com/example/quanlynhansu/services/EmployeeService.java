@@ -19,5 +19,6 @@ public interface EmployeeService {
     ResponseEntity<?> updateAvatar(MultipartFile file);
     ResponseEntity<?> findListChatEmployee();
     void deleteEmployee(Long id);
+    ResponseEntity<?> udateEmployeeById(UpdateInfoOfEmployeeDTO updateInfoOfEmployeeDTO);
 
 }

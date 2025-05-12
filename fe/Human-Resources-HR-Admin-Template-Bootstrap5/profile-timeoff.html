@@ -272,28 +272,39 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Date</th>
-                                    <th>Leave Reason</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>1</td><td>Mon, 26 Aug 2019</td><td>Bank Holiday</td></tr>
-                                <tr><td>2</td><td>Wed, 25 Dec 2019</td><td>Christmas Day</td></tr>
-                                <tr><td>3</td><td>Thu, 26 Dec 2019</td><td>Bank Holiday</td></tr>
-                                <tr><td>4</td><td>Wed, 1 Jan 2020</td><td>Bank Holiday</td></tr>
-                                <tr><td>5</td><td>Mon, 1 Jan 2020</td><td>Epiphany</td></tr>
-                                <tr><td>6</td><td>Fri, 17 Jan 2020</td><td>Presidents' Day</td></tr>
-                                <tr><td>7</td><td>Mon, 9 Mar 2020</td><td>Holi</td></tr>
-                                <tr><td>8</td><td>Wed, 1 Mar 2020</td><td>Independence Day</td></tr>
-                                <tr><td>9</td><td>Sat, 4 Jul 2020</td><td>Bank Holiday</td></tr>
-                                <tr><td>10</td><td>Mon, 11 Nov 2020</td><td>Veterans Day</td></tr>
-                                <tr><td>11</td><td>Fri, 25 Dec 2020</td><td>Christmas Day</td></tr>
-                                <tr><td>12</td><td>Mon, 1 Jan 2020</td><td>Epiphany</td></tr>
-                            </tbody>
-                        </table>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Date</th>
+									<th>Leave Reason</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- Lễ chính thức -->
+								<tr><td>1</td><td>Wed, 1 Jan 2025</td><td>Tết Dương lịch</td></tr>
+								<tr><td>2</td><td>Mon, 10 Mar 2025</td><td>Giỗ Tổ Hùng Vương (10/3 Âm lịch)</td></tr>
+								<tr><td>3</td><td>Wed, 30 Apr 2025</td><td>Giải phóng miền Nam</td></tr>
+								<tr><td>4</td><td>Thu, 1 May 2025</td><td>Quốc tế Lao động</td></tr>
+
+								<!-- Tết Âm lịch 2025 -->
+								<tr><td>5</td><td>Wed, 29 Jan 2025</td><td>Tết Nguyên Đán (30 tháng Chạp)</td></tr>
+								<tr><td>6</td><td>Thu, 30 Jan 2025</td><td>Mùng 1 Tết</td></tr>
+								<tr><td>7</td><td>Fri, 31 Jan 2025</td><td>Mùng 2 Tết</td></tr>
+								<tr><td>8</td><td>Sat, 1 Feb 2025</td><td>Mùng 3 Tết</td></tr>
+								<tr><td>9</td><td>Sun, 2 Feb 2025</td><td>Mùng 4 Tết</td></tr>
+								<tr><td>10</td><td>Mon, 3 Feb 2025</td><td>Mùng 5 Tết</td></tr>
+								<tr><td>11</td><td>Tue, 4 Feb 2025</td><td>Nghỉ bù Tết Nguyên Đán</td></tr>
+
+								<!-- Quốc khánh -->
+								<tr><td>12</td><td>Tue, 2 Sep 2025</td><td>Quốc khánh Việt Nam</td></tr>
+								<tr><td>13</td><td>Wed, 3 Sep 2025</td><td>Nghỉ bù Quốc khánh</td></tr>
+
+								<!-- Ngày nghỉ riêng -->
+								<tr><td>14</td><td>Fri, 14 Mar 2025</td><td>Sinh nhật công ty</td></tr>
+								<tr><td>15</td><td>Fri, 20 Jun 2025</td><td>Nghỉ Teambuilding</td></tr>
+								<tr><td>16</td><td>Fri, 24 Oct 2025</td><td>Nghỉ chăm sóc sức khỏe nhân viên</td></tr>
+							</tbody>
+						</table>
                     </div>
                 </div>
             </div>
@@ -454,7 +465,8 @@
 			html += `
 				<div class="card">
 					<div class="card-header">
-						<h2 class="card-title">Ngày: ${date}</h2>
+						<strong style="color:black;">Ngày:</strong>
+						<h2 class="card-title" style="color:#0bad5c;">${date}</h2>
 					</div>
 					<div class="card-body">
 						<div class="attendance-list">
@@ -463,7 +475,7 @@
 			records.forEach(record => {
 				html += `
 					<div class="attendance-record" style="margin-bottom: 10px;">
-						<strong>${record.second}</strong>: ${record.first}
+						<strong style="color:black;">${record.second}</strong>: <strong style="color:#007bff;">${record.first}</strong>
 					</div>
 				`;
 			});
