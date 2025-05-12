@@ -23,6 +23,11 @@ public class EmployeeApi {
         return employeeService.updateCurrentUserInfo(updateInfoOfEmployeeDTO);
     }
 
+    @PutMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+        employeeService.deleteEmployee(id);
+    }
+
     @PutMapping("/update_password") // truyền mật khẩu cũ và mật khẩu mới
     public String updatePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO){
         return employeeService.updatePassword(updatePasswordDTO);

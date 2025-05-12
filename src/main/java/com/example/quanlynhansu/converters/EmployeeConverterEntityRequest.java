@@ -32,6 +32,7 @@ public class EmployeeConverterEntityRequest {
         employee.setStatus(registerRequest.getStatus());
         employee.setBirthDate(sdf.parse(registerRequest.getBirthDate()));
         employee.setHireDate(sdf.parse(registerRequest.getHireDate()));
+        employee.setAvatarUrl("http://localhost:9000/btlweb/avatar_defaultPng.png");
 
         List<AccountEntity> list = new ArrayList<>();
         AccountEntity account = new AccountEntity();

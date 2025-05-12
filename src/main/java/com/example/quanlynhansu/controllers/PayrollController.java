@@ -2,6 +2,7 @@ package com.example.quanlynhansu.controllers;
 
 
 import com.example.quanlynhansu.services.PayrollService;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class PayrollController {
     private PayrollService payrollService;
 
     @PostMapping("/summary")
-    public void summary(){
+    public void summary() throws MessagingException {
         payrollService.calculateScore();
     }
 

@@ -66,7 +66,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
         try{
             String username = infoCurrentUserService.getCurrentUsername();
             EmployeeEntity employeeCurrent = employeeRepo.findOneByEmail(username);
-            if(!employeeCurrent.getPosition().equals("Part_time") && !employeeCurrent.getPosition().equals("Intership")){
+            if(!employeeCurrent.getPosition().equals("Part_time") && !employeeCurrent.getPosition().equals("Internship")){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .body("Lịch của bạn đã được hệ thống tự động tạo!");
             }
@@ -174,7 +174,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
             // Tạo lịch từ thứ 2 đến thứ 6 (tuần tới)
 
             for (int i = 0; i < 5; i++) {
-                LocalDate workDate = nextMonday.plusDays(i); // Tạo ra một ngày làm việc cụ thể bằng cách cộng thêm i ngày vào ngày thứ Hai (nextMonday).
+                LocalDate workDate = now.plusDays(i); // Tạo ra một ngày làm việc cụ thể bằng cách cộng thêm i ngày vào ngày thứ Hai (nextMonday).
 
                 WorkScheduleEntity schedule = new WorkScheduleEntity();
                 schedule.setEmployee(emp);

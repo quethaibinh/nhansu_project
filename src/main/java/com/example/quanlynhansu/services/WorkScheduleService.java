@@ -11,5 +11,6 @@ public interface WorkScheduleService {
     ResponseEntity<?> displayScheduleOfCurrentWeek();
     ResponseEntity<?> displayScheduleOfMonth(String month);
     ResponseEntity<?> displayDayAndMonthOfCurrentWeek();
+    void generateDefaultSchedulesForFullTimeEmployees();
 
 }

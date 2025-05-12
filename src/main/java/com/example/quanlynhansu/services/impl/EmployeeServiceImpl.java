@@ -87,6 +87,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    @Transactional
+    @Override
+    public void deleteEmployee(Long id){
+
+        EmployeeEntity employeeEntity = employeeRepo.findOneById(id);
+        EmployeeEntity employeeCurrent = userDetailsRepo.findByUsername(infoCurrentUserService.getCurrentUsername()).getEmployee();
+
+        if(employeeEntity.getId() != employeeCurrent.getId()){
+            employeeEntity.setStatus("Resigned");
+            employeeRepo.save(employeeEntity);
+        }
+
+    }
+
     @Override // dữ liệu vào là mật khẩu cũ và mật khẩu mới
     public String updatePassword(UpdatePasswordDTO updatePasswordDTO) {
 

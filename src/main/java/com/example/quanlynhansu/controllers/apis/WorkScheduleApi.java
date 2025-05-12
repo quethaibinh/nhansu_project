@@ -24,5 +24,10 @@ public class WorkScheduleApi {
         return workScheduleService.createAndUpdateWorkSchedule(workScheduleRequest);
     }
 
+    @PostMapping("/test_create_fulltime")
+    public void test(){
+        workScheduleService.generateDefaultSchedulesForFullTimeEmployees();
+    }
+
 
 }

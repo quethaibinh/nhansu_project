@@ -7,9 +7,11 @@ import com.example.quanlynhansu.models.request.user.LoginRequest;
 import com.example.quanlynhansu.models.request.user.RegisterRequest;
 import com.example.quanlynhansu.repos.EmployeeRepo;
 import com.example.quanlynhansu.repos.UserDetailsRepo;
+import com.example.quanlynhansu.services.EmailService;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
 import com.example.quanlynhansu.services.securityService.JwtService;
 import com.example.quanlynhansu.services.UserService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,13 +48,31 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private EmailService emailService;
+
     private BCryptPasswordEncoder bcryp = new BCryptPasswordEncoder(12);
 
     @Override // tạo mới tài khoản và thông tin người dùng (admin)
-    public AccountEntity register(RegisterRequest registerRequest) throws ParseException {
+    public AccountEntity register(RegisterRequest registerRequest) throws ParseException, MessagingException {
 
         EmployeeEntity employeeEntity = employeeConverterEntityRequest.requestToEntity(registerRequest);
         employeeRepo.save(employeeEntity);
+
+        // HTML nội dung email
+        String html = "<h2>Thông báo từ phòng nhân sự</h2>" +
+                "<p>Bạn đã có tài khoản</p>" +
+                "<p>với tài khoản: " +  employeeEntity.getEmail() + "</p>" +
+                "<p>với mật khẩu: " +  employeeEntity.getPhone() + "</p>" +
+                "<p>Vui lòng truy cập web để xem chi tiết và đổi mật khẩu!</p>";
+
+        emailService.sendHtmlEmailWithAttachment(
+                employeeEntity.getEmail(),
+                "Thông báo tài khoản TYP",
+                html,
+                null
+        );
+
         return employeeEntity.getAccounts().get(employeeEntity.getAccounts().size() - 1);
 
     }

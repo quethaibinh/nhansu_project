@@ -197,7 +197,7 @@
 </div>
 </div>
 </div>
-<ul>
+<!-- <ul>
 <li>
 <a href="index.html"><img src="assets/img/home.svg" alt="sidebar_img"> <span>Dashboard</span></a>
 </li>
@@ -213,7 +213,7 @@
 <li>
 <a href="profile.html"><img src="assets/img/profile.svg" alt="sidebar_img"> <span>Profile</span></a>
 </li>
-</ul>
+</ul> -->
 <ul class="logout">
 <li>
 <a href="login.html"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
@@ -317,7 +317,7 @@
 	  
 		<!-- Modal Header -->
 		<div class="modal-header">
-		  <h5 class="modal-title" id="infoModalLabel">Basic Information</h5>
+		  <h5 class="modal-title" id="infoModalLabel">Hợp đồng</h5>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		  </button>
@@ -325,17 +325,17 @@
   
 		<!-- Modal Body -->
 		<div class="modal-body">
-		  <div class="col-xl-12 col-sm-12 col-12 mb-4">
+			<div class="col-xl-12 col-sm-12 col-12 mb-4">
 			<div class="row">
 			  <div class="col-xl-12 col-sm-12 col-12">
 				<div class="card card-lists">
 				  <div class="card-header">
 					<h2 class="card-titles">Thông tin hợp đồng</h2>
-					<a class="btn btn-apply" data-toggle="modal" data-target="#adddocument">Thêm hợp đồng mới</a>
+					<a class="btn btn-apply" data-toggle="modal" data-target="#adddocument" data-employee-id="" id="addContractButton">Thêm hợp đồng mới</a>
 				  </div>
 				  <div class="card-body">
 					<div class="row" id="contract">
-					  <!-- Nội dung hợp đồng sẽ được thêm vào đây -->
+						<!-- Nội dung hợp đồng sẽ được thêm vào đây -->
 					</div>
 				  </div>
 				</div>
@@ -747,7 +747,7 @@ async function addContractData() {
 		startDate: startDate,
 		endDate: endDate,
 		salary: salary,
-		employeeId: userData.id
+		employeeId: currentEmployeeId // Use the selected employee's ID instead of current user
 	};
 	const metadataBlob = new Blob(
 		[JSON.stringify(metadataObj)],
@@ -923,7 +923,7 @@ async function addContractData() {
 
 			const data1 = await response1.json();
 
-			displayContracts(data1); // Hiển thị dữ liệu lên giao diện
+			displayContracts(data1, userData.id); // Hiển thị dữ liệu lên giao diện
 
 		} catch (error) {
 			document.getElementById("contract").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
@@ -1019,7 +1019,7 @@ async function addContractData() {
 				<td>
 					<div class="btn-group" role="group" aria-label="Basic mixed styles example">
 						<button type="button" class="btn btn-danger">update</button>
-						<button type="button" class="btn btn-warning">delete</button>
+						<button type="button" class="btn btn-warning" onclick="deleteEmployee(${item.id})">delete</button>
 					</div>
 				</td>
 				<td><input type="hidden" id="emp-id-${item.id}" value="${item.id}"></td>
@@ -1088,6 +1088,42 @@ async function addContractData() {
 	window.onload = fetchData;
 
 
+	async function deleteEmployee(id) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bạn chưa đăng nhập!");
+        return;
+    }
+
+    // Add confirmation dialog
+    const isConfirmed = confirm("Bạn có chắc chắn muốn xóa nhân viên này không?");
+    if (!isConfirmed) {
+        return; // Exit the function if user cancels
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/employee/delete/${id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Lỗi: ${response.status}`);
+        }
+
+        alert("Xóa nhân viên thành công!");
+        fetchData(); // Refresh the data after deletion
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Đã xảy ra lỗi khi xóa nhân viên!");
+    }
+}
+
+
 	// modal contract
 	async function fetchDataContract(id) {
 		const token = localStorage.getItem("token");
@@ -1096,6 +1132,10 @@ async function addContractData() {
 			window.location.href = "/login.html";
 			return;
 		}
+		
+		// Set the current employee ID and update the "Add contract" button
+		currentEmployeeId = id;
+		document.getElementById("addContractButton").setAttribute("data-employee-id", id);
 
 		try {
 			const response1 = await fetch(`http://localhost:8080/contract/select_by/${id}`, {
@@ -1120,7 +1160,7 @@ async function addContractData() {
 
 			const data1 = await response1.json();
 
-			displayContracts(data1); // Hiển thị dữ liệu lên giao diện
+			displayContracts(data1, id); // Hiển thị dữ liệu lên giao diện
 
 		} catch (error) {
 			document.getElementById("contract").innerHTML = `<tr><td colspan="3">Lỗi: ${error.message}</td></tr>`;
@@ -1128,7 +1168,7 @@ async function addContractData() {
 		}
 	}
 
-	function displayContracts(data1) {
+	function displayContracts(data1, userId) {
 		const tableBody = document.getElementById("contract");
 		tableBody.innerHTML = ""; // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
 

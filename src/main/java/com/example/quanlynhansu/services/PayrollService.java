@@ -9,6 +9,7 @@ import com.example.quanlynhansu.repos.EmployeeRepo;
 import com.example.quanlynhansu.repos.PayrollRepo;
 import com.example.quanlynhansu.repos.UserDetailsRepo;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,9 @@ public class PayrollService {
     @Autowired
     private InfoCurrentUserService infoCurrentUserService;
 
+    @Autowired
+    private EmailService emailService;
+
     public void saveCalculateScore(Long plusScore,
                                    Long minusScore,
                                    String reason,
@@ -52,7 +56,7 @@ public class PayrollService {
     }
 
 
-    private void createScore(){
+    private void createScore() throws MessagingException {
 
         // lấy thời gian mùng 1 tháng hiện tại
         LocalDateTime endTime = LocalDate.now()
@@ -71,7 +75,7 @@ public class PayrollService {
 
             Long score = 0L;
             for(CalculateScoreEntity calculateScoreEntity: calculateScoreEntities){
-                score += (calculateScoreEntity.getPlusScore() - calculateScoreEntity.getMinusScore());
+                score += (calculateScoreEntity.getPlusScore() - calculateScoreEntity.getMinusScore()) * 1000;
             }
 
             PayrollEntity payrollEntity = new PayrollEntity();
@@ -84,6 +88,20 @@ public class PayrollService {
             if (!exists){
                 payrollRepo.save(payrollEntity);
             }
+
+            // HTML nội dung email
+            String html = "<h2>Thông báo từ phòng nhân sự</h2>" +
+                    "<p>Lương tháng trước của bạn đã tính xong.</p>" +
+                    "<p>Lương của bạn + " + score + " của hệ hống thưởng phạt.</p>" +
+                    "<p>Vui lòng truy cập web để xem chi tiết!</p>";
+
+            emailService.sendHtmlEmailWithAttachment(
+                    user.getEmail(),
+                    "Thông báo tài khoản TYP",
+                    html,
+                    null
+            );
+
         }
 
     }
@@ -91,7 +109,7 @@ public class PayrollService {
 
     // Chạy vào 01:00 sáng ngày 5 hàng tháng
     @Scheduled(cron = "0 0 1 5 * ?")
-    public void calculateScore(){
+    public void calculateScore() throws MessagingException {
         createScore();
     }
 

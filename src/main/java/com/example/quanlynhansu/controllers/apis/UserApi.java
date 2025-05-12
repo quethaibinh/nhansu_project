@@ -5,6 +5,7 @@ import com.example.quanlynhansu.models.request.user.LoginRequest;
 import com.example.quanlynhansu.models.request.user.RegisterRequest;
 import com.example.quanlynhansu.models.request.user.UpgradeRoleRequest;
 import com.example.quanlynhansu.services.UserService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class UserApi {
 
     // chỉ admin mới có quyền
     @PostMapping("/register")
-    public AccountEntity register(@RequestBody RegisterRequest registerRequest) throws ParseException {
+    public AccountEntity register(@RequestBody RegisterRequest registerRequest) throws ParseException, MessagingException {
         AccountEntity account = userService.register(registerRequest);
         return account;
     }

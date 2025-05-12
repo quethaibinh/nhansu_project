@@ -18,5 +18,6 @@ public interface EmployeeService {
     String updatePassword(UpdatePasswordDTO updatePasswordDTO);
     ResponseEntity<?> updateAvatar(MultipartFile file);
     ResponseEntity<?> findListChatEmployee();
+    void deleteEmployee(Long id);
 
 }

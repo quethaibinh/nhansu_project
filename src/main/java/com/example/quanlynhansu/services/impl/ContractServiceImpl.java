@@ -12,10 +12,12 @@ import com.example.quanlynhansu.repos.ContractRepo;
 import com.example.quanlynhansu.repos.EmployeeRepo;
 import com.example.quanlynhansu.repos.WorkHistoryRepo;
 import com.example.quanlynhansu.services.ContractService;
+import com.example.quanlynhansu.services.EmailService;
 import com.example.quanlynhansu.services.MinioService;
 import com.example.quanlynhansu.services.WorkHistoryService;
 import com.example.quanlynhansu.services.securityService.InfoCurrentUserService;
 import com.example.quanlynhansu.utils.CheckTime;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,11 +64,14 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private CheckTime checkTime;
 
+    @Autowired
+    private EmailService emailService;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     @Transactional
     @Override
-    public ResponseEntity<?> addContract(ContractRequest contractRequest, MultipartFile file) throws ParseException {
+    public ResponseEntity<?> addContract(ContractRequest contractRequest, MultipartFile file) throws ParseException, MessagingException {
         ContractEntity contractEntity = contractConverterRequestEntity.requestToEntity(contractRequest);
 
         try{
@@ -118,6 +123,18 @@ public class ContractServiceImpl implements ContractService {
         } // chấm dứt hợp đồng trước thời hạn được cập nhật ở workhistory trong api của workhistory
 
         contractRepo.save(contractEntity);
+        // HTML nội dung email
+        String html = "<h2>Thông báo từ phòng nhân sự</h2>" +
+                "<p>Bạn đã đươc thêm hợp đồng mới.</p>" +
+                "<p>Vui lòng truy cập web để xem chi tiết!</p>";
+
+        emailService.sendHtmlEmailWithAttachment(
+                contractEntity.getEmployee().getEmail(),
+                "Thông báo tài khoản TYP",
+                html,
+                null
+        );
+
         return ResponseEntity.ok(contractConverterRequestEntity.entityToResponse(contractEntity));
 
     }
